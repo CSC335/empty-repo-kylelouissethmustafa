@@ -1,3 +1,11 @@
+# Team Members
+- Seth Jernigan (Team Manager)
+- Kyle Myint
+- Louis Romeo
+- Mustafa Alnidawi
+
+# Project: Memory Game
+
 ## Objects
 
 Memory game
@@ -20,11 +28,3 @@ User
 AccountList
 - Contains list of users
 - Method for creating leaderboard
-
-# Team Members
-- Seth Jernigan (Team Manager)
-- Kyle Myint
-- Louis Romeo
-- Mustafa Alnidawi
-
-# Project: Memory Game
