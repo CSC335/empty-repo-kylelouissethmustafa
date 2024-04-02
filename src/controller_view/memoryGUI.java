@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 
 
 public class memoryGUI extends Application {
+	
+	LoginPane loginPane;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -23,7 +25,7 @@ public class memoryGUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
+		loginPane = new LoginPane();
 		registerHandlers();
 		LayoutGUI();
 
@@ -38,6 +40,8 @@ public class memoryGUI extends Application {
 	 */
 	private void LayoutGUI() {
 		all = new BorderPane();
+		
+		all.setCenter(loginPane);
 	}
 
 
