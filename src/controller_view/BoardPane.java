@@ -33,7 +33,13 @@ public class BoardPane extends BorderPane implements OurObserver {
 	}
 	
 	public void registerHandlers() {
-		
+		/**
+		 * Register a click by getting x and y coordinates, converting that to
+		 * cell on grid, flip that card, wait for second card selection,
+		 * and check match. On match, leave them flipped, increment paired guessed
+		 * by one. Else, flip both back, reset cards flipped to 0, go back to start...
+		 * 
+		 */
 	}
 	
 	@Override
