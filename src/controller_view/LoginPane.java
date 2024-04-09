@@ -20,7 +20,7 @@ public class LoginPane extends BorderPane {
 	public LoginPane() {
 		layoutPane();
 
-		this.setPadding(new Insets(0,20,20,150));
+		this.setPadding(new Insets(20,20,20,150));
 		this.setCenter(loginGrid);
 		this.registerHandlers();
 	}

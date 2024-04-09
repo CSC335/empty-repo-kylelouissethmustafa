@@ -7,6 +7,7 @@
 package controller_view;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -14,7 +15,8 @@ import javafx.stage.Stage;
 
 public class memoryGUI extends Application {
 	
-	LoginPane loginPane;
+	private LoginPane loginPane;
+	private BoardPane boardPane;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -26,6 +28,7 @@ public class memoryGUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		loginPane = new LoginPane();
+		boardPane = new BoardPane();
 		registerHandlers();
 		LayoutGUI();
 
@@ -41,7 +44,8 @@ public class memoryGUI extends Application {
 	private void LayoutGUI() {
 		all = new BorderPane();
 		
-		all.setCenter(loginPane);
+		all.setCenter(boardPane);
+		all.setBottom(loginPane);
 	}
 
 
