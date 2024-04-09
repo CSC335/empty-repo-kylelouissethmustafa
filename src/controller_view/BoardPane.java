@@ -7,6 +7,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -17,13 +20,14 @@ import model.OurObserver;
 public class BoardPane extends BorderPane implements OurObserver {
 	private Canvas canvas;
 	private GraphicsContext gc;
+	private MenuItem newGame;
 	
 	/**
 	 * Should eventually maybe pass this the Board object itself...
 	 * 
 	 */
 	public BoardPane() {
-		
+		addMenu();
 		layoutBoard();
 		
 		this.registerHandlers();
@@ -31,6 +35,15 @@ public class BoardPane extends BorderPane implements OurObserver {
 	
 	public void addMenu() {
 		// see ButtonView from TTTStart
+		newGame = new MenuItem("New Game");
+		MenuItem other = new MenuItem("Other");
+		
+		Menu options = new Menu("Options");
+		options.getItems().addAll(newGame, other);
+		MenuBar menuBar = new MenuBar();
+		menuBar.getMenus().addAll(options);
+		
+		this.setTop(menuBar);
 	}
 	
 	public void drawCards() {
@@ -67,7 +80,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		this.setMinWidth(850);
 		this.setMinHeight(500);
 		
-		canvas = new Canvas(850, 500);
+		canvas = new Canvas(850, 480);
 		gc = canvas.getGraphicsContext2D();
 		
 		gc.setFill(Color.LIGHTGRAY);
@@ -94,33 +107,40 @@ public class BoardPane extends BorderPane implements OurObserver {
 		 * this class should be notified and then we should call the drawCards method again...
 		 */
 		canvas.setOnMousePressed( event -> {
-			if(event.getSceneX() >= 30 && event.getSceneX() <= 810 && event.getSceneY() >= 30 && event.getSceneY() <= 410) {
-				if(event.getSceneX() <= 210) {
-					if(event.getSceneY() <= 210) {
+			double curX = event.getSceneX() - 1.6;
+			double curY = event.getSceneY() - 22.4;
+			//System.out.println("clicked point: " + curX + " " + curY);
+			if(curX >= 30 && curX <= 810 && curY >= 30 && curY <= 410) {
+				if(curX <= 210) {
+					if(curY <= 210) {
 						System.out.println("Card 1");
-					} else if(event.getSceneY() >= 230) {
+					} else if(curY >= 230) {
 						System.out.println("Card 5");
 					}
-				} else if(event.getSceneX() >= 230 && event.getSceneX() <= 410) {
-					if(event.getSceneY() <= 210) {
+				} else if(curX >= 230 && curX <= 410) {
+					if(curY <= 210) {
 						System.out.println("Card 2");
-					} else if(event.getSceneY() >= 230) {
+					} else if(curY >= 230) {
 						System.out.println("Card 6");
 					}
-				} else if(event.getSceneX() >= 430 && event.getSceneX() <= 610) {
-					if(event.getSceneY() <= 210) {
+				} else if(curX >= 430 && curX <= 610) {
+					if(curY <= 210) {
 						System.out.println("Card 3");
-					} else if(event.getSceneY() >= 230) {
+					} else if(curY >= 230) {
 						System.out.println("Card 7");
 					}
-				} else if(event.getSceneX() >= 630) {
-					if(event.getSceneY() <= 210) {
+				} else if(curX >= 630) {
+					if(curY <= 210) {
 						System.out.println("Card 4");
-					} else if(event.getSceneY() >= 230) {
+					} else if(curY >= 230) {
 						System.out.println("Card 8");
 					}
 				}
 			}
+		});
+		
+		newGame.setOnAction(event -> {
+			System.out.println("New Game Clicked");
 		});
 	}
 	
