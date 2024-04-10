@@ -5,6 +5,8 @@
  * @author Kyle Myint
  */
 
+// MemoryGame will be tested visually through the GUI
+
 package model;
 
 public class MemoryGame {
