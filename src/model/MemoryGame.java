@@ -9,7 +9,7 @@
 
 package model;
 
-public class MemoryGame {
+public class MemoryGame extends OurObservable {
 	
 	private Board board;
 	private int gameMode;
@@ -28,6 +28,17 @@ public class MemoryGame {
 		board.changeMode(gameMode);
 		board.initBoard(gameMode);
 		board.shuffle();
+		System.out.println("Init game called");
+		notifyObservers(this);
+	}
+	
+	public Board getBoard() {
+		return board;
+	}
+	
+	public void cardClicked(int row, int col) { // TODO - finish this
+		board.getCard(row, col).toggle();
+		notifyObservers(this);
 	}
 	
 	public void endGame() {
@@ -45,5 +56,13 @@ public class MemoryGame {
 			return true;
 		}
 		return false;
+	}
+	
+	public void printBoard() {
+		System.out.println(board.toString());
+	}
+	
+	public int getSize() {
+		return board.getSize();
 	}
 }

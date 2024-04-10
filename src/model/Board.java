@@ -36,6 +36,10 @@ public class Board {
 		shuffle();
 	}
 	
+	public int getSize() {
+		return this.size;
+	}
+	
 	// Initialize board with random cards based on mode
 	public void initBoard(int size) {
 		// Basic game mode set board
@@ -72,6 +76,7 @@ public class Board {
 	
 	// Shuffle board (Must be initialized)
 	public void shuffle() {
+		System.out.println("starting shuffle");
 		Card[][] tempBoard = new Card[size][size];
         ArrayList<Card> cardList = new ArrayList<Card>();
         // Copy cards from the 2D array to the list
@@ -95,6 +100,7 @@ public class Board {
         	}
         }
         board = tempBoard;
+        System.out.println("End Shuffle");
 	}
 	
 	// Return string representation of board
