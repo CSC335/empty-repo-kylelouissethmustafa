@@ -1,3 +1,9 @@
+/**
+ * Card class to represent the cards in the memory game
+ * 
+ * @author Kyle Myint
+ */
+
 package model;
 
 public class Card {
@@ -39,6 +45,11 @@ public class Card {
 	// Getter for shape
 	public String getShape() {
 		return shape;
+	}
+	
+	// Getter for revealed
+	public Boolean getRevealed() {
+		return revealed;
 	}
 	
 	// GUI can have a method to turn a card into a object

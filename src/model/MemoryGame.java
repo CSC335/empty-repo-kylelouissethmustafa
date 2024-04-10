@@ -1,3 +1,10 @@
+/**
+ * Holds info for the MemoryGame. This is the class
+ * that the GUI will interact with to show the data
+ * 
+ * @author Kyle Myint
+ */
+
 package model;
 
 public class MemoryGame {
@@ -28,6 +35,7 @@ public class MemoryGame {
 	
 	// Checks if the given coordinates are matching
 	public Boolean checkMatch(int x1, int y1, int x2, int y2) {
+		moves--;
 		Card c1 = board.getCard(x1, y1);
 		Card c2 = board.getCard(x2, y2);
 		if(c1.checkMatch(c2)) {
