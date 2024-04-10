@@ -44,8 +44,8 @@ public class memoryGUI extends Application {
 	private void LayoutGUI() {
 		all = new BorderPane();
 		
-		all.setCenter(boardPane);
-		all.setBottom(loginPane);
+		all.setTop(boardPane);
+		//all.setBottom(loginPane);
 	}
 
 

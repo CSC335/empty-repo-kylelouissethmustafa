@@ -21,6 +21,7 @@ public class BoardTest {
 		testBoard.initBoard(4);
 		assertEquals("Red", testBoard.getCard(0, 0).getColor());
 		assertEquals("Square", testBoard.getCard(0, 0).getShape());
+		assertEquals(4, testBoard.getSize());
 		System.out.println(testBoard.toString());
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Does this look like a newly initialized board? Y/N\n");

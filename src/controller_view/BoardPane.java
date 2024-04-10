@@ -25,6 +25,12 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private GraphicsContext gc;
 	private MenuItem newGame;
 	private MemoryGame game;
+	private BorderPane messageArea;
+	private GridPane liveStatsGrid;
+	
+	private Label scoreLbl;
+	private Label curScore;
+	private Label gamePrompt;
 
 	private int cardSize;
 	private int startX;
@@ -36,8 +42,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 	 * 
 	 */
 	public BoardPane() {
-		addMenu();
 		layoutBoard();
+		addMenu();
 
 		this.registerHandlers();
 	}
@@ -68,6 +74,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 		Image cardBack = new Image("file:BasicCardBack.png");
 		Image cardFront = new Image("file:BasicCardInside.png");
+		Image redSquare = new Image("file:RedSquare.png");
+		Image blueSquare = new Image("file:BlueSquare.png");
 
 		if (boardSize == 2) {
 			cardSize = 180;
@@ -87,8 +95,14 @@ public class BoardPane extends BorderPane implements OurObserver {
 				int thisStartY = startY + (row * (cardSize + cardGap));
 				Card thisCard = game.getBoard().getCard(row, col);
 				
-				if(thisCard.isFlipped()) {
-					gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
+				if(thisCard.getRevealed()) {
+					if(thisCard.getColor() == "Red" && thisCard.getShape() == "Square") {
+						gc.drawImage(redSquare, thisStartX, thisStartY, cardSize, cardSize);
+					} else if(thisCard.getColor() == "Blue" && thisCard.getShape() == "Square") {
+						gc.drawImage(blueSquare, thisStartX, thisStartY, cardSize, cardSize);
+					} else {
+						gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
+					}
 				} else {
 					gc.drawImage(cardBack, thisStartX, thisStartY, cardSize, cardSize);
 				}
@@ -133,9 +147,28 @@ public class BoardPane extends BorderPane implements OurObserver {
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
 		// drawCards(); // might not need this on initialization
+		
+		liveStatsGrid = new GridPane();
+		messageArea = new BorderPane();
+		
+		scoreLbl = new Label("Score:");
+		scoreLbl.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+		curScore = new Label("0");
+		curScore.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+		gamePrompt = new Label("Start a New Game!");
+		gamePrompt.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: blue");
+		liveStatsGrid.setHgap(5);
+		
+		liveStatsGrid.add(scoreLbl, 0, 0);
+		liveStatsGrid.add(curScore, 1, 0);
+		
+		messageArea.setTop(gamePrompt);
+		messageArea.setCenter(liveStatsGrid);
+		liveStatsGrid.setPadding(new Insets(0, 0, 0, 60));
+		messageArea.setPadding(new Insets(0, 0, 0, 300));
 
 		this.setCenter(canvas);
-
+		this.setBottom(messageArea);
 	}
 
 	public void registerHandlers() {
@@ -155,7 +188,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		 */
 
 		canvas.setOnMousePressed(event -> {
-			if (game != null) { // TODO - and game is active
+			if (game != null && game.gameActive()) { // TODO - and game is active
 				double curX = event.getSceneX() - 1.6;
 				double curY = event.getSceneY() - 22.4;
 				int gameSize = game.getSize(); // change to = game.getSize();
@@ -305,17 +338,21 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 		newGame.setOnAction(event -> {
 			System.out.println("New Game Clicked");
-			game = new MemoryGame(0, 4);
+			game = new MemoryGame(0, 2);
 			game.addObserver(this);
 			game.initGame();
+			gamePrompt.setText("Click Cards to Begin!");
 		});
 	}
 
 	@Override
 	public void update(Object theObserved) {
 		// TODO Auto-generated method stub
-		System.out.println("In update");
 		drawCards();
+		curScore.setText("" + game.getScore());
+		if(!game.gameActive()) {
+			gamePrompt.setText("Congrats! You won!");
+		}
 	}
 
 }

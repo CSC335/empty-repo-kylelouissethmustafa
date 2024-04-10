@@ -29,10 +29,6 @@ public class Card {
 		}
 	}
 	
-	public boolean isFlipped() {
-		return revealed;
-	}
-	
 	// Returns boolean if this card matches other card
 	public Boolean checkMatch(Card other) {
 		if(this.color == other.getColor() && this.shape == other.getShape()) {
