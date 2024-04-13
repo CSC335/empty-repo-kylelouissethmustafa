@@ -24,6 +24,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private MenuItem newGame;
+	private MenuItem leaderboard;
 	private MemoryGame game;
 	private BorderPane messageArea;
 	private GridPane liveStatsGrid;
@@ -41,9 +42,12 @@ public class BoardPane extends BorderPane implements OurObserver {
 	 * Should eventually maybe pass this the Board object itself...
 	 * 
 	 */
-	public BoardPane() {
+	public BoardPane(MenuItem newGame, MenuItem leaderboard) {
 		layoutBoard();
-		addMenu();
+		//addMenu();
+		this.newGame = newGame;
+		this.leaderboard = leaderboard;
+		
 
 		this.registerHandlers();
 	}
@@ -167,8 +171,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 		liveStatsGrid.setPadding(new Insets(0, 0, 0, 60));
 		messageArea.setPadding(new Insets(0, 0, 0, 300));
 
-		this.setCenter(canvas);
-		this.setBottom(messageArea);
+		this.setTop(canvas);
+		this.setCenter(messageArea);
 	}
 
 	public void registerHandlers() {
@@ -326,7 +330,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 							curRow = 5;
 						}
 					}
-					if(curRow == -1 && curCol == -1) {
+					if(curRow == -1 | curCol == -1) {
 						System.out.println("Registered invalid click");
 					} else {
 						System.out.println("user clicked row: " + curRow + " col: " + curCol);
@@ -343,6 +347,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 			game.initGame();
 			gamePrompt.setText("Click Cards to Begin!");
 		});
+		
 	}
 
 	@Override
