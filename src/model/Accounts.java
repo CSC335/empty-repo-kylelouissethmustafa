@@ -1,15 +1,7 @@
 package model;
 /*
- * Class responsible for creating, accessing, and 
- * deleting user accounts in the memory game. Stores the
- * username and password pairs in a Map data structure.
- * 
- * Author: Louis Romeo
+ * Louis Romeo
  */
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -17,75 +9,78 @@ import java.util.Scanner;
 public class Accounts {
     
 	private Map<String, String> accountMap;
+    private Scanner scanner;
 
     public Accounts() {
         accountMap = new HashMap<>();
+        scanner = new Scanner(System.in);
     }
 
-    public void createAccount() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter username:");
+    // Method to create a new account with user input
+    public void createAccountWithInput() {
+        System.out.println("Enter a username:");
         String username = scanner.nextLine();
 
-        // Check if the username already exists
-        if (accountMap.containsKey(username)) {
-            System.out.println("Username already exists. Please choose a different one.");
-            return;
-        }
-
-        System.out.println("Enter password:");
+        System.out.println("Enter a password:");
         String password = scanner.nextLine();
 
-        // Save the username and password
-        accountMap.put(username, password);
-        System.out.println("Account created successfully!");
-    }
-
-    public void deleteAccount() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter username to delete:");
-        String username = scanner.nextLine();
-
-        // Check if the username exists
-        if (accountMap.containsKey(username)) {
-            accountMap.remove(username);
-            System.out.println("Account deleted successfully!");
+        if (createAccount(username, password)) {
+            System.out.println("Account created successfully.");
         } else {
-            System.out.println("Username not found. Cannot delete account.");
+            System.out.println("Failed to create account. Username already exists or fields are empty.");
         }
     }
 
-    public static void main(String[] args) {
-        Accounts accounts = new Accounts();
-        Scanner scanner = new Scanner(System.in);
-
-        boolean exit = false;
-        while (!exit) {
-            System.out.println("1. Create Account");
-            System.out.println("2. Delete Account");
-            System.out.println("3. Exit");
-            System.out.println("Choose an option:");
-
-            int option = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-
-            switch (option) {
-                case 1:
-                    accounts.createAccount();
-                    break;
-                case 2:
-                    accounts.deleteAccount();
-                    break;
-                case 3:
-                    exit = true;
-                    break;
-                default:
-                    System.out.println("Invalid option. Please choose again.");
+    // Method to create a new account
+    private boolean createAccount(String username, String password) {
+        if (username != null && password != null && !username.isEmpty() && !password.isEmpty()) {
+            if (!accountMap.containsKey(username)) {
+                accountMap.put(username, password);
+                return true;
             }
         }
+        return false;
+    }
 
-        System.out.println("Exiting...");
+    // Method to check if an account exists
+    public boolean accountExists(String username) {
+        return accountMap.containsKey(username);
+    }
+
+    // Method to authenticate a user with user input
+    public boolean authenticateWithInput() {
+        System.out.println("Enter your username:");
+        String username = scanner.nextLine();
+
+        System.out.println("Enter your password:");
+        String password = scanner.nextLine();
+
+        return authenticate(username, password);
+    }
+
+    // Method to authenticate a user
+    private boolean authenticate(String username, String password) {
+        return accountMap.getOrDefault(username, "").equals(password);
+    }
+
+    // Method to delete an account with user input
+    public void deleteAccountWithInput() {
+        System.out.println("Enter the username of the account to delete:");
+        String username = scanner.nextLine();
+
+        if (deleteAccount(username)) {
+            System.out.println("Account deleted successfully.");
+        } else {
+            System.out.println("Failed to delete account. Username not found.");
+        }
+    }
+
+    // Method to delete an account
+    private boolean deleteAccount(String username) {
+        if (accountMap.containsKey(username)) {
+            accountMap.remove(username);
+            return true;
+        }
+        return false;
     }
 }
