@@ -18,6 +18,7 @@ public class Board {
 	/*
 	 * Game modes:
 	 *     - 0 = Basic
+	 *     - 1 = Odd one out
 	 */
 	private int gameMode;
 	
@@ -26,13 +27,15 @@ public class Board {
 	
 	// Constructor **SIZE MUST BE EVEN & LESS THAN / EQUAL TO 6**
 	public Board(int size) {
-		if(size % 2 != 0 || size > 6) {
-			System.out.println("Use even sizes only");
+		if(size > 6) {
+			System.out.println("Use sizes <= 6 only.");
+			System.exit(0);
+		}else if(size % 2 == 1) {
+			System.out.println("Switch to gameMode 1 if trying to play odd 1 out");
 		}
 		this.size = size;
 		board = new Card[size][size];
 		gameMode = 0;
-		initBoard(size);
 		shuffle();
 	}
 	
@@ -41,9 +44,13 @@ public class Board {
 	}
 	
 	// Initialize board with random cards based on mode
-	public void initBoard(int size) {
+	public void initBoard() {
 		// Basic game mode set board
 		if(gameMode == 0) {
+			System.out.println("Initializing normal game.");
+			if(size % 2 == 1) {
+				System.out.println("Gamemode and size are invalid. Ensure this is reinitialized before shuffle");
+			}
 			// Set color
 			for(int i = 0; i < size; i++) {
 				// Set shape
@@ -54,6 +61,20 @@ public class Board {
 					board[i][2*j + 1] = temp2;
 				}
 			}
+		// Odd one out set board
+		}else if(gameMode == 1) {
+			System.out.println("Initializing odd one out game.");
+			if(size % 2 == 0) {
+				System.out.println("Gamemode and size are invalid. Ensure this is reinitialized before shuffle");
+			}
+			// Set normal cards
+			for(int i = 0; i < (size * size) - 1; i++) {
+				Card temp = new Card(colors[(i/2) % 6], shapes[(i/2) % 3]);
+				board[i/size][i%size] = temp;
+			}
+			// Set odd - Do we want it to be a unique card or a random extra of the normal ones?
+			Card odd = new Card("ODD", "ODD");
+			board[size - 1][size - 1] = odd;
 		}
 		
 		// Add more game modes when we need
@@ -62,6 +83,7 @@ public class Board {
 	// Change game mode
 	public void changeMode(int gameMode) {
 		this.gameMode = gameMode;
+		initBoard();
 	}
 	
 	// Getter
