@@ -1,18 +1,23 @@
-package model;
 /*
  * Louis Romeo
  */
+package model;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Accounts {
     
-	private Map<String, String> accountMap;
+    private Map<String, String> accountMap;
+    private Map<String, Integer> scoresMap;
+    private Map<String, Integer> gamesPlayedMap;
     private Scanner scanner;
 
     public Accounts() {
         accountMap = new HashMap<>();
+        scoresMap = new HashMap<>();
+        gamesPlayedMap = new HashMap<>();
         scanner = new Scanner(System.in);
     }
 
@@ -36,6 +41,8 @@ public class Accounts {
         if (username != null && password != null && !username.isEmpty() && !password.isEmpty()) {
             if (!accountMap.containsKey(username)) {
                 accountMap.put(username, password);
+                scoresMap.put(username, 0); // Initialize score to 0
+                gamesPlayedMap.put(username, 0); // Initialize games played to 0
                 return true;
             }
         }
@@ -79,8 +86,20 @@ public class Accounts {
     private boolean deleteAccount(String username) {
         if (accountMap.containsKey(username)) {
             accountMap.remove(username);
+            scoresMap.remove(username); // Remove score associated with the account
+            gamesPlayedMap.remove(username); // Remove games played count associated with the account
             return true;
         }
         return false;
+    }
+    
+    // Method to update scores and games played based on MemoryGame results
+    public void updateScoresAndGamesPlayed(String username, int scoreIncrement) {
+        if (scoresMap.containsKey(username) && gamesPlayedMap.containsKey(username)) {
+            int currentScore = scoresMap.get(username);
+            int currentGamesPlayed = gamesPlayedMap.get(username);
+            scoresMap.put(username, currentScore + scoreIncrement); // Update score
+            gamesPlayedMap.put(username, currentGamesPlayed + 1); // Increment games played
+        }
     }
 }
