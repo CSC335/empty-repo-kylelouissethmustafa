@@ -8,7 +8,6 @@ package model;
 
 public class Card {
 	// Characteristics of card to differentiate
-	// Can change to wtv we want later
 	private String color;
 	private String shape;
 	private Boolean revealed;
@@ -20,7 +19,9 @@ public class Card {
 		revealed = false;
 	}
 	
-	// Toggles revealed status
+	/**
+	 * Toggles revelaed status of card
+	 */
 	public void toggle() {
 		if(revealed) {
 			revealed = false;
@@ -29,7 +30,13 @@ public class Card {
 		}
 	}
 	
-	// Returns boolean if this card matches other card
+	/**
+	 * Checks if a card matches another
+	 * 
+	 * @param other - The other card to be checked against
+	 * 
+	 * @return - Boolean on if the cards match
+	 */
 	public Boolean checkMatch(Card other) {
 		if(this.color == other.getColor() && this.shape == other.getShape()) {
 			return true;

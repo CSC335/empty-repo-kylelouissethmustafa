@@ -25,7 +25,11 @@ public class Board {
 	private String[] shapes = {"Square", "Circle", "Plus"};
 	private String[] colors = {"Red", "Blue", "Green", "Black", "Orange", "Yellow"};
 	
-	// Constructor **SIZE MUST BE EVEN & LESS THAN / EQUAL TO 6**
+	/**
+	 * Constructs a new Board object. Size must be <= 6.
+	 * 
+	 * @param size - Size of board (all boards will be square)
+	 */
 	public Board(int size) {
 		if(size > 6) {
 			System.out.println("Use sizes <= 6 only.");
@@ -39,11 +43,14 @@ public class Board {
 		shuffle();
 	}
 	
+	// Getter for board size
 	public int getSize() {
 		return this.size;
 	}
 	
-	// Initialize board with random cards based on mode
+	/**
+	 *  Initialize board with random cards based on mode
+	 */
 	public void initBoard() {
 		// Basic game mode set board
 		if(gameMode == 0) {
@@ -51,9 +58,9 @@ public class Board {
 			if(size % 2 == 1) {
 				System.out.println("Gamemode and size are invalid. Ensure this is reinitialized before shuffle");
 			}
-			// Set color
+			// Keeps track of color and row
 			for(int i = 0; i < size; i++) {
-				// Set shape
+				// Keeps track of shape and columns
 				for(int j = 0; j < size / 2; j++) {
 					Card temp1 = new Card(colors[i], shapes[j]);
 					Card temp2 = new Card(colors[i], shapes[j]);
@@ -69,6 +76,7 @@ public class Board {
 			}
 			// Set normal cards
 			for(int i = 0; i < (size * size) - 1; i++) {
+				// Temp = color/shape in order, then puts in board in order L->R, T->B
 				Card temp = new Card(colors[(i/2) % 6], shapes[(i/2) % 3]);
 				board[i/size][i%size] = temp;
 			}
@@ -80,23 +88,36 @@ public class Board {
 		// Add more game modes when we need
 	}
 	
-	// Change game mode
+	/**
+	 * Changes game mode
+	 * 
+	 * @param gameMode - Game mode to be set to. 0 = normal, 1 = odd one out
+	 */
 	public void changeMode(int gameMode) {
 		this.gameMode = gameMode;
 		initBoard();
 	}
 	
-	// Getter
+	// Getter for game mode
 	public int getMode() {
 		return gameMode;
 	}
 	
-	// Getter
+	/**
+	 * Getter for a card given its coordinates
+	 * 
+	 * @param x - Row of card
+	 * @param y - Column of card
+	 * 
+	 * @return - Card object at given position
+	 */
 	public Card getCard(int x, int y) {
 		return board[x][y];
 	}
 	
-	// Shuffle board (Must be initialized)
+	/**
+	 * Shuffle board (Must be initialized)
+	 */
 	public void shuffle() {
 		System.out.println("starting shuffle");
 		Card[][] tempBoard = new Card[size][size];
@@ -125,7 +146,11 @@ public class Board {
         System.out.println("End Shuffle");
 	}
 	
-	// Return string representation of board
+	/**
+	 * Produces string representation of board for debugging
+	 * 
+	 * @return - String representation of board
+	 */
 	public String toString() {
 		String ret = "";
 		for(int i = 0; i < size; i++) {
