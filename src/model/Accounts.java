@@ -55,6 +55,10 @@ public class Accounts implements java.io.Serializable {
     	return this.password;
     }
     
+    public String getScore() {
+    	return String.valueOf(this.best2Score);
+    }
+    
     public int getBestScore(int gameMode) {
     	int score;
     	if(gameMode == 2) {

@@ -14,6 +14,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.AccountCollection;
 import model.MemoryGame;
 
 
@@ -21,11 +22,13 @@ public class memoryGUI extends Application {
 	
 	private LoginPane loginPane;
 	private BoardPane boardPane;
-	//private LeaderboardPane leaderboardPane;
+	private LeaderboardPane leaderboardPane;
 	
 	private MenuItem newGame;
 	private MenuItem leaderboard;
 	private MemoryGame game;
+	
+	private AccountCollection accountCollection;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -42,7 +45,10 @@ public class memoryGUI extends Application {
 		
 		loginPane = new LoginPane();
 		boardPane = new BoardPane(newGame, leaderboard);
-		//leaderboardPane = new LeaderboardPane();
+		accountCollection = new AccountCollection();
+		leaderboardPane = new LeaderboardPane(accountCollection);
+		
+		
 		
 		registerHandlers();
 		
@@ -91,8 +97,8 @@ public class memoryGUI extends Application {
 		leaderboard.setOnAction(event -> {
 			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
 			
-			//all.setCenter(leaderboardPane);
-			
+			all.setCenter(leaderboardPane);
+			System.out.print("Leaderboard Clicked");			
 			
 		});
 		
