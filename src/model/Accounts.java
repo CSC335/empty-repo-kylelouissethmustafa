@@ -60,6 +60,16 @@ public class Accounts implements java.io.Serializable {
     	//return String.valueOf(this.best2Score);
     }
     
+    public Integer get2x2Score() {
+    	return this.best2Score;
+    }
+    
+    public Integer get3x3Score() {
+    	return this.best3Score;
+    }
+    
+    // Make rest of these
+    
     public int getBestScore(int gameMode) {
     	int score;
     	if(gameMode == 2) {

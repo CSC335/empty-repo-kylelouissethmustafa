@@ -1,5 +1,6 @@
 package controller_view;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 import javafx.collections.FXCollections;
@@ -29,7 +30,9 @@ public class LeaderboardPane extends BorderPane {
 	
 	private AccountCollection accountCollection;
 	
-	public LeaderboardPane(AccountCollection accountCollection) {
+	private int gameMode;
+	
+	public LeaderboardPane(AccountCollection accountCollection, int gameMode) {
 		
 		// Setting attributes.
 		pane = new BorderPane();
@@ -40,10 +43,19 @@ public class LeaderboardPane extends BorderPane {
 		usernameColumn = new TableColumn<>("Username");
 		scoreColumn = new TableColumn<>("Score");
 		
+		this.gameMode = gameMode;
 		this.accountCollection = accountCollection;
 		
 		usernameColumn.setCellValueFactory(new PropertyValueFactory<Accounts, String>("Username"));
-		scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("Score"));
+		
+		if(gameMode == 2) {
+			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
+		} else if(gameMode == 3) {
+			
+		} else {
+			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
+		}
+		// Finish these gameMode 2-6
 		
 		table.setItems(accounts);
 		
@@ -82,21 +94,11 @@ public class LeaderboardPane extends BorderPane {
 		this.setCenter(pane);
 	}
 	
-	private static void addAllUsernames() {
-		Accounts account1 = new Accounts("Seth", "Seth123");
-		account1.setNewBestScore(2, 2);
-		
-		Accounts account2 = new Accounts("Mustafa", "Mustafa123");
-		account2.setNewBestScore(5, 2);
-		
-		Accounts account3 = new Accounts("Mustafa", "Mustafa1");
-		account3.setNewBestScore(1, 2);
-		
-		accounts.add(account1);
-		accounts.add(account2);
-		accounts.add(account3);
-		
-		//accounts.sorted();
+	private void addAllUsernames() {
+		accounts.clear();
+		for(int i = 0; i < accountCollection.getSize(); i++) {
+			accounts.add(accountCollection.getElement(i));
+		}
 	}
 	
 	public void registerHandlers() {

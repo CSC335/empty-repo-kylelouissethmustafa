@@ -17,6 +17,18 @@ public class AccountCollection implements java.io.Serializable {
 	public void add(Accounts account) {
 		defAccounts.add(account);
 	}
+	
+	public int getSize() {
+		return defAccounts.size();
+	}
+	
+	public Accounts getElement(int index) {
+		return defAccounts.get(index);
+	}
+	
+	public ArrayList<Accounts> getArray() {
+		return defAccounts;
+	}
 
 	public Accounts getAccount(String name, String password) {
 		for (Accounts acct : defAccounts) {
