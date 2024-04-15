@@ -32,6 +32,7 @@ public class MemoryGame extends OurObservable {
 		board = new Board(size);
 		numCards = size * size;
 		this.gameMode = gameMode;
+		System.out.println("Game Mode: " + gameMode);
 		moves = 0;
 		score = 0;
 	}
@@ -103,14 +104,24 @@ public class MemoryGame extends OurObservable {
 						notifyObservers(this);	
 					});
 					pause.play();
-				}
+				} 
+			} else if(gameMode == 1 && (numMatches * 2) + revealedCards.size() == numCards) {
+				moves++;
 			}
 		}
 		
-		if(numMatches == (numCards / 2)) {
-			System.out.println("Congrats, you matched them all in " + this.moves + " total moves!");
-			this.isGameActive = false;
+		if(gameMode == 0) {
+			if(numMatches == (numCards / 2)) {
+				System.out.println("Congrats, you matched them all in " + this.moves + " total moves!");
+				this.isGameActive = false;
+			}
+		} else if(gameMode == 1) {
+			if((numMatches * 2) + revealedCards.size() == numCards) {
+				System.out.println("Congrats, you matched them all in " + this.moves + " total moves!");
+				this.isGameActive = false;
+			}
 		}
+		
 		
 		updateScore();
 		notifyObservers(this);

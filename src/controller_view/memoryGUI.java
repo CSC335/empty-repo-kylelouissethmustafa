@@ -29,7 +29,12 @@ public class memoryGUI extends Application {
 	private LeaderboardPane leaderboard5x5;
 	private LeaderboardPane leaderboard6x6;
 	
-	private MenuItem newGame;
+	private Menu newGame;
+	private MenuItem twoGame;
+	private MenuItem threeGame;
+	private MenuItem fourGame;
+	private MenuItem fiveGame;
+	private MenuItem sixGame;
 	private Menu leaderboard;
 	private MemoryGame game;
 	private MenuItem twoByTwo;
@@ -101,7 +106,13 @@ public class memoryGUI extends Application {
 	
 	private void addMenu() {
 		// see ButtonView from TTTStart
-		newGame = new MenuItem("New Game");
+		newGame = new Menu("New Game");
+		twoGame = new MenuItem("2x2");
+		threeGame = new MenuItem("3x3");
+		fourGame = new MenuItem("4x4");
+		fiveGame = new MenuItem("5x5");
+		sixGame = new MenuItem("6x6");
+		newGame.getItems().addAll(twoGame, threeGame, fourGame, fiveGame, sixGame);
 		MenuItem other = new MenuItem("Other");
 		leaderboard = new Menu("Leaderboard");
 		twoByTwo = new MenuItem("2x2");
@@ -178,10 +189,30 @@ public class memoryGUI extends Application {
 			
 		});
 		
-		//newGame.setOnAction(event -> {
-			// Handle when youre in a different pane and new game is clicked...
-			//all.setCenter(boardPane);
-		//});
+		twoGame.setOnAction(event -> {
+			all.setCenter(boardPane);
+			boardPane.startNewGame(0, 2);
+		});
+		
+		threeGame.setOnAction(event -> {
+			all.setCenter(boardPane);
+			boardPane.startNewGame(1, 3);
+		});
+		
+		fourGame.setOnAction(event -> {
+			all.setCenter(boardPane);
+			boardPane.startNewGame(0, 4);
+		});
+		
+		fiveGame.setOnAction(event -> {
+			all.setCenter(boardPane);
+			boardPane.startNewGame(1, 5);
+		});
+		
+		sixGame.setOnAction(event -> {
+			all.setCenter(boardPane);
+			boardPane.startNewGame(0, 6);
+		});
 	}
 
 
