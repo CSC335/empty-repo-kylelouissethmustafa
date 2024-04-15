@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+
 public class MemoryGame extends OurObservable {
 	
 	private Board board;
@@ -89,22 +92,17 @@ public class MemoryGame extends OurObservable {
 					revealedCards.clear();
 					numMatches++;
 				} else {
-					System.out.println("SLEEPING");
-					TimerTask task = new TimerTask() {
-						public void run() {
-							revealedCards.get(0).toggle();
-							revealedCards.get(1).toggle();
-							revealedCards.clear();
-							System.out.println("Sorry, this is not a match!");
-						}
-					};
-					timer = new Timer();
-					timer.schedule(task, 2000);
-					notifyObservers(this);
-					
-					System.out.println("DONE SLEEPING");
-					
-					
+					// NEED TO SLEEP HERE FOR 2 Seconds
+					PauseTransition pause = new PauseTransition(Duration.seconds(1));
+					pause.setOnFinished(event -> {
+						System.out.println("Pause finished");
+						revealedCards.get(0).toggle();
+						revealedCards.get(1).toggle();
+						revealedCards.clear();
+						System.out.println("Sorry, this is not a match!");
+						notifyObservers(this);	
+					});
+					pause.play();
 				}
 			}
 		}
