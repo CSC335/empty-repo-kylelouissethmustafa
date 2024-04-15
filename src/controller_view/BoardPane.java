@@ -74,7 +74,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 		 * Called initially?, and then by observer as game changes.
 		 * 
 		 */
-		int boardSize = game.getSize(); // TODO - change to game.getSize();
+		int boardSize = game.getSize();
+		System.out.println("drawing cards");
 
 		Image cardBack = new Image("file:BasicCardBack.png");
 		Image cardFront = new Image("file:BasicCardInside.png");

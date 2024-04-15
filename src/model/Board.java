@@ -34,12 +34,13 @@ public class Board {
 		if(size > 6) {
 			System.out.println("Use sizes <= 6 only.");
 			System.exit(0);
+			gameMode = 0;
 		}else if(size % 2 == 1) {
 			System.out.println("Switch to gameMode 1 if trying to play odd 1 out");
+			gameMode = 1;
 		}
 		this.size = size;
 		board = new Card[size][size];
-		gameMode = 0;
 		shuffle();
 	}
 	

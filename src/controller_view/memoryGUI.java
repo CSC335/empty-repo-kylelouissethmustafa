@@ -96,10 +96,10 @@ public class memoryGUI extends Application {
 			
 		});
 		
-		newGame.setOnAction(event -> {
+		//newGame.setOnAction(event -> {
 			// Handle when youre in a different pane and new game is clicked...
-			all.setCenter(boardPane);
-		});
+			//all.setCenter(boardPane);
+		//});
 	}
 
 

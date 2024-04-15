@@ -10,6 +10,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MemoryGame extends OurObservable {
 	
@@ -21,6 +23,7 @@ public class MemoryGame extends OurObservable {
 	private ArrayList<Card> revealedCards = new ArrayList<>();
 	private int numMatches;
 	private boolean isGameActive;
+	private Timer timer;
 	
 	public MemoryGame(int gameMode, int size) {
 		board = new Board(size);
@@ -33,7 +36,7 @@ public class MemoryGame extends OurObservable {
 	// Initializes the board to start the game
 	public void initGame() {
 		board.changeMode(gameMode);
-		board.initBoard(gameMode);
+		//board.initBoard();
 		board.shuffle();
 		System.out.println("Init game called");
 		this.isGameActive = true;
@@ -75,12 +78,8 @@ public class MemoryGame extends OurObservable {
 	public void cardClicked(int row, int col) {
 		Card clickedCard = board.getCard(row, col);
 		
-		if(clickedCard.getRevealed()) {
-			int indexOfCard = revealedCards.indexOf(clickedCard);
-			revealedCards.remove(indexOfCard);
-			clickedCard.toggle();
-		} else if(this.revealedCards.size() < 2) {
-			board.getCard(row, col).toggle();
+		if(this.revealedCards.size() < 2 && !clickedCard.getRevealed()) {
+			clickedCard.toggle();	
 			revealedCards.add(board.getCard(row, col));
 			
 			if(this.revealedCards.size() == 2) {
@@ -90,7 +89,22 @@ public class MemoryGame extends OurObservable {
 					revealedCards.clear();
 					numMatches++;
 				} else {
-					System.out.println("Sorry, this is not a match!");
+					System.out.println("SLEEPING");
+					TimerTask task = new TimerTask() {
+						public void run() {
+							revealedCards.get(0).toggle();
+							revealedCards.get(1).toggle();
+							revealedCards.clear();
+							System.out.println("Sorry, this is not a match!");
+						}
+					};
+					timer = new Timer();
+					timer.schedule(task, 2000);
+					notifyObservers(this);
+					
+					System.out.println("DONE SLEEPING");
+					
+					
 				}
 			}
 		}
