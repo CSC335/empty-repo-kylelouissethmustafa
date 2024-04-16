@@ -66,7 +66,7 @@ public class memoryGUI extends Application {
 		
 		addMenu();
 		
-		addTestAccounts();		
+		addTestAccounts(); // TODO - remove this
 		
 		registerHandlers();
 
@@ -105,17 +105,17 @@ public class memoryGUI extends Application {
 	
 	private void addTestAccounts() {
 		Accounts account1 = new Accounts("Seth", "Seth123");
-		account1.setNewBestScore(2, 2);
-		account1.setNewBestScore(5, 3);
+		account1.setNewBestScore(20, 2);
+		account1.setNewBestScore(50, 3);
 		
 		Accounts account2 = new Accounts("Mustafa", "Mustafa123");
-		account2.setNewBestScore(5, 2);
-		account2.setNewBestScore(2, 3);
+		account2.setNewBestScore(50, 2);
+		account2.setNewBestScore(20, 3);
 		
 		
 		Accounts account3 = new Accounts("Mustafa2", "Mustafa1");
-		account3.setNewBestScore(1, 2);
-		account3.setNewBestScore(9, 3);
+		account3.setNewBestScore(10, 2);
+		account3.setNewBestScore(90, 3);
 		
 		accountCollection.add(account1);
 		accountCollection.add(account2);
