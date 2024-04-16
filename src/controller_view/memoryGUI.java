@@ -29,6 +29,8 @@ public class memoryGUI extends Application {
 	private LeaderboardPane leaderboard5x5;
 	private LeaderboardPane leaderboard6x6;
 	
+	private MenuBar menuBar;
+	private MenuItem logout;
 	private Menu newGame;
 	private MenuItem twoGame;
 	private MenuItem threeGame;
@@ -43,6 +45,8 @@ public class memoryGUI extends Application {
 	private MenuItem fiveByFive;
 	private MenuItem sixBySix;
 	
+	private Accounts currAcct;
+	
 	private AccountCollection accountCollection;
 
 	public static void main(String[] args) {
@@ -54,18 +58,17 @@ public class memoryGUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		accountCollection = new AccountCollection();
+		loginPane = new LoginPane(currAcct, accountCollection, this);
+		boardPane = new BoardPane(newGame, leaderboard, this);
+		
 		LayoutGUI();
 		
 		addMenu();
 		
-		loginPane = new LoginPane();
-		boardPane = new BoardPane(newGame, leaderboard);
-		accountCollection = new AccountCollection();
 		addTestAccounts();		
 		
 		registerHandlers();
-		
-		all.setCenter(boardPane);
 
 		Scene scene = new Scene(all, 850, 650);
 		primaryStage.setScene(scene);
@@ -80,12 +83,24 @@ public class memoryGUI extends Application {
 		
 		all = new BorderPane();
 		
-		all.setCenter(boardPane);
+		all.setCenter(loginPane);
 		//all.setBottom(loginPane);
 	}
 	
 	private AccountCollection getAcctCollection() {
 		return accountCollection;
+	}
+	
+	public void onSuccessfulLogin(Accounts loginAcct) {
+		boardPane.clearCanvas();
+		all.setTop(menuBar);
+		all.setCenter(boardPane);
+		this.currAcct = accountCollection.getAccount(loginAcct.getUsername(), loginAcct.getPassword());
+		System.out.println("Current User: " + currAcct.getUsername());
+	}
+	
+	public Accounts getCurrAcct() {
+		return this.currAcct;
 	}
 	
 	private void addTestAccounts() {
@@ -121,13 +136,12 @@ public class memoryGUI extends Application {
 		fiveByFive = new MenuItem("5x5");
 		sixBySix = new MenuItem("6x6");
 		leaderboard.getItems().addAll(twoByTwo, threeByThree, fourByFour, fiveByFive, sixBySix);
+		logout = new MenuItem("Logout");
 
 		Menu options = new Menu("Options");
-		options.getItems().addAll(newGame, leaderboard, other);
-		MenuBar menuBar = new MenuBar();
+		options.getItems().addAll(newGame, leaderboard, logout, other);
+		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
-
-		all.setTop(menuBar);
 	}
 	
 	public MenuItem getNewGame() {
@@ -139,6 +153,14 @@ public class memoryGUI extends Application {
 	 * Event handlers
 	 */
 	private void registerHandlers() {
+		logout.setOnAction(event -> {
+			currAcct = null;
+			all.setTop(null);
+			all.setCenter(loginPane);
+			loginPane.logout();
+		});
+		
+		
 		twoByTwo.setOnAction(event -> {
 			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
 			
@@ -190,28 +212,38 @@ public class memoryGUI extends Application {
 		});
 		
 		twoGame.setOnAction(event -> {
-			all.setCenter(boardPane);
-			boardPane.startNewGame(0, 2);
+			if(currAcct != null) {
+				all.setCenter(boardPane);
+				boardPane.startNewGame(0, 2);
+			}
 		});
 		
 		threeGame.setOnAction(event -> {
-			all.setCenter(boardPane);
-			boardPane.startNewGame(1, 3);
+			if(currAcct != null) {
+				all.setCenter(boardPane);
+				boardPane.startNewGame(1, 3);
+			}
 		});
 		
 		fourGame.setOnAction(event -> {
-			all.setCenter(boardPane);
-			boardPane.startNewGame(0, 4);
+			if(currAcct != null) {
+				all.setCenter(boardPane);
+				boardPane.startNewGame(0, 4);
+			}
 		});
 		
 		fiveGame.setOnAction(event -> {
-			all.setCenter(boardPane);
-			boardPane.startNewGame(1, 5);
+			if(currAcct != null) {
+				all.setCenter(boardPane);
+				boardPane.startNewGame(1, 5);
+			}
 		});
 		
 		sixGame.setOnAction(event -> {
-			all.setCenter(boardPane);
-			boardPane.startNewGame(0, 6);
+			if(currAcct != null) {
+				all.setCenter(boardPane);
+				boardPane.startNewGame(0, 6);
+			}
 		});
 	}
 

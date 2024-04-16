@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import model.Accounts;
 import model.Card;
 import model.MemoryGame;
 import model.OurObserver;
@@ -37,16 +38,19 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private int startX;
 	private int startY;
 	private int cardGap;
+	
+	private memoryGUI gui;
 
 	/**
 	 * Should eventually maybe pass this the Board object itself...
 	 * 
 	 */
-	public BoardPane(MenuItem newGame, MenuItem leaderboard) {
+	public BoardPane(MenuItem newGame, MenuItem leaderboard, memoryGUI gui) {
 		layoutBoard();
 		//addMenu();
 		this.newGame = newGame;
 		this.leaderboard = leaderboard;
+		this.gui = gui;
 		
 
 		this.registerHandlers();
@@ -208,6 +212,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 	public void clearCanvas() {
 		gc.setFill(Color.LIGHTGRAY);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		gamePrompt.setText("Start a New Game!");
+		curScore.setText("0");
 	}
 
 	public void layoutBoard() {
@@ -408,10 +414,32 @@ public class BoardPane extends BorderPane implements OurObserver {
 					}
 				}
 			}
-		});
-
-		newGame.setOnAction(event -> {
 			
+			if(!game.gameActive()) { // TODO - fix these!!
+				System.out.println("Game has ended!");
+				Accounts currAcct = gui.getCurrAcct();
+				if(game.getGameMode() == 0 && game.getSize() == 2) {
+					if((game.getScore() < currAcct.get2x2Score()) | currAcct.get2x2Score() == -1) {
+						currAcct.setNewBestScore(game.getScore(), game.getSize());
+					}
+				} else if((game.getGameMode() == 1 && game.getSize() == 3) | currAcct.get3x3Score() == -1) {
+					if(game.getScore() < currAcct.get3x3Score()) {
+						currAcct.setNewBestScore(game.getScore(), game.getSize());
+					}
+				} else if((game.getGameMode() == 0 && game.getSize() == 4) | currAcct.get2x2Score() == -1) {
+					if(game.getScore() < currAcct.get2x2Score()) {
+						currAcct.setNewBestScore(game.getScore(), game.getSize());
+					}
+				} else if((game.getGameMode() == 1 && game.getSize() == 5) | currAcct.get2x2Score() == -1) {
+					if(game.getScore() < currAcct.get2x2Score()) {
+						currAcct.setNewBestScore(game.getScore(), game.getSize());
+					}
+				} else if((game.getGameMode() == 0 && game.getSize() == 6) | currAcct.get2x2Score() == -1) {
+					if(game.getScore() < currAcct.get2x2Score()) {
+						currAcct.setNewBestScore(game.getScore(), game.getSize());
+					}
+				}
+			}
 		});
 		
 	}
@@ -426,7 +454,6 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 	@Override
 	public void update(Object theObserved) {
-		// TODO Auto-generated method stub
 		drawCards();
 		curScore.setText("" + game.getScore());
 		if(!game.gameActive()) {

@@ -89,7 +89,6 @@ public class MemoryGame extends OurObservable {
 			if(this.revealedCards.size() == 2) {
 				moves++;
 				if(this.checkMatch(revealedCards.get(0), revealedCards.get(1))) {
-					System.out.println("You found a match!");
 					revealedCards.clear();
 					numMatches++;
 				} else {
@@ -100,7 +99,6 @@ public class MemoryGame extends OurObservable {
 						revealedCards.get(0).toggle();
 						revealedCards.get(1).toggle();
 						revealedCards.clear();
-						System.out.println("Sorry, this is not a match!");
 						notifyObservers(this);	
 					});
 					pause.play();

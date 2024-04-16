@@ -12,15 +12,31 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import model.AccountCollection;
+import model.Accounts;
 
 public class LoginPane extends BorderPane {
 	private GridPane loginGrid;
 	
+	private Accounts currAcct;
+	private AccountCollection accounts;
 	
-	public LoginPane() {
+	private Button loginButton;
+	private Button createAccount;
+	private TextField accountNameField;
+	private PasswordField passwordField;
+	private Label loginStatus;
+	
+	private memoryGUI gui;
+	
+	public LoginPane(Accounts currAcct, AccountCollection accounts, memoryGUI gui) {
 		layoutPane();
+		
+		this.currAcct = currAcct;
+		this.accounts = accounts;
+		this.gui = gui;
 
-		this.setPadding(new Insets(10,20,20,150));
+		this.setPadding(new Insets(100,50,50,280));
 		this.setCenter(loginGrid);
 		this.registerHandlers();
 	}
@@ -33,15 +49,15 @@ public class LoginPane extends BorderPane {
 		loginGrid.setVgap(8);
 		
 		Label accountName = new Label("Username:");
-		TextField accountNameField = new TextField("");
+		accountNameField = new TextField("");
 
 		Label password = new Label("Password:");
-		PasswordField passwordField = new PasswordField();
+		passwordField = new PasswordField();
 		
-		Button loginButton = new Button("Login");
-		Button createAccount = new Button("Create new Account");
+		loginButton = new Button("Login");
+		createAccount = new Button("Create new Account");
 		
-		Label loginStatus = new Label("Login or Create an Account!");
+		loginStatus = new Label("Login or Create an Account!");
 		
 		loginGrid.add(loginStatus, 1, 0);
 		loginGrid.add(accountName, 0, 1);
@@ -54,15 +70,37 @@ public class LoginPane extends BorderPane {
 	}
 	
 	public void registerHandlers() {
+		loginButton.setOnAction(event -> {
+			Accounts loginTrial = new Accounts(accountNameField.getText(), passwordField.getText());
+			if(accounts.getAccount(loginTrial.getUsername(), loginTrial.getPassword()) != null) {
+				this.currAcct = accounts.getAccount(loginTrial.getUsername(), loginTrial.getPassword());
+				gui.onSuccessfulLogin(loginTrial);
+			} else {
+				loginStatus.setText("Sorry, these credentials are incorrect!");
+				accountNameField.setText("");
+				passwordField.setText("");
+			}
+		});
 		
+		createAccount.setOnAction(event -> {
+			if(!accounts.containsName(accountNameField.getText())) {
+				Accounts newAcct = new Accounts(accountNameField.getText(), passwordField.getText());
+				System.out.println("Accounts size: " + accounts.getSize());
+				accounts.add(newAcct);
+				System.out.println("Accounts size after: " + accounts.getSize());
+				loginStatus.setText("Account created, now login!");
+			} else {
+				loginStatus.setText("Sorry, this username is taken!");
+				accountNameField.setText("");
+				passwordField.setText("");
+			}
+			
+		});
 	}
 	
-	/**
-	 *  Other Potential Methods Here:
-	 *  
-	 *  getCurrUser();
-	 * 
-	 * 
-	 * 
-	 */
+	public void logout() {
+		this.currAcct = null;
+		accountNameField.setText("");
+		passwordField.setText("");
+	}
 }
