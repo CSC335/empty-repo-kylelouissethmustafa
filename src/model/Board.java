@@ -25,6 +25,8 @@ public class Board {
 	private String[] shapes = {"Square", "Circle", "Plus"};
 	private String[] colors = {"Red", "Blue", "Green", "Black", "Orange", "Yellow"};
 	
+	// Green - #028A0F Orange - #FF7300 Yellow - #F6FF00
+	
 	/**
 	 * Constructs a new Board object. Size must be <= 6.
 	 * 
@@ -70,6 +72,7 @@ public class Board {
 				}
 			}
 		// Odd one out set board
+		// TODO - I am seeing duplicated cards in 5x5... I think odd card should be one in the deck unused previously
 		}else if(gameMode == 1) {
 			System.out.println("Initializing odd one out game.");
 			if(size % 2 == 0) {
