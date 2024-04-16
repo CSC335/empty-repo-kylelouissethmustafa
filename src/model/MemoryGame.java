@@ -10,6 +10,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 public class MemoryGame extends OurObservable {
 	
@@ -21,11 +26,13 @@ public class MemoryGame extends OurObservable {
 	private ArrayList<Card> revealedCards = new ArrayList<>();
 	private int numMatches;
 	private boolean isGameActive;
+	private Timer timer;
 	
 	public MemoryGame(int gameMode, int size) {
 		board = new Board(size);
 		numCards = size * size;
 		this.gameMode = gameMode;
+		System.out.println("Game Mode: " + gameMode);
 		moves = 0;
 		score = 0;
 	}
@@ -33,7 +40,7 @@ public class MemoryGame extends OurObservable {
 	// Initializes the board to start the game
 	public void initGame() {
 		board.changeMode(gameMode);
-		board.initBoard(gameMode);
+		//board.initBoard();
 		board.shuffle();
 		System.out.println("Init game called");
 		this.isGameActive = true;
@@ -75,30 +82,44 @@ public class MemoryGame extends OurObservable {
 	public void cardClicked(int row, int col) {
 		Card clickedCard = board.getCard(row, col);
 		
-		if(clickedCard.getRevealed()) {
-			int indexOfCard = revealedCards.indexOf(clickedCard);
-			revealedCards.remove(indexOfCard);
-			clickedCard.toggle();
-		} else if(this.revealedCards.size() < 2) {
-			board.getCard(row, col).toggle();
+		if(this.revealedCards.size() < 2 && !clickedCard.getRevealed()) {
+			clickedCard.toggle();	
 			revealedCards.add(board.getCard(row, col));
 			
 			if(this.revealedCards.size() == 2) {
 				moves++;
 				if(this.checkMatch(revealedCards.get(0), revealedCards.get(1))) {
-					System.out.println("You found a match!");
 					revealedCards.clear();
 					numMatches++;
 				} else {
-					System.out.println("Sorry, this is not a match!");
-				}
+					// NEED TO SLEEP HERE FOR 2 Seconds
+					PauseTransition pause = new PauseTransition(Duration.seconds(1));
+					pause.setOnFinished(event -> {
+						System.out.println("Pause finished");
+						revealedCards.get(0).toggle();
+						revealedCards.get(1).toggle();
+						revealedCards.clear();
+						notifyObservers(this);	
+					});
+					pause.play();
+				} 
+			} else if(gameMode == 1 && (numMatches * 2) + revealedCards.size() == numCards) {
+				moves++;
 			}
 		}
 		
-		if(numMatches == (numCards / 2)) {
-			System.out.println("Congrats, you matched them all in " + this.moves + " total moves!");
-			this.isGameActive = false;
+		if(gameMode == 0) {
+			if(numMatches == (numCards / 2)) {
+				System.out.println("Congrats, you matched them all in " + this.moves + " total moves!");
+				this.isGameActive = false;
+			}
+		} else if(gameMode == 1) {
+			if((numMatches * 2) + revealedCards.size() == numCards) {
+				System.out.println("Congrats, you matched them all in " + this.moves + " total moves!");
+				this.isGameActive = false;
+			}
 		}
+		
 		
 		updateScore();
 		notifyObservers(this);
