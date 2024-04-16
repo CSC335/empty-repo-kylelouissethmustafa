@@ -29,6 +29,7 @@ public class LeaderboardPane extends BorderPane {
 	private TableColumn<Accounts, Integer> scoreColumn;
 	
 	private AccountCollection accountCollection;
+	private AccountCollection croppedCollection;
 	
 	private int gameMode;
 	
@@ -48,23 +49,56 @@ public class LeaderboardPane extends BorderPane {
 		
 		usernameColumn.setCellValueFactory(new PropertyValueFactory<Accounts, String>("Username"));
 		
+		croppedCollection = new AccountCollection();
+		
 		if(gameMode == 2) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get2x2Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else if(gameMode == 3) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("3x3Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get3x3Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else if (gameMode == 4) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("4x4Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get4x4Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else if (gameMode == 5) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("5x5Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get5x5Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else if (gameMode == 6) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("6x6Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get6x6Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get2x2Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		}
 		// Finish these gameMode 2-6
 		
@@ -107,8 +141,8 @@ public class LeaderboardPane extends BorderPane {
 	
 	private void addAllUsernames() {
 		accounts.clear();
-		for(int i = 0; i < accountCollection.getSize(); i++) {
-			accounts.add(accountCollection.getElement(i));
+		for(int i = 0; i < croppedCollection.getSize(); i++) {
+			accounts.add(croppedCollection.getElement(i));
 		}
 	}
 	
