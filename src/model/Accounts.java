@@ -68,6 +68,18 @@ public class Accounts implements java.io.Serializable {
     	return this.best3Score;
     }
     
+    public Integer get4x4Score() {
+    	return this.best4Score;
+    }
+    
+    public Integer get5x5Score() {
+    	return this.best5Score;
+    }
+    
+    public Integer get6x6Score() {
+    	return this.best6Score;
+    }
+    
     // Make rest of these
     
     public int getBestScore(int gameMode) {
