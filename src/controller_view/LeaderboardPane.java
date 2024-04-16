@@ -50,7 +50,18 @@ public class LeaderboardPane extends BorderPane {
 		
 		if(gameMode == 2) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
+			
 		} else if(gameMode == 3) {
+			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("3x3Score"));
+			
+		} else if (gameMode == 4) {
+			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("4x4Score"));
+			
+		} else if (gameMode == 5) {
+			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("5x5Score"));
+			
+		} else if (gameMode == 6) {
+			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("6x6Score"));
 			
 		} else {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
@@ -82,10 +93,10 @@ public class LeaderboardPane extends BorderPane {
 	public void layoutLeaderboard() {
 		table.setPrefSize(100, 100);
 		
-		usernameColumn.setPrefWidth(250);
-		scoreColumn.setPrefWidth(250);
+		usernameColumn.setPrefWidth(220);
+		scoreColumn.setPrefWidth(220);
 		
-		pane.setPadding(new Insets(40, 270, 150, 80));
+		pane.setPadding(new Insets(80, 100, 100, 80));
 		leaderBoardTitle.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: black");
 		
 		pane.setTop(leaderBoardTitle);

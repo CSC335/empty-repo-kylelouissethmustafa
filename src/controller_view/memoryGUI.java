@@ -110,9 +110,12 @@ public class memoryGUI extends Application {
 		
 		Accounts account2 = new Accounts("Mustafa", "Mustafa123");
 		account2.setNewBestScore(5, 2);
+		account2.setNewBestScore(2, 3);
 		
-		Accounts account3 = new Accounts("Mustafa", "Mustafa1");
+		
+		Accounts account3 = new Accounts("Mustafa2", "Mustafa1");
 		account3.setNewBestScore(1, 2);
+		account3.setNewBestScore(9, 3);
 		
 		accountCollection.add(account1);
 		accountCollection.add(account2);
