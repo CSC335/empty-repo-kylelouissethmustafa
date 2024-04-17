@@ -71,7 +71,7 @@ public class Board {
 				}
 			}
 		// Odd one out set board
-		// TODO - I am seeing duplicated cards in 5x5... I think odd card should be one in the deck unused previously
+		// TODO - I am seeing duplicated cards in 5x5
 		}else if(gameMode == 1) {
 			System.out.println("Initializing odd one out game.");
 			if(size % 2 == 0) {
@@ -80,11 +80,11 @@ public class Board {
 			// Set normal cards
 			for(int i = 0; i < (size * size) - 1; i++) {
 				// Temp = color/shape in order, then puts in board in order L->R, T->B
-				Card temp = new Card(colors[(i/2) % 6], shapes[(i/2) % 3]);
+				Card temp = new Card(colors[(i/2) % 6], shapes[(i/12)]);
 				board[i/size][i%size] = temp;
 			}
-			// Set odd - Do we want it to be a unique card or a random extra of the normal ones?
-			Card odd = new Card("ODD", "ODD");
+			// Set odd - Currently going to be an unused card from the normal deck
+			Card odd = new Card(colors[((size*size-1)/2) % 6], shapes[((size*size-1)/12)]);
 			board[size - 1][size - 1] = odd;
 		}
 		
