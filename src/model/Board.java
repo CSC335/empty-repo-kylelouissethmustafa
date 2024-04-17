@@ -28,7 +28,7 @@ public class Board {
 	// Green - #028A0F Orange - #FF7300 Yellow - #F6FF00
 	
 	/**
-	 * Constructs a new Board object. Size must be <= 6.
+	 * Constructs a new Board object. Size must be less than or equal to 6.
 	 * 
 	 * @param size - Size of board (all boards will be square)
 	 */
