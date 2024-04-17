@@ -62,6 +62,18 @@ public class BoardTest {
 	    String input = scanner.nextLine();
 	    assertEquals("Y", input);
 	}
+	
+	@Test
+	public void testThree() {
+		Board testBoard = new Board(3);
+		testBoard.changeMode(2);
+		testBoard.initBoard();
+		testBoard.shuffle();
+		System.out.println(testBoard.toString());
+		System.out.println("Does this look like a shuffled 3 of a kind board? Y/N\n");
+	    String input = scanner.nextLine();
+	    assertEquals("Y", input);
+	}
 
 }
 

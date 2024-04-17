@@ -18,6 +18,7 @@ public class Board {
 	 * Game modes:
 	 *     - 0 = Basic
 	 *     - 1 = Odd one out
+	 *     - 2 = Three of a kind
 	 */
 	private int gameMode;
 	
@@ -45,7 +46,11 @@ public class Board {
 		shuffle();
 	}
 	
-	// Getter for board size
+	/**
+	 * Getter for board size
+	 * 
+	 * @return - Size of one dimension of board
+	 */
 	public int getSize() {
 		return this.size;
 	}
@@ -71,7 +76,6 @@ public class Board {
 				}
 			}
 		// Odd one out set board
-		// TODO - I am seeing duplicated cards in 5x5
 		}else if(gameMode == 1) {
 			System.out.println("Initializing odd one out game.");
 			if(size % 2 == 0) {
@@ -86,6 +90,18 @@ public class Board {
 			// Set odd - Currently going to be an unused card from the normal deck
 			Card odd = new Card(colors[((size*size-1)/2) % 6], shapes[((size*size-1)/12)]);
 			board[size - 1][size - 1] = odd;
+		// 3 of a kind set board (only works with 3x3 or 6x6)
+		}else if(gameMode == 2) {
+			System.out.println("Initializing 3 of a kind game.");
+			if(size % 3 != 0) {
+				System.out.println("Gamemode and size are invalid. Ensure this is reinitialized before shuffle");
+			}
+			// Set normal cards
+			for(int i = 0; i < (size * size); i++) {
+				// Temp = color/shape in order, then puts in board in order L->R, T->B
+				Card temp = new Card(colors[(i/3) % 6], shapes[(i/18)]);
+				board[i/size][i%size] = temp;
+			}
 		}
 		
 		// Add more game modes when we need
@@ -101,7 +117,11 @@ public class Board {
 		initBoard();
 	}
 	
-	// Getter for game mode
+	/**
+	 * Getter for game mode
+	 * 
+	 * @return - Numerical gameMode
+	 */
 	public int getMode() {
 		return gameMode;
 	}
