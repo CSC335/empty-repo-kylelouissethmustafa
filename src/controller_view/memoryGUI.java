@@ -23,6 +23,7 @@ public class memoryGUI extends Application {
 	
 	private LoginPane loginPane;
 	private BoardPane boardPane;
+	private StatsPane statsPane;
 	private LeaderboardPane leaderboard2x2;
 	private LeaderboardPane leaderboard3x3;
 	private LeaderboardPane leaderboard4x4;
@@ -44,6 +45,7 @@ public class memoryGUI extends Application {
 	private MenuItem fourByFour;
 	private MenuItem fiveByFive;
 	private MenuItem sixBySix;
+	private MenuItem userStats;
 	
 	private Accounts currAcct;
 	
@@ -61,6 +63,7 @@ public class memoryGUI extends Application {
 		accountCollection = new AccountCollection();
 		loginPane = new LoginPane(currAcct, accountCollection, this);
 		boardPane = new BoardPane(newGame, leaderboard, this);
+		statsPane = new StatsPane(this);
 		
 		LayoutGUI();
 		
@@ -142,7 +145,8 @@ public class memoryGUI extends Application {
 		logout = new MenuItem("Logout");
 
 		Menu options = new Menu("Options");
-		options.getItems().addAll(newGame, leaderboard, logout, other);
+		userStats = new MenuItem("User Stats");
+		options.getItems().addAll(newGame, leaderboard, logout, userStats, other);
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
 	}
@@ -161,6 +165,11 @@ public class memoryGUI extends Application {
 			all.setTop(null);
 			all.setCenter(loginPane);
 			loginPane.logout();
+		});
+		
+		userStats.setOnAction(event -> {
+			statsPane.layoutStatsPane();
+			all.setCenter(statsPane);
 		});
 		
 		

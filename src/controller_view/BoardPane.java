@@ -415,10 +415,11 @@ public class BoardPane extends BorderPane implements OurObserver {
 				}
 			}
 			
-			if(!game.gameActive()) {
+			if(game != null && !game.gameActive()) {
 				System.out.println("Game has ended!");
 				System.out.println("Game mode: " + game.getGameMode() + " size: " + game.getSize());
 				Accounts currAcct = gui.getCurrAcct();
+				currAcct.incrementGamesPlayed();
 				if(game.getGameMode() == 0 && game.getSize() == 2) {
 					if((game.getScore() < currAcct.get2x2Score()) | currAcct.get2x2Score() == -1) {
 						currAcct.setNewBestScore(game.getScore(), game.getSize());
