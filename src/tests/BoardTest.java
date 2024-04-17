@@ -74,6 +74,30 @@ public class BoardTest {
 	    String input = scanner.nextLine();
 	    assertEquals("Y", input);
 	}
+	
+	@Test
+	public void testPowers() {
+		// Test even size
+		Board testBoard = new Board(4);
+		testBoard.changeMode(3);
+		testBoard.initBoard();
+		testBoard.shuffle();
+		System.out.println(testBoard.toString());
+		System.out.println("Does this look like a shuffled Powers board? Y/N\n");
+		System.out.println("There should be 2 power cards");
+	    String input = scanner.nextLine();
+	    assertEquals("Y", input);
+	    // Test odd size
+		Board testBoard2 = new Board(3);
+		testBoard2.changeMode(3);
+		testBoard2.initBoard();
+		testBoard2.shuffle();
+		System.out.println(testBoard2.toString());
+		System.out.println("Does this look like a shuffled Powers board? Y/N\n");
+		System.out.println("There should be 1 power card");
+	    String input2 = scanner.nextLine();
+	    assertEquals("Y", input2);
+	}
 
 }
 

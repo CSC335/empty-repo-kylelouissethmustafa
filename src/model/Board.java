@@ -19,6 +19,7 @@ public class Board {
 	 *     - 0 = Basic
 	 *     - 1 = Odd one out
 	 *     - 2 = Three of a kind
+	 *     - 3 = Powers
 	 */
 	private int gameMode;
 	
@@ -101,6 +102,20 @@ public class Board {
 				// Temp = color/shape in order, then puts in board in order L->R, T->B
 				Card temp = new Card(colors[(i/3) % 6], shapes[(i/18)]);
 				board[i/size][i%size] = temp;
+			}
+		// Powers set board (works on any board size) power card count = size - 2
+		}else if(gameMode == 3) {
+			int powerCount = size - 2;
+			System.out.println("Initializing powers game.");
+			// Set normal cards
+			for(int i = 0; i < (size * size) - powerCount; i++) {
+				// Temp = color/shape in order, then puts in board in order L->R, T->B
+				Card temp = new Card(colors[(i/2) % 6], shapes[(i/12)]);
+				board[i/size][i%size] = temp;
+			}
+			// Set power cards
+			for(int i = 0; i < powerCount; i++) {
+				board[size-1][size-1-i] = new Card("POWER", "POWER");
 			}
 		}
 		
