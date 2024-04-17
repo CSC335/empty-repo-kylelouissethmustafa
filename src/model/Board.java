@@ -22,9 +22,17 @@ public class Board {
 	 *     - 3 = Powers
 	 */
 	private int gameMode;
+	/*
+	 * Card Designs
+	 *     - 0 = Shapes/Colors
+	 *     - 1 = General
+	 *     - Let me know what other card design types you want & the string representations
+	 */
+	private int cardDesign;
 	
-	private String[] shapes = {"Square", "Circle", "Plus"};
-	private String[] colors = {"Red", "Blue", "Green", "Black", "Orange", "Yellow"};
+	// Preset to general type
+	private String[] type1 = {"1", "2", "3"};
+	private String[] type2 = {"A", "B", "C", "D", "E", "F"};
 	
 	// Green - #028A0F Orange - #FF7300 Yellow - #F6FF00
 	
@@ -43,6 +51,8 @@ public class Board {
 			gameMode = 1;
 		}
 		this.size = size;
+		this.cardDesign = 0;
+		changeDesign(this.cardDesign);
 		board = new Card[size][size];
 		shuffle();
 	}
@@ -70,8 +80,8 @@ public class Board {
 			for(int i = 0; i < size; i++) {
 				// Keeps track of shape and columns
 				for(int j = 0; j < size / 2; j++) {
-					Card temp1 = new Card(colors[i], shapes[j]);
-					Card temp2 = new Card(colors[i], shapes[j]);
+					Card temp1 = new Card(type2[i], type1[j]);
+					Card temp2 = new Card(type2[i], type1[j]);
 					board[i][2*j] = temp1;
 					board[i][2*j + 1] = temp2;
 				}
@@ -85,11 +95,11 @@ public class Board {
 			// Set normal cards
 			for(int i = 0; i < (size * size) - 1; i++) {
 				// Temp = color/shape in order, then puts in board in order L->R, T->B
-				Card temp = new Card(colors[(i/2) % 6], shapes[(i/12)]);
+				Card temp = new Card(type2[(i/2) % 6], type1[(i/12)]);
 				board[i/size][i%size] = temp;
 			}
 			// Set odd - Currently going to be an unused card from the normal deck
-			Card odd = new Card(colors[((size*size-1)/2) % 6], shapes[((size*size-1)/12)]);
+			Card odd = new Card(type2[((size*size-1)/2) % 6], type1[((size*size-1)/12)]);
 			board[size - 1][size - 1] = odd;
 		// 3 of a kind set board (only works with 3x3 or 6x6)
 		}else if(gameMode == 2) {
@@ -100,7 +110,7 @@ public class Board {
 			// Set normal cards
 			for(int i = 0; i < (size * size); i++) {
 				// Temp = color/shape in order, then puts in board in order L->R, T->B
-				Card temp = new Card(colors[(i/3) % 6], shapes[(i/18)]);
+				Card temp = new Card(type2[(i/3) % 6], type1[(i/18)]);
 				board[i/size][i%size] = temp;
 			}
 		// Powers set board (works on any board size) power card count = size - 2
@@ -110,7 +120,7 @@ public class Board {
 			// Set normal cards
 			for(int i = 0; i < (size * size) - powerCount; i++) {
 				// Temp = color/shape in order, then puts in board in order L->R, T->B
-				Card temp = new Card(colors[(i/2) % 6], shapes[(i/12)]);
+				Card temp = new Card(type2[(i/2) % 6], type1[(i/12)]);
 				board[i/size][i%size] = temp;
 			}
 			// Set power cards
@@ -146,11 +156,32 @@ public class Board {
 	/**
 	 * Changes game mode
 	 * 
-	 * @param gameMode - Game mode to be set to. 0 = normal, 1 = odd one out
+	 * @param gameMode - Game mode to be set to. 0 = normal, 1 = odd one out, 2 = 3 of a kind, 3 = powers
 	 */
 	public void changeMode(int gameMode) {
 		this.gameMode = gameMode;
 		initBoard();
+	}
+	
+	/**
+	 * Changes card design
+	 * 
+	 * @param cardType - Card design to use. 0 = shapes/colors, 1 = general
+	 */
+	public void changeDesign(int cardType) {
+		this.cardDesign = cardType;
+		String[] shapes = {"Square", "Circle", "Plus"};
+		String[] color = {"Red", "Blue", "Green", "Black", "Orange", "Yellow"};
+		String[] general1 = {"1", "2", "3"};
+		String[] general2 = {"A", "B", "C", "D", "E", "F"};
+		
+		if(cardType == 0) {
+			type1 = shapes;
+			type2 = color;
+		}else if(cardType == 1) {
+			type1 = general1;
+			type2 = general2;
+		}
 	}
 	
 	/**

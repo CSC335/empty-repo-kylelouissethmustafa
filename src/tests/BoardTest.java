@@ -98,6 +98,24 @@ public class BoardTest {
 	    String input2 = scanner.nextLine();
 	    assertEquals("Y", input2);
 	}
+	
+	@Test
+	public void testDesign() {
+		Board testBoard = new Board(4);
+		testBoard.initBoard();
+		testBoard.changeDesign(0);
+		System.out.println(testBoard.toString());
+		System.out.println("Does this look like a newly initialized Colors and Shapes board? Y/N\n");
+		String input = scanner.nextLine();
+		assertEquals("Y", input);
+		testBoard.changeDesign(1);
+		testBoard.initBoard();
+		System.out.println(testBoard.toString());
+		System.out.println("Does this look like a newly initialized General Design board? Y/N\n");
+		String input2 = scanner.nextLine();
+		assertEquals("Y", input2);
+		
+	}
 
 }
 
