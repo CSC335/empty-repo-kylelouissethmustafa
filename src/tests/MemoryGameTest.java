@@ -1,3 +1,8 @@
+/**
+ * Tests the MemoryGame class.
+ * 
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
+ */
 package tests;
 
 import static org.junit.jupiter.api.Assertions.*;

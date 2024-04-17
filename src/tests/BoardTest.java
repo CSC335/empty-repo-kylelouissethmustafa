@@ -1,7 +1,7 @@
 /**
- * Tests the Board class
+ * Tests the Board class.
  * 
- * @author Kyle Myint
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
 
 package tests;
