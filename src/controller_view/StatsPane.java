@@ -8,6 +8,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import model.Accounts;
 
+/**
+ * The StatsPane class is a BorderPane that is added to memoryGUI
+ * to view game statistics of the current user.
+ * 
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
+ *
+ */
 public class StatsPane extends BorderPane {
     
 	private Accounts accounts;
@@ -39,11 +46,19 @@ public class StatsPane extends BorderPane {
     private memoryGUI gui;
     private GridPane grid;
 
+    /**
+     * The constructor for StatsPane, simply sets the gui instance variable.
+     * 
+     * @param gui The memoryGUI for referencing of methods.
+     */
     public StatsPane(memoryGUI gui) {
         this.gui = gui;
-        //layoutStatsPane();
     }
 
+    /**
+     * This method lays out the StatsPane by creating a GridPane with numerous
+     * labels that describe the current User's memory game statistics.
+     */
     public void layoutStatsPane() {
     	this.username =  new Label(gui.getCurrAcct().getUsername());  
     	this.totalGamesPlayed = new Label(String.valueOf(gui.getCurrAcct().getGamesPlayed()));

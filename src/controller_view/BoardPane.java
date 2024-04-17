@@ -21,11 +21,17 @@ import model.Card;
 import model.MemoryGame;
 import model.OurObserver;
 
+/**
+ * The BoardPane class is a BorderPane that displays the MemoryGame
+ * and allows for user interaction with the game. Live stats and
+ * game messages are displayed at the bottom of the pane.
+ * 
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
+ *
+ */
 public class BoardPane extends BorderPane implements OurObserver {
 	private Canvas canvas;
 	private GraphicsContext gc;
-	private MenuItem newGame;
-	private MenuItem leaderboard;
 	private MemoryGame game;
 	private BorderPane messageArea;
 	private GridPane liveStatsGrid;
@@ -42,33 +48,25 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private memoryGUI gui;
 
 	/**
-	 * Should eventually maybe pass this the Board object itself...
+	 * The Board Pane constructor, which lays out the game board
+	 * visually and registers event handlers.
+	 * 
+	 * @param gui A reference to the memoryGUI so its methods may be used.
 	 * 
 	 */
-	public BoardPane(MenuItem newGame, MenuItem leaderboard, memoryGUI gui) {
+	public BoardPane(memoryGUI gui) {
 		layoutBoard();
-		//addMenu();
-		this.newGame = newGame;
-		this.leaderboard = leaderboard;
 		this.gui = gui;
 		
 
 		this.registerHandlers();
 	}
 
-	public void addMenu() {
-		// see ButtonView from TTTStart
-		newGame = new MenuItem("New Game");
-		MenuItem other = new MenuItem("Other");
-
-		Menu options = new Menu("Options");
-		options.getItems().addAll(newGame, other);
-		MenuBar menuBar = new MenuBar();
-		menuBar.getMenus().addAll(options);
-
-		this.setTop(menuBar);
-	}
-
+	/**
+	 * This method draws the cards of the memory game to the canvas,
+	 * taking into account their state and card value.
+	 * 
+	 */
 	public void drawCards() {
 		/**
 		 * This function should know the state of the game... Should blank out the
@@ -183,39 +181,21 @@ public class BoardPane extends BorderPane implements OurObserver {
 		}
 
 	}
-
-	public void drawCardsTest() {
-		/**
-		 * This function should know the state of the game... Should blank out the
-		 * canvas Should go through all of the cards Figure out their card type, whether
-		 * or not flipped display image accordingly.
-		 * 
-		 * Called initially, and then by observer as game changes.
-		 * 
-		 */
-
-		// EVERYTHING BELOW IS TESTING CODE
-		Image cardBack = new Image("file:BasicCardBack.png");
-
-		// start x, start y, offset x, offset y
-		gc.drawImage(cardBack, 30, 30, 180, 180);
-		gc.drawImage(cardBack, 230, 30, 180, 180);
-		gc.drawImage(cardBack, 430, 30, 180, 180);
-		gc.drawImage(cardBack, 630, 30, 180, 180);
-
-		gc.drawImage(cardBack, 30, 230, 180, 180);
-		gc.drawImage(cardBack, 230, 230, 180, 180);
-		gc.drawImage(cardBack, 430, 230, 180, 180);
-		gc.drawImage(cardBack, 630, 230, 180, 180);
-	}
 	
+	/**
+	 * This method clears the canvas before redrawing of a new game.
+	 */
 	public void clearCanvas() {
 		gc.setFill(Color.LIGHTGRAY);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		gamePrompt.setText("Start a New Game!");
 		curScore.setText("0");
 	}
-
+	
+	/**
+	 * This method creates the canvas for the game and adds
+	 * the game prompt and live score to the pane.
+	 */
 	public void layoutBoard() {
 		this.setMinWidth(850);
 		this.setMinHeight(500);
@@ -225,8 +205,6 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 		gc.setFill(Color.LIGHTGRAY);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-		// drawCards(); // might not need this on initialization
 		
 		liveStatsGrid = new GridPane();
 		messageArea = new BorderPane();
@@ -251,27 +229,20 @@ public class BoardPane extends BorderPane implements OurObserver {
 		this.setCenter(messageArea);
 	}
 
+	/**
+	 * This method registers handlers for the BoardPane, in this case
+	 * specifically, it handles clicks on the canvas. Calculations are
+	 * made based on game mode and board size to handle clicks of cards
+	 * properly, and updating of account statistics occurs on ending of a
+	 * game.
+	 */
 	public void registerHandlers() {
-		/**
-		 * Register a click by getting x and y coordinates, converting that to cell on
-		 * grid, flip that card, wait for second card selection, and check match. On
-		 * match, leave them flipped, increment paired guessed by one. Else, flip both
-		 * back, reset cards flipped to 0, go back to start...
-		 * 
-		 */
-
-		/**
-		 * In the future here, we probably should detect the card and update the game
-		 * accordingly Since game is a Observable and this is observer, every time the
-		 * game changes, this class should be notified and then we should call the
-		 * drawCards method again...
-		 */
 
 		canvas.setOnMousePressed(event -> {
-			if (game != null && game.gameActive()) { // TODO - and game is active
+			if (game != null && game.gameActive()) {
 				double curX = event.getSceneX() - 1.6;
 				double curY = event.getSceneY() - 22.4;
-				int gameSize = game.getSize(); // change to = game.getSize();
+				int gameSize = game.getSize();
 
 				int xBorder = startX + ((cardSize + cardGap) * (gameSize - 1)) + cardSize;
 				int yBorder = startY + ((cardSize + cardGap) * (gameSize - 1)) + cardSize;
@@ -448,6 +419,13 @@ public class BoardPane extends BorderPane implements OurObserver {
 		
 	}
 	
+	/**
+	 * This method creates a new MemoryGame, adding this Pane as an observer,
+	 * initializes the game, and sets the game prompt.
+	 * 
+	 * @param gameMode the integer representing the current game's game mode.
+	 * @param boardSize  the integer representing the current game's board size.
+	 */
 	public void startNewGame(int gameMode, int boardSize) {
 		System.out.println("New Game Clicked");
 		game = new MemoryGame(gameMode, boardSize);
@@ -457,6 +435,12 @@ public class BoardPane extends BorderPane implements OurObserver {
 	}
 
 	@Override
+	/**
+	 * The method that is called on change of state of the MemoryGame, redrawing
+	 * cards.
+	 * 
+	 * @param theObserved represents the MemoryGame being observed by this Pane.
+	 */
 	public void update(Object theObserved) {
 		drawCards();
 		curScore.setText("" + game.getScore());

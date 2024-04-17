@@ -44,17 +44,29 @@ public class Card {
 		return false;
 	}
 	
-	// Getter for color
+	/**
+	 * A getter for color of the Card.
+	 * 
+	 * @return The color of the card.
+	 */
 	public String getColor() {
 		return color;
 	}
 	
-	// Getter for shape
+	/**
+	 * A getter for the shape on the Card.
+	 * 
+	 * @return The shape on the card.
+	 */
 	public String getShape() {
 		return shape;
 	}
 	
-	// Getter for revealed
+	/**
+	 * Returns whether or not the card is currently revealed.
+	 * 
+	 * @return True if card is revealed now, false otherwise.
+	 */
 	public Boolean getRevealed() {
 		return revealed;
 	}

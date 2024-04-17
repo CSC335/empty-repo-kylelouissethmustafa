@@ -3,7 +3,7 @@
  * board on which the memory game is played. Uses the
  * Card class as objects in the board
  * 
- * @author Kyle Myint
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
 
 package model;

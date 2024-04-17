@@ -1,5 +1,6 @@
 /**
- * This is the main GUI for the project
+ * This is the main GUI for the project, which displays various panes
+ * and menus within it as the application is used.
  * 
  * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
@@ -59,17 +60,21 @@ public class memoryGUI extends Application {
 
 
 	@Override
+	/**
+	 * This method starts the GUI, calling methods to layout the GUI,
+	 * adding the menu, and registering handlers.
+	 */
 	public void start(Stage primaryStage) throws Exception {
 		accountCollection = new AccountCollection();
 		loginPane = new LoginPane(currAcct, accountCollection, this);
-		boardPane = new BoardPane(newGame, leaderboard, this);
+		boardPane = new BoardPane(this);
 		statsPane = new StatsPane(this);
 		
 		LayoutGUI();
 		
 		addMenu();
 		
-		addTestAccounts(); // TODO - remove this
+		addTestAccounts(); // TODO - remove this for final production.
 		
 		registerHandlers();
 
@@ -80,20 +85,30 @@ public class memoryGUI extends Application {
 	}
 
 	/**
-	 * Layout for the GUI
+	 * This method lays out the gui by setting the loginPane
+	 * to the center initially.
 	 */
 	private void LayoutGUI() {
-		
 		all = new BorderPane();
 		
 		all.setCenter(loginPane);
-		//all.setBottom(loginPane);
 	}
 	
+	/**
+	 * A getter for the accountCollection.
+	 * 
+	 * @return the collection of accounts in the application
+	 */
 	private AccountCollection getAcctCollection() {
 		return accountCollection;
 	}
 	
+	/**
+	 * The method that handles a successful login, setting up a menu and
+	 * clear canvas, as well as setting the current user.
+	 * 
+	 * @param loginAcct The account that just successfully logged in.
+	 */
 	public void onSuccessfulLogin(Accounts loginAcct) {
 		boardPane.clearCanvas();
 		all.setTop(menuBar);
@@ -102,6 +117,11 @@ public class memoryGUI extends Application {
 		System.out.println("Current User: " + currAcct.getUsername());
 	}
 	
+	/**
+	 * A getter for the current user's account.
+	 * 
+	 * @return The current user's account.
+	 */
 	public Accounts getCurrAcct() {
 		return this.currAcct;
 	}
@@ -151,13 +171,20 @@ public class memoryGUI extends Application {
 		menuBar.getMenus().addAll(options);
 	}
 	
+	/**
+	 * A getter for newGame.
+	 * 
+	 * @return The new game.
+	 */
 	public MenuItem getNewGame() {
 		return newGame;
 	}
 
 
 	/**
-	 * Event handlers
+	 * This method registers event handlers, including logout, click of UserStats in menu,
+	 * clicks of new game for each game mode,and clicks of leaderboard for each game mode.
+	 * 
 	 */
 	private void registerHandlers() {
 		logout.setOnAction(event -> {

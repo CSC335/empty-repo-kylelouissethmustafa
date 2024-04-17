@@ -15,6 +15,13 @@ import javafx.scene.layout.GridPane;
 import model.AccountCollection;
 import model.Accounts;
 
+/**
+ * The LoginPane class is a BorderPane that displays the login
+ * menu on the memoryGUI.
+ * 
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
+ *
+ */
 public class LoginPane extends BorderPane {
 	private GridPane loginGrid;
 	
@@ -29,6 +36,13 @@ public class LoginPane extends BorderPane {
 	
 	private memoryGUI gui;
 	
+	/**
+	 * This method lays out the BorderPane with a login menu.
+	 * 
+	 * @param currAcct the current user's account
+	 * @param accounts the collection of accounts that exist on the app.
+	 * @param gui the memoryGUI for reference of methods
+	 */
 	public LoginPane(Accounts currAcct, AccountCollection accounts, memoryGUI gui) {
 		layoutPane();
 		
@@ -41,6 +55,10 @@ public class LoginPane extends BorderPane {
 		this.registerHandlers();
 	}
 	
+	/**
+	 * This method creates the GridPane that houses the elements of
+	 * the login menu.
+	 */
 	public void layoutPane() {
 		loginGrid = new GridPane();
 		loginGrid.setPrefWidth(300);
@@ -69,6 +87,10 @@ public class LoginPane extends BorderPane {
 		
 	}
 	
+	/**
+	 * This method registers handlers of the login menu, correctly
+	 * accepting clicks of the loginButton and createAccount button.
+	 */
 	public void registerHandlers() {
 		loginButton.setOnAction(event -> {
 			Accounts loginTrial = new Accounts(accountNameField.getText(), passwordField.getText());
@@ -98,6 +120,9 @@ public class LoginPane extends BorderPane {
 		});
 	}
 	
+	/**
+	 * This method logs out the current user.
+	 */
 	public void logout() {
 		this.currAcct = null;
 		accountNameField.setText("");

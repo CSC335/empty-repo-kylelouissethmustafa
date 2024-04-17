@@ -15,6 +15,14 @@ import javafx.scene.layout.GridPane;
 import model.AccountCollection;
 import model.Accounts;
 
+/**
+ * The class LeaderboardPane is a BorderPane that displays a leaderboard
+ * of the top performers/performances of specified game mode onto the
+ * memoryGUI when prompted.
+ * 
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
+ *
+ */
 public class LeaderboardPane extends BorderPane {
 	
 	private BorderPane pane;
@@ -33,6 +41,16 @@ public class LeaderboardPane extends BorderPane {
 	
 	private int gameMode;
 	
+	/**
+	 * This method is the constructor of LeaderBoard pane, which determines
+	 * which leaderboard to display based on game mode, ignoring accounts which haven't
+	 * tried a given game mode. After setting up the tableView, methods are called
+	 * to add users to the table, sort the table, and correctly display the table
+	 * within the pane.
+	 * 
+	 * @param accountCollection the collection of accounts that currently exist.
+	 * @param gameMode the current game's game mode.
+	 */
 	public LeaderboardPane(AccountCollection accountCollection, int gameMode) {
 		
 		// Setting attributes.
@@ -109,21 +127,21 @@ public class LeaderboardPane extends BorderPane {
 		addAllUsernames();
 		resortTable();
 		layoutLeaderboard();
-		registerHandlers();
 	}
 	
-	public void addMenu() {
-		// see ButtonView from TTTStart
-	}
-	
-	
+	/**
+	 * This method sorts the table in ascending order by the
+	 * score column.
+	 */
 	public void resortTable() {
-		// Set default sort column
         table.getSortOrder().add(scoreColumn);
         scoreColumn.setSortType(TableColumn.SortType.ASCENDING);
         table.sort();
 	}
 	
+	/**
+	 * This method lays out the Pane, with the table, and the title.
+	 */
 	public void layoutLeaderboard() {
 		table.setPrefSize(100, 100);
 		
@@ -144,9 +162,5 @@ public class LeaderboardPane extends BorderPane {
 		for(int i = 0; i < croppedCollection.getSize(); i++) {
 			accounts.add(croppedCollection.getElement(i));
 		}
-	}
-	
-	public void registerHandlers() {
-		
 	}
 }

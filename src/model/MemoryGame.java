@@ -129,11 +129,6 @@ public class MemoryGame extends OurObservable {
 		this.score = moves * 10;
 	}
 	
-	// TODO - add to this in the future for end of game...
-	//public void endGame() {
-		// Will update account/leaderboard.
-	//}
-	
 	public Boolean checkMatch(Card card1, Card card2) {
 		return card1.checkMatch(card2);
 	}
