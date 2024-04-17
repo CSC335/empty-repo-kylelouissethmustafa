@@ -1,11 +1,10 @@
+package model;
+
 /**
  * Card class to represent the cards in the memory game
  * 
  * @author Kyle Myint
  */
-
-package model;
-
 public class Card {
 	// Characteristics of card to differentiate
 	private String color;

@@ -1,3 +1,8 @@
+package model;
+
+import java.util.Random;
+import java.util.ArrayList;
+
 /**
  * Contains information and methods related to the
  * board on which the memory game is played. Uses the
@@ -5,12 +10,6 @@
  * 
  * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
-
-package model;
-
-import java.util.Random;
-import java.util.ArrayList;
-
 public class Board {
 	// Only square boards - can change later
 	private int size;
