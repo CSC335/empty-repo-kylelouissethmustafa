@@ -123,6 +123,27 @@ public class Board {
 	}
 	
 	/**
+	 * Finds and reveals the matching card of the given coordinate (for Powers)
+	 * Run if the second card chosen isn't also a power card; just award like -100 points
+	 * or something if a power card match is found
+	 * Make sure to keep all 3 cards revealed; the power and the given match
+	 * 
+	 * @param x - x row of card to match
+	 * @param y - y column of card to match
+	 */
+	public void findMatch(int x, int y) {
+		String color = board[x][y].getColor();
+		String shape = board[x][y].getShape();
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				if(board[i][j].getColor().equals(color) && board[i][j].getShape().equals(shape)) {
+					board[i][j].toggle();
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Changes game mode
 	 * 
 	 * @param gameMode - Game mode to be set to. 0 = normal, 1 = odd one out
