@@ -55,4 +55,8 @@ public class AccountCollection implements java.io.Serializable {
 			return false;
 		}
 	}
+	
+	public void clear() {
+		defAccounts.clear();
+	}
 }

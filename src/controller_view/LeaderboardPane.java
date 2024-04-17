@@ -39,6 +39,7 @@ public class LeaderboardPane extends BorderPane {
 	private TableColumn<Accounts, Integer> scoreColumn;
 	
 	private AccountCollection accountCollection;
+	private AccountCollection croppedCollection;
 	
 	private int gameMode;
 	
@@ -52,7 +53,7 @@ public class LeaderboardPane extends BorderPane {
 	 * 
 	 * @param accountCollection The collection of accounts to be displayed on the leaderboard. 
 	 * @param gameMode The game mode for which the leaderboard is being constructed. 
-	 * 				   Valied values are 2 through 6 representing the dimensions of the game grid.
+	 * 				   Valid values are 2 through 6 representing the dimensions of the game grid.
 	 */
 	public LeaderboardPane(AccountCollection accountCollection, int gameMode) {
 		
@@ -69,24 +70,57 @@ public class LeaderboardPane extends BorderPane {
 		
 		usernameColumn.setCellValueFactory(new PropertyValueFactory<Accounts, String>("Username"));
 		
+		croppedCollection = new AccountCollection();
+		
 		// Set up the columns based on game mode.
 		if(gameMode == 2) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get2x2Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else if(gameMode == 3) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("3x3Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get3x3Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else if (gameMode == 4) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("4x4Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get4x4Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else if (gameMode == 5) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("5x5Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get5x5Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else if (gameMode == 6) {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("6x6Score"));
-			
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get6x6Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		} else {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
+			croppedCollection.clear();
+			for(int i = 0; i < accountCollection.getSize(); i++) {
+				if(accountCollection.getElement(i).get2x2Score() >= 0) {
+					croppedCollection.add(accountCollection.getElement(i));
+				}
+			}
 		}
 		// Finish these gameMode 2-6
 		
