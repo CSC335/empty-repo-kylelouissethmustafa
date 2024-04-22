@@ -78,7 +78,6 @@ public class BoardPane extends BorderPane implements OurObserver {
 		 */
 		clearCanvas();
 		int boardSize = game.getSize();
-		System.out.println("drawing cards");
 
 		Image cardBack = new Image("file:BasicCardBack.png");
 		Image cardFront = new Image("file:BasicCardInside.png");
@@ -396,9 +395,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 						currAcct.setNewBestScore(game.getScore(), game.getSize());
 					}
 				} else if(game.getGameMode() == 1 && game.getSize() == 3) {
-					System.out.println("HERE");
 					if((game.getScore() < currAcct.get3x3Score())  | currAcct.get3x3Score() == -1) {
-						System.out.println("HERE");
 						currAcct.setNewBestScore(game.getScore(), game.getSize());
 					}
 				} else if(game.getGameMode() == 0 && game.getSize() == 4) {

@@ -2,7 +2,7 @@
  * A simple observable class use to notify observers of any state change in the
  * the observable. The observable class must extend this class OurObserverable.
  * 
- * @author 
+ * @author Rick Mercer, Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  *
  */
 package model;

@@ -1,10 +1,3 @@
-/**
- * Holds info for the MemoryGame. This is the class
- * that the GUI will interact with to show the data
- * 
- * @author Kyle Myint
- */
-
 // MemoryGame will be tested visually through the GUI
 
 package model;
@@ -16,6 +9,12 @@ import java.util.TimerTask;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
+/**
+ * The MemoryGame class holds info for the MemoryGame. This is the class
+ * that the GUI will interact with to show the data.
+ * 
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
+ */
 public class MemoryGame extends OurObservable {
 	
 	private Board board;
@@ -28,6 +27,13 @@ public class MemoryGame extends OurObservable {
 	private boolean isGameActive;
 	private Timer timer;
 	
+	/**
+	 * The constructor for memory game, creating a new board
+	 * and initializing game stats.
+	 * 
+	 * @param gameMode The initialized game's game mode.
+	 * @param size The board size for the MemoryGame.
+	 */
 	public MemoryGame(int gameMode, int size) {
 		board = new Board(size);
 		numCards = size * size;
@@ -37,7 +43,11 @@ public class MemoryGame extends OurObservable {
 		score = 0;
 	}
 	
-	// Initializes the board to start the game
+	/**
+	 * This method initializes the board to start the game,
+	 * setting game mode, shuffling the board,
+	 * and notifying observers.
+	 */
 	public void initGame() {
 		board.changeMode(gameMode);
 		//board.initBoard();
@@ -47,38 +57,87 @@ public class MemoryGame extends OurObservable {
 		notifyObservers(this);
 	}
 	
+	/**
+	 * A getter for the game Board.
+	 * 
+	 * @return The Board for the game.
+	 */
 	public Board getBoard() {
 		return board;
 	}
 	
+	/**
+	 * Method returns whether or not the game is active.
+	 * 
+	 * @return True if game is active, false otherwise.
+	 */
 	public boolean gameActive() {
 		return this.isGameActive;
 	}
 	
+	/**
+	 * A getter for the number of moves in the game.
+	 * 
+	 * @return The number of moves in the MemoryGame.
+	 */
 	public int getNumMoves() {
 		return moves;
 	}
 	
+	/**
+	 * A getter for the current score of the game.
+	 * 
+	 * @return The current score of the MemoryGame.
+	 */
 	public int getScore() {
 		return score;
 	}
 	
+	/**
+	 * A getter for the number of cards currently revealed.
+	 * 
+	 * @return The number of cards currently revealed.
+	 */
 	public int getNumCardsSelected() {
 		return revealedCards.size();
 	}
 	
+	/**
+	 * A getter for the total number of cards in the game.
+	 * 
+	 * @return The total number of cards in the MemoryGame.
+	 */
 	public int getNumCards() {
 		return numCards;
 	}
 	
+	/**
+	 * A getter for the game mode of the game.
+	 * 
+	 * @return The game mode of MemoryGame.
+	 */
 	public int getGameMode() {
 		return gameMode;
 	}
 	
+	/**
+	 * A getter for the number of matches in the game.
+	 * 
+	 * @return The current number of matches in the MemoryGame.
+	 */
 	public int getNumMatches() {
 		return numMatches;
 	}
 	
+	/**
+	 * Handles a card being clicked by revealing the card, adding
+	 * the card to the array of revealed cards, creating an animation
+	 * to flip 2 cards back over if they don't match, and ending the
+	 * game when appropriate.
+	 * 
+	 * @param row The number specifying row of card clicked.
+	 * @param col The number specifying col of card clicked.
+	 */
 	public void cardClicked(int row, int col) {
 		Card clickedCard = board.getCard(row, col);
 		
@@ -125,18 +184,37 @@ public class MemoryGame extends OurObservable {
 		notifyObservers(this);
 	}
 	
+	/**
+	 * Updates the score of the game.
+	 */
 	public void updateScore() {
 		this.score = moves * 10;
 	}
 	
+	/**
+	 * Determines whether or not two cards match based on
+	 * attribute values.
+	 * 
+	 * @param card1 The first card being compared.
+	 * @param card2 The second card being compared.
+	 * @return True if the cards match in attribute value, false otherwise.
+	 */
 	public Boolean checkMatch(Card card1, Card card2) {
 		return card1.checkMatch(card2);
 	}
 	
+	/**
+	 * Prints a string representation of the MemoryGame board.
+	 */
 	public void printBoard() {
 		System.out.println(board.toString());
 	}
 	
+	/**
+	 * A getter for the size of the MemoryGame board.
+	 * 
+	 * @return The size of the MemoryGame board.
+	 */
 	public int getSize() {
 		return board.getSize();
 	}

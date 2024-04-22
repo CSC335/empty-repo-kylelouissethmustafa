@@ -1,7 +1,7 @@
 /**
  * Tests the Card method
  * 
- * @author Kyle Myint
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
 
 package tests;

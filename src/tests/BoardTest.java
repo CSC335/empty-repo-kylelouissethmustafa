@@ -1,7 +1,7 @@
 /**
- * Tests the Board class
+ * Tests the Board class.
  * 
- * @author Kyle Myint
+ * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
 
 package tests;
@@ -61,6 +61,60 @@ public class BoardTest {
 		System.out.println("Does this look like a shuffled odd one out board? Y/N\n");
 	    String input = scanner.nextLine();
 	    assertEquals("Y", input);
+	}
+	
+	@Test
+	public void testThree() {
+		Board testBoard = new Board(3);
+		testBoard.changeMode(2);
+		testBoard.initBoard();
+		testBoard.shuffle();
+		System.out.println(testBoard.toString());
+		System.out.println("Does this look like a shuffled 3 of a kind board? Y/N\n");
+	    String input = scanner.nextLine();
+	    assertEquals("Y", input);
+	}
+	
+	@Test
+	public void testPowers() {
+		// Test even size
+		Board testBoard = new Board(4);
+		testBoard.changeMode(3);
+		testBoard.initBoard();
+		testBoard.shuffle();
+		System.out.println(testBoard.toString());
+		System.out.println("Does this look like a shuffled Powers board? Y/N\n");
+		System.out.println("There should be 2 power cards");
+	    String input = scanner.nextLine();
+	    assertEquals("Y", input);
+	    // Test odd size
+		Board testBoard2 = new Board(3);
+		testBoard2.changeMode(3);
+		testBoard2.initBoard();
+		testBoard2.shuffle();
+		System.out.println(testBoard2.toString());
+		System.out.println("Does this look like a shuffled Powers board? Y/N\n");
+		System.out.println("There should be 1 power card");
+	    String input2 = scanner.nextLine();
+	    assertEquals("Y", input2);
+	}
+	
+	@Test
+	public void testDesign() {
+		Board testBoard = new Board(4);
+		testBoard.initBoard();
+		testBoard.changeDesign(0);
+		System.out.println(testBoard.toString());
+		System.out.println("Does this look like a newly initialized Colors and Shapes board? Y/N\n");
+		String input = scanner.nextLine();
+		assertEquals("Y", input);
+		testBoard.changeDesign(1);
+		testBoard.initBoard();
+		System.out.println(testBoard.toString());
+		System.out.println("Does this look like a newly initialized General Design board? Y/N\n");
+		String input2 = scanner.nextLine();
+		assertEquals("Y", input2);
+		
 	}
 
 }
