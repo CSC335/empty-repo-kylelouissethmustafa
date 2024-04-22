@@ -27,6 +27,8 @@ public class Board {
 	 *     - 0 = Shapes/Colors
 	 *     - 1 = General
 	 *     - Let me know what other card design types you want & the string representations
+	 *     - Make sure to run initBoard and shuffle after changing card design
+	 *     - TODO: I can make it so you can change the design without changing the board if we need; let the user change in the middle of the game.
 	 */
 	private int cardDesign;
 	
@@ -165,6 +167,8 @@ public class Board {
 	
 	/**
 	 * Changes card design
+	 * Make sure to rerun initBoard and shuffle after changing the design. 
+	 * TODO: If we need, I can make it so it just changes the design of the cards without changing the board
 	 * 
 	 * @param cardType - Card design to use. 0 = shapes/colors, 1 = general
 	 */
