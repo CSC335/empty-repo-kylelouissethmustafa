@@ -2,10 +2,16 @@ package controller_view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import model.Accounts;
 
 /**
@@ -45,7 +51,13 @@ public class StatsPane extends BorderPane {
     private Label best6x6Label;
     private memoryGUI gui;
     private GridPane grid;
+    
+    private Label userStats;
 
+    private Image logoImage;
+    
+    private Canvas canvas;
+	private GraphicsContext gc;
     /**
      * The constructor for StatsPane, simply sets the gui instance variable.
      * 
@@ -93,11 +105,22 @@ public class StatsPane extends BorderPane {
     		this.best6x6String = String.valueOf(this.best6x6Val);
     	}
     	
+    	setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+    	
     	this.best2x2Score = new Label(this.best2x2String);
     	this.best3x3Score = new Label(this.best3x3String);
     	this.best4x4Score = new Label(this.best4x4String);
     	this.best5x5Score = new Label(this.best5x5String);
     	this.best6x6Score = new Label(this.best6x6String);
+    	
+    	logoImage = new Image("file:StatsLogo.png");
+    	canvas = new Canvas(800, 200);
+        gc = canvas.getGraphicsContext2D();
+        
+        gc.drawImage(logoImage, 250, 0, 200, 150);
+    	
+    	userStats = new Label("User Stats");
+    	userStats.setStyle("-fx-font-size: 30; -fx-font-weight: bold");
     	
         usernameLabel = new Label("Username: ");
         gamesPlayedLabel = new Label("Games Played: ");
@@ -124,24 +147,26 @@ public class StatsPane extends BorderPane {
         best6x6Score.setStyle("-fx-font-size: 15;");
         
         grid = new GridPane();
-        grid.setHgap(8);
+        grid.setHgap(10);
         grid.setVgap(8);
         
-        grid.add(usernameLabel, 0, 0);
-        grid.add(username, 1, 0);
-        grid.add(gamesPlayedLabel, 0, 1);
-        grid.add(totalGamesPlayed, 1, 1);
-        grid.add(best2x2Label, 0, 2);
-        grid.add(best2x2Score, 1, 2);
-        grid.add(best3x3Label, 0, 3);
-        grid.add(best3x3Score, 1, 3);
-        grid.add(best4x4Label, 0, 4);
-        grid.add(best4x4Score, 1, 4);
-        grid.add(best5x5Label, 0, 5);
-        grid.add(best5x5Score, 1, 5);
-        grid.add(best6x6Label, 0, 6);
-        grid.add(best6x6Score, 1, 6);
+        grid.add(userStats, 27, 0);
+        grid.add(usernameLabel, 27, 1);
+        grid.add(username, 28, 1);
+        grid.add(gamesPlayedLabel, 27, 2);
+        grid.add(totalGamesPlayed, 28, 2);
+        grid.add(best2x2Label, 27, 3);
+        grid.add(best2x2Score, 28, 3);
+        grid.add(best3x3Label, 27, 4);
+        grid.add(best3x3Score, 28, 4);
+        grid.add(best4x4Label, 27, 5);
+        grid.add(best4x4Score, 28, 5);
+        grid.add(best5x5Label, 27, 6);
+        grid.add(best5x5Score, 28, 6);
+        grid.add(best6x6Label, 27, 7);
+        grid.add(best6x6Score, 28, 7);
 
+        this.setTop(canvas);
         setCenter(grid);
         
         this.setPadding(new Insets(20, 20, 20, 100));

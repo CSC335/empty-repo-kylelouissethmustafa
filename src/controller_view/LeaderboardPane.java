@@ -6,12 +6,18 @@ import java.util.Comparator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import model.AccountCollection;
 import model.Accounts;
 
@@ -35,7 +41,6 @@ public class LeaderboardPane extends BorderPane {
 	private TableView<Accounts> table;
 	private static ObservableList<Accounts> accounts = FXCollections.observableArrayList();
 	
-	
 	private TableColumn<Accounts, String> usernameColumn;
 	private TableColumn<Accounts, Integer> scoreColumn;
 	
@@ -43,6 +48,11 @@ public class LeaderboardPane extends BorderPane {
 	private AccountCollection croppedCollection;
 	
 	private int gameMode;
+	
+	private Canvas canvas;
+	private GraphicsContext gc;
+	
+	private Image leaderboardImage;
 	
 	/**
 	 * This is a public method/constructor that constructs a new LeaderboardPane instance.
@@ -63,6 +73,15 @@ public class LeaderboardPane extends BorderPane {
 		table = new TableView<>();
 		usernameColumn = new TableColumn<>("Username");
 		scoreColumn = new TableColumn<>("Score");
+		canvas = new Canvas(850, 150);
+        gc = canvas.getGraphicsContext2D();
+		
+		leaderboardImage = new Image("file:LeaderBoardLogo.png");
+		gc.drawImage(leaderboardImage, 380, 50, 100, 100);
+		
+		setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+		
+		table.getStyleClass().add("row-hover-effect");
 		
 		// Set provided parameters.
 		this.gameMode = gameMode;
@@ -179,6 +198,8 @@ public class LeaderboardPane extends BorderPane {
 		
 		// Set this pane as the center content of the parent container.
 		this.setCenter(pane);
+		
+		this.setTop(canvas);
 	}
 	
 	

@@ -3,6 +3,9 @@ package controller_view;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -10,8 +13,13 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import model.AccountCollection;
 import model.Accounts;
 
@@ -34,6 +42,11 @@ public class LoginPane extends BorderPane {
 	private PasswordField passwordField;
 	private Label loginStatus;
 	
+	private Image logoImage;
+	
+	private Canvas canvas;
+	private GraphicsContext gc;
+	
 	private memoryGUI gui;
 	
 	/**
@@ -50,7 +63,18 @@ public class LoginPane extends BorderPane {
 		this.accounts = accounts;
 		this.gui = gui;
 
-		this.setPadding(new Insets(100,50,50,280));
+		setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+		
+		logoImage = new Image("file:MemoryGameLogo.png");
+		canvas = new Canvas(800, 200);
+        gc = canvas.getGraphicsContext2D();
+		
+		loginGrid.setPadding(new Insets(100,50,50,280));
+	
+		gc.drawImage(logoImage, 250, 100, 350, 100);
+		
+        // Set the canvas as the top component of the BorderPane
+        this.setTop(canvas);
 		this.setCenter(loginGrid);
 		this.registerHandlers();
 	}
@@ -64,18 +88,23 @@ public class LoginPane extends BorderPane {
 		loginGrid.setPrefWidth(300);
 		loginGrid.setPrefHeight(300);
 		loginGrid.setHgap(8);
-		loginGrid.setVgap(8);
+		loginGrid.setVgap(8);		
 		
 		Label accountName = new Label("Username:");
+		accountName.setStyle("-fx-font-weight: bold; -fx-font-size: 15px;");
+		
 		accountNameField = new TextField("");
-
+	
 		Label password = new Label("Password:");
+		password.setStyle("-fx-font-weight: bold; -fx-font-size: 15px;");
+	
 		passwordField = new PasswordField();
 		
 		loginButton = new Button("Login");
 		createAccount = new Button("Create new Account");
 		
 		loginStatus = new Label("Login or Create an Account!");
+		loginStatus.setStyle("-fx-font-weight: bold; -fx-font-size: 15px;");
 		
 		loginGrid.add(loginStatus, 1, 0);
 		loginGrid.add(accountName, 0, 1);
