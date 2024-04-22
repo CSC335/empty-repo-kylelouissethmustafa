@@ -10,25 +10,25 @@ public class Card {
 	private String color;
 	private String shape;
 	private Boolean revealed;
-	
+
 	// Constructor
 	public Card(String color, String shape) {
 		this.color = color;
 		this.shape = shape;
 		revealed = false;
 	}
-	
+
 	/**
 	 * Toggles revelaed status of card
 	 */
 	public void toggle() {
-		if(revealed) {
+		if (revealed) {
 			revealed = false;
-		}else {
+		} else {
 			revealed = true;
 		}
 	}
-	
+
 	/**
 	 * Checks if a card matches another
 	 * 
@@ -37,12 +37,20 @@ public class Card {
 	 * @return - Boolean on if the cards match
 	 */
 	public Boolean checkMatch(Card other) {
-		if(this.color == other.getColor() && this.shape == other.getShape()) {
+		if (this.color == other.getColor() && this.shape == other.getShape()) {
 			return true;
 		}
 		return false;
 	}
-	
+
+	public Boolean checkMatch(Card other1, Card other2) {
+		if (this.color == other1.getColor() && this.color == other2.getColor() && this.shape == other1.getShape()
+				&& this.shape == other2.getShape()) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * A getter for color of the Card.
 	 * 
@@ -51,7 +59,7 @@ public class Card {
 	public String getColor() {
 		return color;
 	}
-	
+
 	/**
 	 * A getter for the shape on the Card.
 	 * 
@@ -60,7 +68,7 @@ public class Card {
 	public String getShape() {
 		return shape;
 	}
-	
+
 	/**
 	 * Returns whether or not the card is currently revealed.
 	 * 
@@ -69,6 +77,6 @@ public class Card {
 	public Boolean getRevealed() {
 		return revealed;
 	}
-	
+
 	// GUI can have a method to turn a card into a object
 }

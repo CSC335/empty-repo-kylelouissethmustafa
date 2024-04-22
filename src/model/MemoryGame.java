@@ -141,28 +141,49 @@ public class MemoryGame extends OurObservable {
 	public void cardClicked(int row, int col) {
 		Card clickedCard = board.getCard(row, col);
 		
-		if(this.revealedCards.size() < 2 && !clickedCard.getRevealed()) {
+		int maxClicked;
+		if(this.getGameMode() == 0 | this.getGameMode() == 1) {
+			maxClicked = 2;
+		} else if(this.getGameMode() == 2) {
+			maxClicked = 3;
+		} else {
+			maxClicked = 2;
+		}
+		
+		if(this.revealedCards.size() < maxClicked && !clickedCard.getRevealed()) {
 			clickedCard.toggle();	
 			revealedCards.add(board.getCard(row, col));
 			
-			if(this.revealedCards.size() == 2) {
+			if(this.revealedCards.size() == maxClicked) {
 				moves++;
-				if(this.checkMatch(revealedCards.get(0), revealedCards.get(1))) {
-					revealedCards.clear();
-					numMatches++;
-				} else {
+				int match = 0;
+				if(maxClicked == 2) {
+					if(this.checkMatch(revealedCards.get(0), revealedCards.get(1))) {
+						revealedCards.clear();
+						match = 1;
+						numMatches++;
+					}
+				} else if(maxClicked == 3) {
+					if(this.checkMatch(revealedCards.get(0), revealedCards.get(1), revealedCards.get(2))) {
+						revealedCards.clear();
+						match = 1;
+						numMatches++;
+					}
+				}
+				if(match == 0) {
 					// NEED TO SLEEP HERE FOR 2 Seconds
 					PauseTransition pause = new PauseTransition(Duration.seconds(1));
 					pause.setOnFinished(event -> {
 						System.out.println("Pause finished");
-						revealedCards.get(0).toggle();
-						revealedCards.get(1).toggle();
+						for(int i = 0; i < maxClicked; i++) {
+							revealedCards.get(i).toggle();
+						}
 						revealedCards.clear();
 						notifyObservers(this);	
 					});
 					pause.play();
 				} 
-			} else if(gameMode == 1 && (numMatches * 2) + revealedCards.size() == numCards) {
+			} else if(gameMode == 1 && (numMatches * 2) + revealedCards.size() == numCards) { // denotes move for odd out card
 				moves++;
 			}
 		}
@@ -177,8 +198,12 @@ public class MemoryGame extends OurObservable {
 				System.out.println("Congrats, you matched them all in " + this.moves + " total moves!");
 				this.isGameActive = false;
 			}
+		} else if(gameMode == 2) {
+			if((numMatches * 3) == numCards) {
+				System.out.println("Congrats, you matched them all in " + this.moves + " total moves!");
+				this.isGameActive = false;
+			}
 		}
-		
 		
 		updateScore();
 		notifyObservers(this);
@@ -201,6 +226,10 @@ public class MemoryGame extends OurObservable {
 	 */
 	public Boolean checkMatch(Card card1, Card card2) {
 		return card1.checkMatch(card2);
+	}
+	
+	public Boolean checkMatch(Card card1, Card card2, Card card3) {
+		return card1.checkMatch(card2, card3);
 	}
 	
 	/**

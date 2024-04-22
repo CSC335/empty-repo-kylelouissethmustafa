@@ -222,10 +222,40 @@ public class BoardPane extends BorderPane implements OurObserver {
 		messageArea.setTop(gamePrompt);
 		messageArea.setCenter(liveStatsGrid);
 		liveStatsGrid.setPadding(new Insets(0, 0, 0, 60));
-		messageArea.setPadding(new Insets(0, 0, 0, 350));
+		messageArea.setPadding(new Insets(0, 0, 0, 310));
 
 		this.setTop(canvas);
 		this.setCenter(messageArea);
+	}
+	
+	// TODO - need scores for other game modes.
+	private void updateScores() {
+		if(game != null && !game.gameActive()) {
+			System.out.println("Game has ended!");
+			Accounts currAcct = gui.getCurrAcct();
+			currAcct.incrementGamesPlayed();
+			if(game.getGameMode() == 0 && game.getSize() == 2) {
+				if((game.getScore() < currAcct.get2x2Score()) | currAcct.get2x2Score() == -1) {
+					currAcct.setNewBestScore(game.getScore(), game.getSize());
+				}
+			} else if(game.getGameMode() == 1 && game.getSize() == 3) {
+				if((game.getScore() < currAcct.get3x3Score())  | currAcct.get3x3Score() == -1) {
+					currAcct.setNewBestScore(game.getScore(), game.getSize());
+				}
+			} else if(game.getGameMode() == 0 && game.getSize() == 4) {
+				if((game.getScore() < currAcct.get4x4Score())  | currAcct.get4x4Score() == -1) {
+					currAcct.setNewBestScore(game.getScore(), game.getSize());
+				}
+			} else if(game.getGameMode() == 1 && game.getSize() == 5) {
+				if((game.getScore() < currAcct.get5x5Score()) | currAcct.get5x5Score() == -1) {
+					currAcct.setNewBestScore(game.getScore(), game.getSize());
+				}
+			} else if(game.getGameMode() == 0 && game.getSize() == 6) {
+				if((game.getScore() < currAcct.get6x6Score()) | currAcct.get6x6Score() == -1) {
+					currAcct.setNewBestScore(game.getScore(), game.getSize());
+				}
+			}
+		}
 	}
 
 	/**
@@ -379,39 +409,11 @@ public class BoardPane extends BorderPane implements OurObserver {
 					if(curRow == -1 | curCol == -1) {
 						System.out.println("Registered invalid click");
 					} else {
-						System.out.println("user clicked row: " + curRow + " col: " + curCol);
 						game.cardClicked(curRow, curCol);
 					}
 				}
 			}
 			
-			if(game != null && !game.gameActive()) {
-				System.out.println("Game has ended!");
-				System.out.println("Game mode: " + game.getGameMode() + " size: " + game.getSize());
-				Accounts currAcct = gui.getCurrAcct();
-				currAcct.incrementGamesPlayed();
-				if(game.getGameMode() == 0 && game.getSize() == 2) {
-					if((game.getScore() < currAcct.get2x2Score()) | currAcct.get2x2Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				} else if(game.getGameMode() == 1 && game.getSize() == 3) {
-					if((game.getScore() < currAcct.get3x3Score())  | currAcct.get3x3Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				} else if(game.getGameMode() == 0 && game.getSize() == 4) {
-					if((game.getScore() < currAcct.get4x4Score())  | currAcct.get4x4Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				} else if(game.getGameMode() == 1 && game.getSize() == 5) {
-					if((game.getScore() < currAcct.get5x5Score()) | currAcct.get5x5Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				} else if(game.getGameMode() == 0 && game.getSize() == 6) {
-					if((game.getScore() < currAcct.get6x6Score()) | currAcct.get6x6Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				}
-			}
 		});
 		
 	}
@@ -443,6 +445,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		curScore.setText("" + game.getScore());
 		if(!game.gameActive()) {
 			gamePrompt.setText("Congrats! You won!");
+			updateScores();
 		}
 	}
 

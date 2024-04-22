@@ -55,6 +55,7 @@ public class memoryGUI extends Application {
 	private AccountCollection accountCollection;
 	
 	private int gameDim;
+	private int gameMode;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -81,7 +82,7 @@ public class memoryGUI extends Application {
 		
 		addTestAccounts(); // TODO - remove this for final production.
 		
-		setupGameSettings(2);
+		setupGameSettings(2, 0);
 		
 		registerHandlers();
 
@@ -155,12 +156,6 @@ public class memoryGUI extends Application {
 	private void addMenu() {
 		// see ButtonView from TTTStart
 		newGame = new MenuItem("New Game");
-		//twoGame = new MenuItem("2x2");
-		//threeGame = new MenuItem("3x3");
-		//fourGame = new MenuItem("4x4");
-		//fiveGame = new MenuItem("5x5");
-		//sixGame = new MenuItem("6x6");
-		//newGame.getItems().addAll(twoGame, threeGame, fourGame, fiveGame, sixGame);
 		MenuItem other = new MenuItem("Other");
 		leaderboard = new Menu("Leaderboard");
 		twoByTwo = new MenuItem("2x2");
@@ -174,7 +169,7 @@ public class memoryGUI extends Application {
 		Menu options = new Menu("Options");
 		userStats = new MenuItem("User Stats");
 		gameSettings = new MenuItem("Game Settings");
-		options.getItems().addAll(newGame, leaderboard, logout, userStats, gameSettings, other);
+		options.getItems().addAll(newGame, gameSettings, leaderboard, userStats, logout, other);
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
 	}
@@ -188,8 +183,9 @@ public class memoryGUI extends Application {
 		return newGame;
 	}
 	
-	public void setupGameSettings(int dim) {
+	public void setupGameSettings(int dim, int mode) {
 		this.gameDim = dim;
+		this.gameMode = mode;
 	}
 
 
@@ -269,14 +265,9 @@ public class memoryGUI extends Application {
 			if(currAcct != null) {
 				all.setCenter(boardPane);
 				int curDim = this.gameDim;
-				int mode;
-				if(curDim % 2 == 0) {
-					mode = 0;
-				} else {
-					mode = 1;
-				}
+				int curMode = this.gameMode;
 				
-				boardPane.startNewGame(mode, curDim);
+				boardPane.startNewGame(curMode, curDim);
 			}
 		});
 	}
