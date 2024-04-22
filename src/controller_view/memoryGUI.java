@@ -26,7 +26,7 @@ public class memoryGUI extends Application {
 	private BoardPane boardPane;
 	private StatsPane statsPane;
 	private SettingsPane settingsPane;
-	private LeaderboardPane leaderboard2x2;
+	private LeaderboardPane leaderboardPane;
 	private LeaderboardPane leaderboard3x3;
 	private LeaderboardPane leaderboard4x4;
 	private LeaderboardPane leaderboard5x5;
@@ -35,18 +35,8 @@ public class memoryGUI extends Application {
 	private MenuBar menuBar;
 	private MenuItem logout;
 	private MenuItem newGame;
-	private MenuItem twoGame;
-	private MenuItem threeGame;
-	private MenuItem fourGame;
-	private MenuItem fiveGame;
-	private MenuItem sixGame;
-	private Menu leaderboard;
+	private MenuItem leaderboard;
 	private MemoryGame game;
-	private MenuItem twoByTwo;
-	private MenuItem threeByThree;
-	private MenuItem fourByFour;
-	private MenuItem fiveByFive;
-	private MenuItem sixBySix;
 	private MenuItem userStats;
 	private MenuItem gameSettings;
 	
@@ -136,17 +126,17 @@ public class memoryGUI extends Application {
 	
 	private void addTestAccounts() {
 		Accounts account1 = new Accounts("Seth", "Seth123");
-		account1.setNewBestScore(20, 2);
-		account1.setNewBestScore(50, 3);
+		account1.setNewBestScore(20, 2, 0);
+		account1.setNewBestScore(50, 3, 1);
 		
 		Accounts account2 = new Accounts("Mustafa", "Mustafa123");
-		account2.setNewBestScore(50, 2);
-		account2.setNewBestScore(20, 3);
+		account2.setNewBestScore(50, 2, 0);
+		account2.setNewBestScore(20, 3, 1);
 		
 		
 		Accounts account3 = new Accounts("Mustafa2", "Mustafa1");
-		account3.setNewBestScore(10, 2);
-		account3.setNewBestScore(90, 3);
+		account3.setNewBestScore(10, 2, 0);
+		account3.setNewBestScore(90, 3, 1);
 		
 		accountCollection.add(account1);
 		accountCollection.add(account2);
@@ -157,13 +147,7 @@ public class memoryGUI extends Application {
 		// see ButtonView from TTTStart
 		newGame = new MenuItem("New Game");
 		MenuItem other = new MenuItem("Other");
-		leaderboard = new Menu("Leaderboard");
-		twoByTwo = new MenuItem("2x2");
-		threeByThree = new MenuItem("3x3");
-		fourByFour = new MenuItem("4x4");
-		fiveByFive = new MenuItem("5x5");
-		sixBySix = new MenuItem("6x6");
-		leaderboard.getItems().addAll(twoByTwo, threeByThree, fourByFour, fiveByFive, sixBySix);
+		leaderboard = new MenuItem("Leaderboard");
 		logout = new MenuItem("Logout");
 
 		Menu options = new Menu("Options");
@@ -211,52 +195,12 @@ public class memoryGUI extends Application {
 			all.setCenter(settingsPane);
 		});
 		
-		twoByTwo.setOnAction(event -> {
+		leaderboard.setOnAction(event -> {
 			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
 			
-			leaderboard2x2 = new LeaderboardPane(accountCollection, 2);
+			leaderboardPane = new LeaderboardPane(accountCollection);
 			
-			all.setCenter(leaderboard2x2);
-			System.out.println("Leaderboard Clicked");			
-			
-		});
-		
-		threeByThree.setOnAction(event -> {
-			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
-			
-			leaderboard3x3 = new LeaderboardPane(accountCollection, 3);
-			
-			all.setCenter(leaderboard3x3);
-			System.out.println("Leaderboard Clicked");			
-			
-		});
-		
-		fourByFour.setOnAction(event -> {
-			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
-			
-			leaderboard4x4 = new LeaderboardPane(accountCollection, 4);
-			
-			all.setCenter(leaderboard4x4);
-			System.out.println("Leaderboard Clicked");			
-			
-		});
-		
-		fiveByFive.setOnAction(event -> {
-			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
-			
-			leaderboard5x5 = new LeaderboardPane(accountCollection, 5);
-			
-			all.setCenter(leaderboard5x5);
-			System.out.println("Leaderboard Clicked");			
-			
-		});
-		
-		sixBySix.setOnAction(event -> {
-			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
-			
-			leaderboard6x6 = new LeaderboardPane(accountCollection, 6);
-			
-			all.setCenter(leaderboard6x6);
+			all.setCenter(leaderboardPane);
 			System.out.println("Leaderboard Clicked");			
 			
 		});

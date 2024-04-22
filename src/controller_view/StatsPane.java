@@ -74,11 +74,11 @@ public class StatsPane extends BorderPane {
     public void layoutStatsPane() {
     	this.username =  new Label(gui.getCurrAcct().getUsername());  
     	this.totalGamesPlayed = new Label(String.valueOf(gui.getCurrAcct().getGamesPlayed()));
-    	this.best2x2Val = gui.getCurrAcct().get2x2Score();
-    	this.best3x3Val = gui.getCurrAcct().get3x3Score();
-    	this.best4x4Val = gui.getCurrAcct().get4x4Score();
-    	this.best5x5Val = gui.getCurrAcct().get5x5Score();
-    	this.best6x6Val = gui.getCurrAcct().get6x6Score();
+    	this.best2x2Val = gui.getCurrAcct().get2Normal();
+    	this.best3x3Val = gui.getCurrAcct().get3Odd();
+    	this.best4x4Val = gui.getCurrAcct().get4Normal();
+    	this.best5x5Val = gui.getCurrAcct().get5Odd();
+    	this.best6x6Val = gui.getCurrAcct().get6Normal();
     	if(this.best2x2Val < 0){
     		this.best2x2String = "Not Attempted";
     	} else {

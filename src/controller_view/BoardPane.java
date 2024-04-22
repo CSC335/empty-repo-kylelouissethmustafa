@@ -234,27 +234,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 			System.out.println("Game has ended!");
 			Accounts currAcct = gui.getCurrAcct();
 			currAcct.incrementGamesPlayed();
-			if(game.getGameMode() == 0 && game.getSize() == 2) {
-				if((game.getScore() < currAcct.get2x2Score()) | currAcct.get2x2Score() == -1) {
-					currAcct.setNewBestScore(game.getScore(), game.getSize());
-				}
-			} else if(game.getGameMode() == 1 && game.getSize() == 3) {
-				if((game.getScore() < currAcct.get3x3Score())  | currAcct.get3x3Score() == -1) {
-					currAcct.setNewBestScore(game.getScore(), game.getSize());
-				}
-			} else if(game.getGameMode() == 0 && game.getSize() == 4) {
-				if((game.getScore() < currAcct.get4x4Score())  | currAcct.get4x4Score() == -1) {
-					currAcct.setNewBestScore(game.getScore(), game.getSize());
-				}
-			} else if(game.getGameMode() == 1 && game.getSize() == 5) {
-				if((game.getScore() < currAcct.get5x5Score()) | currAcct.get5x5Score() == -1) {
-					currAcct.setNewBestScore(game.getScore(), game.getSize());
-				}
-			} else if(game.getGameMode() == 0 && game.getSize() == 6) {
-				if((game.getScore() < currAcct.get6x6Score()) | currAcct.get6x6Score() == -1) {
-					currAcct.setNewBestScore(game.getScore(), game.getSize());
-				}
-			}
+			
+			currAcct.setNewBestScore(game.getScore(), game.getSize(), game.getGameMode());
 		}
 	}
 

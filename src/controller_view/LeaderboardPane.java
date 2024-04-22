@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,6 +38,7 @@ import model.Accounts;
 public class LeaderboardPane extends BorderPane {
 
 	private BorderPane pane;
+	private BorderPane outerPane;
 
 	private Label leaderBoardTitle;
 
@@ -48,14 +51,20 @@ public class LeaderboardPane extends BorderPane {
 	private AccountCollection accountCollection;
 	private AccountCollection croppedCollection;
 
-	private int gameMode;
-
-	
 	private Canvas canvas;
 	private GraphicsContext gc;
-	
+
 	private Image leaderboardImage;
-	
+
+	private GridPane settingsGrid;
+	private ComboBox<String> dimensionSelection;
+	private Label dimensionLbl;
+	private ComboBox<String> gameModeSelection;
+	private Label gameModeLbl;
+	private Button viewLeaderboardBtn;
+
+	private int curDim;
+	private int curMode;
 
 	/**
 	 * This is a public method/constructor that constructs a new LeaderboardPane
@@ -71,98 +80,132 @@ public class LeaderboardPane extends BorderPane {
 	 *                          constructed. Valid values are 2 through 6
 	 *                          representing the dimensions of the game grid.
 	 */
-	public LeaderboardPane(AccountCollection accountCollection, int gameMode) {
+	public LeaderboardPane(AccountCollection accountCollection) {
 
 		// Initialize UI components.
 		pane = new BorderPane();
-		leaderBoardTitle = new Label("LeaderBoard");
+		leaderBoardTitle = new Label("Leaderboard");
+
+		canvas = new Canvas(850, 150);
+		gc = canvas.getGraphicsContext2D();
+
+		leaderboardImage = new Image("file:LeaderBoardLogo.png");
+		gc.drawImage(leaderboardImage, 380, 20, 100, 100);
+
+		setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+
+		// Set provided parameters.
+		this.accountCollection = accountCollection;
+
+		curDim = 2;
+		curMode = 0;
+
+		setupLeaderboard();
+
+		// Layout the UI components.
+		layoutLeaderboard();
+
+	}
+
+	private void setupLeaderboard() {
 		table = new TableView<>();
 		usernameColumn = new TableColumn<>("Username");
 		scoreColumn = new TableColumn<>("Score");
-
-		canvas = new Canvas(850, 150);
-        gc = canvas.getGraphicsContext2D();
-		
-		leaderboardImage = new Image("file:LeaderBoardLogo.png");
-		gc.drawImage(leaderboardImage, 380, 50, 100, 100);
-		
-		setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
-		
 		table.getStyleClass().add("row-hover-effect");
-		
-
-		// Set provided parameters.
-		this.gameMode = gameMode;
-		this.accountCollection = accountCollection;
 
 		usernameColumn.setCellValueFactory(new PropertyValueFactory<Accounts, String>("Username"));
 
 		croppedCollection = new AccountCollection();
 
 		// Set up the columns based on game mode.
-		if (gameMode == 2) {
-			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
-			croppedCollection.clear();
-			for (int i = 0; i < accountCollection.getSize(); i++) {
-				if (accountCollection.getElement(i).get2x2Score() >= 0) {
-					croppedCollection.add(accountCollection.getElement(i));
+		if (curDim == 2) {
+			if (curMode == 0) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2Normal"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get2Normal() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
 				}
 			}
-		} else if (gameMode == 3) {
-			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("3x3Score"));
-			croppedCollection.clear();
-			for (int i = 0; i < accountCollection.getSize(); i++) {
-				if (accountCollection.getElement(i).get3x3Score() >= 0) {
-					croppedCollection.add(accountCollection.getElement(i));
+		} else if (curDim == 3) {
+			if (curMode == 1) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("3Odd"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get3Odd() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
+			} else if (curMode == 2) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("3ThreeKind"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get3ThreeKind() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
 				}
 			}
-		} else if (gameMode == 4) {
-			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("4x4Score"));
-			croppedCollection.clear();
-			for (int i = 0; i < accountCollection.getSize(); i++) {
-				if (accountCollection.getElement(i).get4x4Score() >= 0) {
-					croppedCollection.add(accountCollection.getElement(i));
+		} else if (curDim == 4) {
+			if (curMode == 0) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("4Normal"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get4Normal() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
 				}
 			}
-		} else if (gameMode == 5) {
-			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("5x5Score"));
-			croppedCollection.clear();
-			for (int i = 0; i < accountCollection.getSize(); i++) {
-				if (accountCollection.getElement(i).get5x5Score() >= 0) {
-					System.out.println("Putting in cropped collection: " + accountCollection.getElement(i).getUsername()
-							+ " " + accountCollection.getElement(i).get5x5Score());
-					croppedCollection.add(accountCollection.getElement(i));
+		} else if (curDim == 5) {
+			if (curMode == 1) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("5Odd"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get5Odd() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
 				}
 			}
-		} else if (gameMode == 6) {
-			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("6x6Score"));
-			croppedCollection.clear();
-			for (int i = 0; i < accountCollection.getSize(); i++) {
-				if (accountCollection.getElement(i).get6x6Score() >= 0) {
-					croppedCollection.add(accountCollection.getElement(i));
+
+		} else if (curDim == 6) {
+			if (curMode == 0) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("6Normal"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get6Normal() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
+			} else if (curMode == 2) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("6ThreeKind"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get6ThreeKind() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
 				}
 			}
+
 		} else {
-			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2x2Score"));
+			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2Normal"));
 			croppedCollection.clear();
 			for (int i = 0; i < accountCollection.getSize(); i++) {
-				if (accountCollection.getElement(i).get2x2Score() >= 0) {
+				if (accountCollection.getElement(i).get2Normal() >= 0) {
 					croppedCollection.add(accountCollection.getElement(i));
 				}
 			}
 		}
-		// Finish these gameMode 2-6
+		
+		addAllUsernames();
 
 		// Set up table data and columns.
 		table.setItems(accounts);
+		table.getColumns().clear();
 		table.getColumns().addAll(usernameColumn, scoreColumn);
-
+		
 		// Populate the table with account data and perform initial sorting (ASCENDING).
-		addAllUsernames();
+		
 		resortTable();
-
-		// Layout the UI components.
-		layoutLeaderboard();
 	}
 
 	/**
@@ -182,37 +225,7 @@ public class LeaderboardPane extends BorderPane {
 		// Perform sorting.
 		table.sort();
 	}
-
-	/**
-	 * This is a public method that layouts the components of the leaderboard within
-	 * the pane.
-	 * 
-	 * This method sets the preferred sizes and positions of the table, columns, and
-	 * title label within the pane. It applies styling to the title label.
-	 * 
-	 */
-	public void layoutLeaderboard() {
-		// Set preferred size for the table.
-		table.setPrefSize(100, 100);
-
-		// Set preferred widths for the columns.
-		usernameColumn.setPrefWidth(220);
-		scoreColumn.setPrefWidth(220);
-
-		// Set padding for the pane and apply styling to the leaderboard title.
-		pane.setPadding(new Insets(80, 100, 100, 80));
-		leaderBoardTitle.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: black");
-
-		// Set the title label at the top and the table at the center of the pane.
-		pane.setTop(leaderBoardTitle);
-		pane.setCenter(table);
-
-		// Set this pane as the center content of the parent container.
-		this.setCenter(pane);
-		
-		this.setTop(canvas);
-	}
-
+	
 	/**
 	 * This method clears the accounts list and then iterates through the account
 	 * collection, adding each account to the accounts list. It is used to populate
@@ -227,5 +240,155 @@ public class LeaderboardPane extends BorderPane {
 		for (int i = 0; i < croppedCollection.getSize(); i++) {
 			accounts.add(croppedCollection.getElement(i));
 		}
+		
+		System.out.println("new accounts size: " + accounts.size());
+	}
+
+	/**
+	 * This is a public method that layouts the components of the leaderboard within
+	 * the pane.
+	 * 
+	 * This method sets the preferred sizes and positions of the table, columns, and
+	 * title label within the pane. It applies styling to the title label.
+	 * 
+	 */
+	public void layoutLeaderboard() {
+		// Set preferred size for the table.
+		table.setPrefSize(100, 100);
+		table.setMaxWidth(450);
+
+		// Set preferred widths for the columns.
+		usernameColumn.setPrefWidth(220);
+		scoreColumn.setPrefWidth(220);
+
+		// Set padding for the pane and apply styling to the leaderboard title.
+		pane.setPadding(new Insets(80, 100, 100, 80));
+		leaderBoardTitle.setStyle("-fx-font-size: 40; -fx-font-weight: bold; -fx-text-fill: black");
+
+		dimensionSelection = new ComboBox<>();
+		dimensionSelection.getItems().addAll("2x2", "3x3", "4x4", "5x5", "6x6");
+		dimensionLbl = new Label("Dimension");
+
+		gameModeSelection = new ComboBox<>();
+		gameModeLbl = new Label("Game Mode");
+		
+		showCurrentSettings();
+
+		viewLeaderboardBtn = new Button("View Leaderboard");
+
+		settingsGrid = new GridPane();
+		settingsGrid.setHgap(10);
+		settingsGrid.add(dimensionLbl, 0, 0);
+		settingsGrid.add(dimensionSelection, 1, 0);
+		settingsGrid.add(gameModeLbl, 2, 0);
+		settingsGrid.add(gameModeSelection, 3, 0);
+		settingsGrid.add(viewLeaderboardBtn, 4, 0);
+
+		settingsGrid.setPadding(new Insets(0, 0, 10, 190));
+		// top, right, bottom, left
+
+		leaderBoardTitle.setPadding(new Insets(20, 0, 0, 300));
+
+		outerPane = new BorderPane();
+
+		pane.setTop(settingsGrid);
+		pane.setCenter(table);
+
+		pane.setPadding(new Insets(20, 20, 20, 20));
+
+		outerPane.setTop(leaderBoardTitle);
+		outerPane.setCenter(pane);
+
+		outerPane.setPadding(new Insets(-45, 0, 0, 0));
+
+		this.setTop(canvas);
+		this.setCenter(outerPane);
+		
+		registerHandlers();
+	}
+	
+	private void showCurrentSettings() {
+		dimensionSelection.getSelectionModel().select(curDim - 2);
+		
+		String newValue = dimensionSelection.getValue();
+
+		gameModeSelection.getItems().clear();
+
+		// TODO - add Power game mode...
+		if (newValue.equals("2x2")) {
+			gameModeSelection.getItems().addAll("Normal");
+			if(curMode == 0) {
+				gameModeSelection.setValue("Normal");
+			}
+		} else if (newValue.equals("3x3")) {
+			gameModeSelection.getItems().addAll("Odd Card Out", "3 of a Kind");
+			if(curMode == 1) {
+				gameModeSelection.setValue("Odd Card Out");
+			} else if(curMode == 2) {
+				gameModeSelection.setValue("3 of a Kind");
+			}
+		} else if (newValue.equals("4x4")) {
+			gameModeSelection.getItems().addAll("Normal");
+			if(curMode == 0) {
+				gameModeSelection.setValue("Normal");
+			}
+		} else if (newValue.equals("5x5")) {
+			gameModeSelection.getItems().addAll("Odd Card Out");
+			if(curMode == 1) {
+				gameModeSelection.setValue("Odd Card Out");
+			}
+		} else if (newValue.equals("6x6")) {
+			gameModeSelection.getItems().addAll("Normal", "3 of a Kind");
+			if(curMode == 0) {
+				gameModeSelection.setValue("Normal");
+			} else if(curMode == 2) {
+				gameModeSelection.setValue("3 of a Kind");
+			}
+			
+		}
+	}
+
+	private void registerHandlers() {
+		dimensionSelection.setOnAction(event -> {
+			String dim = dimensionSelection.getValue();
+			
+			if (dim.equals("2x2")) {
+				curDim = 2;
+				curMode = 0;
+			} else if (dim.equals("3x3")) {
+				curDim = 3;
+				curMode = 1;
+			} else if (dim.equals("4x4")) {
+				curDim = 4;
+				curMode = 0;
+			} else if (dim.equals("5x5")) {
+				curDim = 5;
+				curMode = 1;
+			} else if (dim.equals("6x6")) {
+				curDim = 6;
+				curMode = 0;
+			}
+
+			showCurrentSettings();
+
+			System.out.println("Changed dimension: " + dim);
+		});
+
+		viewLeaderboardBtn.setOnAction(event -> {
+			String mode = gameModeSelection.getValue();
+
+			if (mode.equals("Normal")) {
+				curMode = 0;
+			} else if (mode.equals("Odd Card Out")) {
+				curMode = 1;
+			} else if (mode.equals("3 of a Kind")) {
+				curMode = 2;
+			}
+			
+			System.out.println("Viewing dim: " + curDim + " mode: " + curMode);
+
+			setupLeaderboard();
+			layoutLeaderboard();
+		});
 	}
 }
