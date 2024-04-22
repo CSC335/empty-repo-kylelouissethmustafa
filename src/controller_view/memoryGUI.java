@@ -25,6 +25,7 @@ public class memoryGUI extends Application {
 	private LoginPane loginPane;
 	private BoardPane boardPane;
 	private StatsPane statsPane;
+	private SettingsPane settingsPane;
 	private LeaderboardPane leaderboard2x2;
 	private LeaderboardPane leaderboard3x3;
 	private LeaderboardPane leaderboard4x4;
@@ -33,7 +34,7 @@ public class memoryGUI extends Application {
 	
 	private MenuBar menuBar;
 	private MenuItem logout;
-	private Menu newGame;
+	private MenuItem newGame;
 	private MenuItem twoGame;
 	private MenuItem threeGame;
 	private MenuItem fourGame;
@@ -47,10 +48,13 @@ public class memoryGUI extends Application {
 	private MenuItem fiveByFive;
 	private MenuItem sixBySix;
 	private MenuItem userStats;
+	private MenuItem gameSettings;
 	
 	private Accounts currAcct;
 	
 	private AccountCollection accountCollection;
+	
+	private int gameDim;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -69,12 +73,15 @@ public class memoryGUI extends Application {
 		loginPane = new LoginPane(currAcct, accountCollection, this);
 		boardPane = new BoardPane(this);
 		statsPane = new StatsPane(this);
+		settingsPane = new SettingsPane(this);
 		
 		LayoutGUI();
 		
 		addMenu();
 		
 		addTestAccounts(); // TODO - remove this for final production.
+		
+		setupGameSettings(2);
 		
 		registerHandlers();
 
@@ -147,13 +154,13 @@ public class memoryGUI extends Application {
 	
 	private void addMenu() {
 		// see ButtonView from TTTStart
-		newGame = new Menu("New Game");
-		twoGame = new MenuItem("2x2");
-		threeGame = new MenuItem("3x3");
-		fourGame = new MenuItem("4x4");
-		fiveGame = new MenuItem("5x5");
-		sixGame = new MenuItem("6x6");
-		newGame.getItems().addAll(twoGame, threeGame, fourGame, fiveGame, sixGame);
+		newGame = new MenuItem("New Game");
+		//twoGame = new MenuItem("2x2");
+		//threeGame = new MenuItem("3x3");
+		//fourGame = new MenuItem("4x4");
+		//fiveGame = new MenuItem("5x5");
+		//sixGame = new MenuItem("6x6");
+		//newGame.getItems().addAll(twoGame, threeGame, fourGame, fiveGame, sixGame);
 		MenuItem other = new MenuItem("Other");
 		leaderboard = new Menu("Leaderboard");
 		twoByTwo = new MenuItem("2x2");
@@ -166,7 +173,8 @@ public class memoryGUI extends Application {
 
 		Menu options = new Menu("Options");
 		userStats = new MenuItem("User Stats");
-		options.getItems().addAll(newGame, leaderboard, logout, userStats, other);
+		gameSettings = new MenuItem("Game Settings");
+		options.getItems().addAll(newGame, leaderboard, logout, userStats, gameSettings, other);
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
 	}
@@ -178,6 +186,10 @@ public class memoryGUI extends Application {
 	 */
 	public MenuItem getNewGame() {
 		return newGame;
+	}
+	
+	public void setupGameSettings(int dim) {
+		this.gameDim = dim;
 	}
 
 
@@ -199,6 +211,9 @@ public class memoryGUI extends Application {
 			all.setCenter(statsPane);
 		});
 		
+		gameSettings.setOnAction(event -> {
+			all.setCenter(settingsPane);
+		});
 		
 		twoByTwo.setOnAction(event -> {
 			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
@@ -250,41 +265,19 @@ public class memoryGUI extends Application {
 			
 		});
 		
-		twoGame.setOnAction(event -> {
+		newGame.setOnAction(event -> {
 			if(currAcct != null) {
 				all.setCenter(boardPane);
-				boardPane.startNewGame(0, 2);
-			}
-		});
-		
-		threeGame.setOnAction(event -> {
-			if(currAcct != null) {
-				all.setCenter(boardPane);
-				boardPane.startNewGame(1, 3);
-			}
-		});
-		
-		fourGame.setOnAction(event -> {
-			if(currAcct != null) {
-				all.setCenter(boardPane);
-				boardPane.startNewGame(0, 4);
-			}
-		});
-		
-		fiveGame.setOnAction(event -> {
-			if(currAcct != null) {
-				all.setCenter(boardPane);
-				boardPane.startNewGame(1, 5);
-			}
-		});
-		
-		sixGame.setOnAction(event -> {
-			if(currAcct != null) {
-				all.setCenter(boardPane);
-				boardPane.startNewGame(0, 6);
+				int curDim = this.gameDim;
+				int mode;
+				if(curDim % 2 == 0) {
+					mode = 0;
+				} else {
+					mode = 1;
+				}
+				
+				boardPane.startNewGame(mode, curDim);
 			}
 		});
 	}
-
-
 }
