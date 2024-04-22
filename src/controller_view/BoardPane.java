@@ -222,7 +222,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		messageArea.setTop(gamePrompt);
 		messageArea.setCenter(liveStatsGrid);
 		liveStatsGrid.setPadding(new Insets(0, 0, 0, 60));
-		messageArea.setPadding(new Insets(0, 0, 0, 300));
+		messageArea.setPadding(new Insets(0, 0, 0, 350));
 
 		this.setTop(canvas);
 		this.setCenter(messageArea);
