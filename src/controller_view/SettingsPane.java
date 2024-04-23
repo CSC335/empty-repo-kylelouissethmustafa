@@ -13,11 +13,13 @@ import javafx.scene.paint.Color;
 public class SettingsPane extends BorderPane {
 	private ComboBox<String> dimensions;
 	private ComboBox<String> gameMode;
+	private ComboBox<String> gameTheme;
 	private memoryGUI gui;
 	private GridPane grid;
 	
 	private Label dimensionLbl;
 	private Label gameModeLbl;
+	private Label gameThemeLbl;
 	private Label title;
 	
 	private Button saveSettingsBtn;
@@ -62,10 +64,18 @@ public class SettingsPane extends BorderPane {
 		gameModeLbl = new Label("Game Mode");
 		gameModeLbl.setStyle("-fx-font-size: 15;");
 		
+		gameTheme = new ComboBox<>();
+		gameTheme.getItems().addAll("Shapes", "Animals");
+		gameTheme.setValue("Shapes");
+		gameThemeLbl = new Label("Game Theme");
+		gameThemeLbl.setStyle("-fx-font-size: 15;");
+		
 		grid.add(dimensionLbl, 0, 0);
 		grid.add(dimensions, 1, 0);
 		grid.add(gameModeLbl, 0, 1);
 		grid.add(gameMode, 1, 1);
+		grid.add(gameThemeLbl, 0, 2);
+		grid.add(gameTheme, 1, 2);
 		
 		saveSettingsBtn = new Button("Save Settings");
 		grid.add(saveSettingsBtn, 0, 3);
@@ -101,13 +111,16 @@ public class SettingsPane extends BorderPane {
 		saveSettingsBtn.setOnAction(event -> {
 			String dim = dimensions.getValue();
 			String mode = gameMode.getValue();
+			String theme = gameTheme.getValue();
 			
 			System.out.println("New Game Settings: ");
 			System.out.println("Dimensions: " + dim);
 			System.out.println("Game Mode: " + mode);
+			System.out.println("Game Theme: " + theme);
 			
 			int dimNum;
 			int modeNum;
+			int themeNum;
 			
 			if(dim.equals("2x2")) {
 				dimNum = 2;
@@ -133,7 +146,13 @@ public class SettingsPane extends BorderPane {
 				modeNum = 0;
 			}
 			
-			gui.setupGameSettings(dimNum, modeNum);
+			if(theme.equals("Shapes")) {
+				themeNum = 0;
+			} else {
+				themeNum = 1;
+			}
+			
+			gui.setupGameSettings(dimNum, modeNum, themeNum);
 		});
 	}
 	

@@ -25,6 +25,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	private ArrayList<Card> revealedCards = new ArrayList<>();
 	private int numMatches;
 	private boolean isGameActive;
+	private int gameTheme; // 0 - Shapes, 1 - Animals
 	private Timer timer;
 	
 	/**
@@ -34,13 +35,14 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	 * @param gameMode The initialized game's game mode.
 	 * @param size The board size for the MemoryGame.
 	 */
-	public MemoryGame(int gameMode, int size) {
+	public MemoryGame(int gameMode, int size, int gameTheme) {
 		board = new Board(size);
 		numCards = size * size;
 		this.gameMode = gameMode;
 		System.out.println("Game Mode: " + gameMode);
 		moves = 0;
 		score = 0;
+		this.gameTheme = gameTheme;
 	}
 	
 	/**
@@ -50,11 +52,14 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	 */
 	public void initGame() {
 		board.changeMode(gameMode);
-		//board.initBoard();
 		board.shuffle();
 		System.out.println("Init game called");
 		this.isGameActive = true;
 		notifyObservers(this);
+	}
+	
+	public int getTheme() {
+		return this.gameTheme;
 	}
 	
 	/**

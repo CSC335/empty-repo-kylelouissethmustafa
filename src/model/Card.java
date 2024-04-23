@@ -7,14 +7,14 @@ package model;
  */
 public class Card implements java.io.Serializable {
 	// Characteristics of card to differentiate
-	private String color;
-	private String shape;
+	private String type1; // was shape
+	private String type2; // was color
 	private Boolean revealed;
 
 	// Constructor
-	public Card(String color, String shape) {
-		this.color = color;
-		this.shape = shape;
+	public Card(String type2, String type1) {
+		this.type1 = type1;
+		this.type2 = type2;
 		revealed = false;
 	}
 
@@ -37,15 +37,15 @@ public class Card implements java.io.Serializable {
 	 * @return - Boolean on if the cards match
 	 */
 	public Boolean checkMatch(Card other) {
-		if (this.color == other.getColor() && this.shape == other.getShape()) {
+		if (this.type2 == other.getType2() && this.type1 == other.getType1()) {
 			return true;
 		}
 		return false;
 	}
 
 	public Boolean checkMatch(Card other1, Card other2) {
-		if (this.color == other1.getColor() && this.color == other2.getColor() && this.shape == other1.getShape()
-				&& this.shape == other2.getShape()) {
+		if (this.type2 == other1.getType2() && this.type2 == other2.getType2() && this.type1 == other1.getType1()
+				&& this.type1 == other2.getType1()) {
 			return true;
 		}
 		return false;
@@ -56,8 +56,8 @@ public class Card implements java.io.Serializable {
 	 * 
 	 * @return The color of the card.
 	 */
-	public String getColor() {
-		return color;
+	public String getType2() {
+		return type2;
 	}
 
 	/**
@@ -65,8 +65,8 @@ public class Card implements java.io.Serializable {
 	 * 
 	 * @return The shape on the card.
 	 */
-	public String getShape() {
-		return shape;
+	public String getType1() {
+		return type1;
 	}
 
 	/**

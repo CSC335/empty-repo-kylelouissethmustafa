@@ -22,6 +22,7 @@ public class Board implements java.io.Serializable {
 	 *     - 3 = Powers
 	 */
 	private int gameMode;
+	
 	/*
 	 * Card Designs
 	 *     - 0 = Shapes/Colors
@@ -53,8 +54,8 @@ public class Board implements java.io.Serializable {
 			gameMode = 1;
 		}
 		this.size = size;
-		this.cardDesign = 0;
-		changeDesign(this.cardDesign);
+		//this.cardDesign = 0;
+		//changeDesign(this.cardDesign);
 		board = new Card[size][size];
 		shuffle();
 	}
@@ -148,11 +149,11 @@ public class Board implements java.io.Serializable {
 	 * @param y - y column of card to match
 	 */
 	public void findMatch(int x, int y) {
-		String color = board[x][y].getColor();
-		String shape = board[x][y].getShape();
+		String type2 = board[x][y].getType2();
+		String type1 = board[x][y].getType1();
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
-				if(board[i][j].getColor().equals(color) && board[i][j].getShape().equals(shape)) {
+				if(board[i][j].getType2().equals(type2) && board[i][j].getType1().equals(type1)) {
 					board[i][j].toggle();
 				}
 			}
@@ -169,6 +170,7 @@ public class Board implements java.io.Serializable {
 		initBoard();
 	}
 	
+	// TODO - I think we can now get rid of this...
 	/**
 	 * Changes card design
 	 * Make sure to rerun initBoard and shuffle after changing the design. 
@@ -253,7 +255,7 @@ public class Board implements java.io.Serializable {
 		String ret = "";
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
-				ret += "|" + board[i][j].getColor() + " " + board[i][j].getShape();
+				ret += "|" + board[i][j].getType2() + " " + board[i][j].getType1();
 			}
 			ret += "\n";
 		}

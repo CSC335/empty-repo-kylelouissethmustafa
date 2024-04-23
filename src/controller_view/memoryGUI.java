@@ -59,6 +59,7 @@ public class memoryGUI extends Application {
 	
 	private int gameDim;
 	private int gameMode;
+	private int gameTheme;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -85,7 +86,7 @@ public class memoryGUI extends Application {
 		
 		//addTestAccounts(); // TODO - remove this for final production.
 		
-		setupGameSettings(2, 0);
+		setupGameSettings(2, 0, 0);
 
 		Scene scene = new Scene(all, 850, 650);
 		primaryStage.setScene(scene);
@@ -216,9 +217,10 @@ public class memoryGUI extends Application {
 		return newGame;
 	}
 	
-	public void setupGameSettings(int dim, int mode) {
+	public void setupGameSettings(int dim, int mode, int theme) {
 		this.gameDim = dim;
 		this.gameMode = mode;
+		this.gameTheme = theme;
 	}
 
 
@@ -259,8 +261,9 @@ public class memoryGUI extends Application {
 				all.setCenter(boardPane);
 				int curDim = this.gameDim;
 				int curMode = this.gameMode;
+				int curTheme = this.gameTheme;
 				
-				boardPane.startNewGame(curMode, curDim);
+				boardPane.startNewGame(curMode, curDim, curTheme);
 			}
 		});
 		

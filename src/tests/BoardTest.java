@@ -23,8 +23,8 @@ public class BoardTest {
 	public void testInit() {
 		Board testBoard = new Board(4);
 		testBoard.initBoard();
-		assertEquals("Red", testBoard.getCard(0, 0).getColor());
-		assertEquals("Square", testBoard.getCard(0, 0).getShape());
+		assertEquals("Red", testBoard.getCard(0, 0).getType2());
+		assertEquals("Square", testBoard.getCard(0, 0).getType1());
 		assertEquals(4, testBoard.getSize());
 		System.out.println(testBoard.toString());
 		System.out.println("Does this look like a newly initialized board? Y/N\n");

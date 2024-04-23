@@ -16,7 +16,7 @@ class MemoryGameTest {
 
 	@Test
 	void testInit() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		game.printBoard();
 		assertEquals(true, game.gameActive());
@@ -31,7 +31,7 @@ class MemoryGameTest {
 	
 	@Test
 	void testGoodGuess() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
@@ -58,7 +58,7 @@ class MemoryGameTest {
 	
 	@Test
 	void testBadGuess() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
@@ -88,7 +88,7 @@ class MemoryGameTest {
 	
 	@Test
 	void testFlipBack() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
@@ -133,7 +133,7 @@ class MemoryGameTest {
 	
 	@Test
 	void testNoThirdClick() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
@@ -172,7 +172,7 @@ class MemoryGameTest {
 	
 	@Test
 	void testProperTermination() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);

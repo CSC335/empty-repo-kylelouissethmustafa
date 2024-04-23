@@ -45,6 +45,28 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private int startY;
 	private int cardGap;
 	
+	private Image cardBack;
+	private Image cardFront;
+	private Image a1;
+	private Image a2;
+	private Image a3;
+	private Image b1;
+	private Image b2;
+	private Image b3;
+	private Image c1;
+	private Image c2;
+	private Image c3;
+	private Image d1;
+	private Image d2;
+	private Image d3;
+	private Image e1;
+	private Image e2;
+	private Image e3;
+	private Image f1;
+	private Image f2;
+	private Image f3;
+	
+	
 	private memoryGUI gui;
 
 	/**
@@ -78,27 +100,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 		 */
 		clearCanvas();
 		int boardSize = game.getSize();
-
-		Image cardBack = new Image("file:BasicCardBack.png");
-		Image cardFront = new Image("file:BasicCardInside.png");
-		Image redSquare = new Image("file:RedSquare.png");
-		Image redCircle = new Image("file:RedCircle.png");
-		Image redPlus = new Image("file:RedPlus.png");
-		Image blueSquare = new Image("file:BlueSquare.png");
-		Image blueCircle = new Image("file:BlueCircle.png");
-		Image bluePlus = new Image("file:BluePlus.png");
-		Image greenSquare = new Image("file:GreenSquare.png");
-		Image greenCircle = new Image("file:GreenCircle.png");
-		Image greenPlus = new Image("file:GreenPlus.png");
-		Image blackSquare = new Image("file:BlackSquare.png");
-		Image blackCircle = new Image("file:BlackCircle.png");
-		Image blackPlus = new Image("file:BlackPlus.png");
-		Image yellowSquare = new Image("file:YellowSquare.png");
-		Image yellowCircle = new Image("file:YellowCircle.png");
-		Image yellowPlus = new Image("file:YellowPlus.png");
-		Image orangeSquare = new Image("file:OrangeSquare.png");
-		Image orangeCircle = new Image("file:OrangeCircle.png");
-		Image orangePlus = new Image("file:OrangePlus.png");
+		
+		initImages();
 
 		if (boardSize == 2) {
 			cardSize = 180;
@@ -134,52 +137,104 @@ public class BoardPane extends BorderPane implements OurObserver {
 				Card thisCard = game.getBoard().getCard(row, col);
 				
 				if(thisCard.getRevealed()) {
-					if("Red".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
-					    gc.drawImage(redSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Red".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
-					    gc.drawImage(redCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Red".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
-					    gc.drawImage(redPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Blue".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
-					    gc.drawImage(blueSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Blue".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
-					    gc.drawImage(blueCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Blue".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
-					    gc.drawImage(bluePlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Green".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
-					    gc.drawImage(greenSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Green".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
-					    gc.drawImage(greenCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Green".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
-					    gc.drawImage(greenPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Black".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
-					    gc.drawImage(blackSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Black".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
-					    gc.drawImage(blackCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Black".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
-					    gc.drawImage(blackPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Yellow".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
-					    gc.drawImage(yellowSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Yellow".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
-					    gc.drawImage(yellowCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Yellow".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
-					    gc.drawImage(yellowPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Orange".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
-					    gc.drawImage(orangeSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Orange".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
-					    gc.drawImage(orangeCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if("Orange".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
-					    gc.drawImage(orangePlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else {
-						System.out.println("Drawing generic...");
-						gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
-					}
+					drawCard(thisCard, thisStartX, thisStartY);
 				} else {
 					gc.drawImage(cardBack, thisStartX, thisStartY, cardSize, cardSize);
 				}
 			}
 		}
 
+	}
+	
+	private void initImages() {
+		cardBack = new Image("file:BasicCardBack.png");
+		cardFront = new Image("file:BasicCardInside.png");
+		
+		int gameTheme = game.getTheme();
+		
+		if(gameTheme == 0) {
+			a1 = new Image("file:RedSquare.png");
+			a2 = new Image("file:RedCircle.png");
+			a3 = new Image("file:RedPlus.png");
+			b1 = new Image("file:BlueSquare.png");
+			b2 = new Image("file:BlueCircle.png");
+			b3 = new Image("file:BluePlus.png");
+			c1 = new Image("file:GreenSquare.png");
+			c2 = new Image("file:GreenCircle.png");
+			c3 = new Image("file:GreenPlus.png");
+			d1 = new Image("file:BlackSquare.png");
+			d2 = new Image("file:BlackCircle.png");
+			d3 = new Image("file:BlackPlus.png");
+			e1 = new Image("file:YellowSquare.png");
+			e2 = new Image("file:YellowCircle.png");
+			e3 = new Image("file:YellowPlus.png");
+			f1 = new Image("file:OrangeSquare.png");
+			f2 = new Image("file:OrangeCircle.png");
+			f3 = new Image("file:OrangePlus.png");
+		} else if(gameTheme == 1) {
+			a1 = new Image("file:Ape.png");
+			a2 = new Image("file:Bear.png");
+			a3 = new Image("file:Beaver.png");
+			b1 = new Image("file:Bulldog.png");
+			b2 = new Image("file:ClimbMonkey.png");
+			b3 = new Image("file:Deer.png");
+			c1 = new Image("file:Dog.png");
+			c2 = new Image("file:Duck.png");
+			c3 = new Image("file:Elephant.png");
+			d1 = new Image("file:FlySquirrel.png");
+			d2 = new Image("file:Frog.png");
+			d3 = new Image("file:Goose.png");
+			e1 = new Image("file:Lion.png");
+			e2 = new Image("file:Monkey.png");
+			e3 = new Image("file:Pig.png");
+			f1 = new Image("file:Raccoon.png");
+			f2 = new Image("file:Sheep.png");
+			f3 = new Image("file:Tiger.png");
+		}
+	}
+	
+	public void drawCard(Card thisCard, int thisStartX, int thisStartY) {
+		//System.out.println("type2: " + thisCard.getType2() + " type1: " + thisCard.getType1());
+		if("A".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(a1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("A".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(a2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("A".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(a3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("B".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(b1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("B".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(b2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("B".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(b3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("C".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(c1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("C".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(c2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("C".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(c3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("D".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(d1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("D".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(d2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("D".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(d3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("E".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(e1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("E".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(e2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("E".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(e3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("F".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(f1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("F".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(f2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("F".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(f3, thisStartX, thisStartY, cardSize, cardSize);
+		} else {
+			System.out.println("Drawing generic...");
+			gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
+		}
 	}
 	
 	/**
@@ -411,9 +466,9 @@ public class BoardPane extends BorderPane implements OurObserver {
 	 * @param gameMode the integer representing the current game's game mode.
 	 * @param boardSize  the integer representing the current game's board size.
 	 */
-	public void startNewGame(int gameMode, int boardSize) {
+	public void startNewGame(int gameMode, int boardSize, int gameTheme) {
 		System.out.println("New Game Clicked");
-		game = new MemoryGame(gameMode, boardSize);
+		game = new MemoryGame(gameMode, boardSize, gameTheme);
 		game.addObserver(this);
 		game.initGame();
 		gamePrompt.setText("Click Cards to Begin!");
