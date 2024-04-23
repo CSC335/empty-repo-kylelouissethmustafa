@@ -138,7 +138,6 @@ public class StatsPane extends BorderPane {
         }
         lbl3ThreeKind.setStyle("-fx-font-size: 15;");
         Label lbl4Norm = new Label(String.valueOf(best4Norm));
-        System.out.println("get text: " + lbl4Norm.getText());
         if(lbl4Norm.getText().equals("-1")) {
         	lbl4Norm.setText("Not Attempted");
         }

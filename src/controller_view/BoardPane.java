@@ -133,8 +133,6 @@ public class BoardPane extends BorderPane implements OurObserver {
 				int thisStartY = startY + (row * (cardSize + cardGap));
 				Card thisCard = game.getBoard().getCard(row, col);
 				
-				System.out.println("Color: " + thisCard.getColor() + " shape: " + thisCard.getShape());
-				
 				if(thisCard.getRevealed()) {
 					if("Red".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
 					    gc.drawImage(redSquare, thisStartX, thisStartY, cardSize, cardSize);
@@ -425,7 +423,6 @@ public class BoardPane extends BorderPane implements OurObserver {
 	public void setGame(MemoryGame game) {
 		this.game = game;
 		this.game.addObserver(this);
-		System.out.println("curr design: " + this.game.getBoard().getDesign());
 		drawCards();
 		gamePrompt.setText("Resume Your Game!");
 		curScore.setText("" + game.getScore());
