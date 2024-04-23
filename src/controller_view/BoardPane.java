@@ -147,54 +147,53 @@ public class BoardPane extends BorderPane implements OurObserver {
 	}
 	
 	private void initImages() {
-		cardBack = new Image("file:BasicCardBack.png");
-		cardFront = new Image("file:BasicCardInside.png");
+		cardBack = new Image("file:img/BasicCardBack.png");
+		cardFront = new Image("file:img/BasicCardInside.png");
 		
 		int gameTheme = game.getTheme();
 		
 		if(gameTheme == 0) {
-			a1 = new Image("file:RedSquare.png");
-			a2 = new Image("file:RedCircle.png");
-			a3 = new Image("file:RedPlus.png");
-			b1 = new Image("file:BlueSquare.png");
-			b2 = new Image("file:BlueCircle.png");
-			b3 = new Image("file:BluePlus.png");
-			c1 = new Image("file:GreenSquare.png");
-			c2 = new Image("file:GreenCircle.png");
-			c3 = new Image("file:GreenPlus.png");
-			d1 = new Image("file:BlackSquare.png");
-			d2 = new Image("file:BlackCircle.png");
-			d3 = new Image("file:BlackPlus.png");
-			e1 = new Image("file:YellowSquare.png");
-			e2 = new Image("file:YellowCircle.png");
-			e3 = new Image("file:YellowPlus.png");
-			f1 = new Image("file:OrangeSquare.png");
-			f2 = new Image("file:OrangeCircle.png");
-			f3 = new Image("file:OrangePlus.png");
+			a1 = new Image("file:img/RedSquare.png");
+			a2 = new Image("file:img/RedCircle.png");
+			a3 = new Image("file:img/RedPlus.png");
+			b1 = new Image("file:img/BlueSquare.png");
+			b2 = new Image("file:img/BlueCircle.png");
+			b3 = new Image("file:img/BluePlus.png");
+			c1 = new Image("file:img/GreenSquare.png");
+			c2 = new Image("file:img/GreenCircle.png");
+			c3 = new Image("file:img/GreenPlus.png");
+			d1 = new Image("file:img/BlackSquare.png");
+			d2 = new Image("file:img/BlackCircle.png");
+			d3 = new Image("file:img/BlackPlus.png");
+			e1 = new Image("file:img/YellowSquare.png");
+			e2 = new Image("file:img/YellowCircle.png");
+			e3 = new Image("file:img/YellowPlus.png");
+			f1 = new Image("file:img/OrangeSquare.png");
+			f2 = new Image("file:img/OrangeCircle.png");
+			f3 = new Image("file:img/OrangePlus.png");
 		} else if(gameTheme == 1) {
-			a1 = new Image("file:Ape.png");
-			a2 = new Image("file:Bear.png");
-			a3 = new Image("file:Beaver.png");
-			b1 = new Image("file:Bulldog.png");
-			b2 = new Image("file:ClimbMonkey.png");
-			b3 = new Image("file:Deer.png");
-			c1 = new Image("file:Dog.png");
-			c2 = new Image("file:Duck.png");
-			c3 = new Image("file:Elephant.png");
-			d1 = new Image("file:FlySquirrel.png");
-			d2 = new Image("file:Frog.png");
-			d3 = new Image("file:Goose.png");
-			e1 = new Image("file:Lion.png");
-			e2 = new Image("file:Monkey.png");
-			e3 = new Image("file:Pig.png");
-			f1 = new Image("file:Raccoon.png");
-			f2 = new Image("file:Sheep.png");
-			f3 = new Image("file:Tiger.png");
+			a1 = new Image("file:img/Ape.png");
+			a2 = new Image("file:img/Bear.png");
+			a3 = new Image("file:img/Beaver.png");
+			b1 = new Image("file:img/Bulldog.png");
+			b2 = new Image("file:img/ClimbMonkey.png");
+			b3 = new Image("file:img/Deer.png");
+			c1 = new Image("file:img/Dog.png");
+			c2 = new Image("file:img/Duck.png");
+			c3 = new Image("file:img/Elephant.png");
+			d1 = new Image("file:img/FlySquirrel.png");
+			d2 = new Image("file:img/Frog.png");
+			d3 = new Image("file:img/Goose.png");
+			e1 = new Image("file:img/Lion.png");
+			e2 = new Image("file:img/Monkey.png");
+			e3 = new Image("file:img/Pig.png");
+			f1 = new Image("file:img/Raccoon.png");
+			f2 = new Image("file:img/Sheep.png");
+			f3 = new Image("file:img/Tiger.png");
 		}
 	}
 	
 	public void drawCard(Card thisCard, int thisStartX, int thisStartY) {
-		//System.out.println("type2: " + thisCard.getType2() + " type1: " + thisCard.getType1());
 		if("A".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
 		    gc.drawImage(a1, thisStartX, thisStartY, cardSize, cardSize);
 		} else if("A".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
