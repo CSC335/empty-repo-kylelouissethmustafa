@@ -15,7 +15,7 @@ import javafx.util.Duration;
  * 
  * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
-public class MemoryGame extends OurObservable {
+public class MemoryGame extends OurObservable implements java.io.Serializable {
 	
 	private Board board;
 	private int gameMode;

@@ -133,44 +133,47 @@ public class BoardPane extends BorderPane implements OurObserver {
 				int thisStartY = startY + (row * (cardSize + cardGap));
 				Card thisCard = game.getBoard().getCard(row, col);
 				
+				System.out.println("Color: " + thisCard.getColor() + " shape: " + thisCard.getShape());
+				
 				if(thisCard.getRevealed()) {
-					if(thisCard.getColor() == "Red" && thisCard.getShape() == "Square") {
-						gc.drawImage(redSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Red" && thisCard.getShape() == "Circle") {
-						gc.drawImage(redCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Red" && thisCard.getShape() == "Plus") {
-						gc.drawImage(redPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Blue" && thisCard.getShape() == "Square") {
-						gc.drawImage(blueSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Blue" && thisCard.getShape() == "Circle") {
-						gc.drawImage(blueCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Blue" && thisCard.getShape() == "Plus") {
-						gc.drawImage(bluePlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Green" && thisCard.getShape() == "Square") {
-						gc.drawImage(greenSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Green" && thisCard.getShape() == "Circle") {
-						gc.drawImage(greenCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Green" && thisCard.getShape() == "Plus") {
-						gc.drawImage(greenPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Black" && thisCard.getShape() == "Square") {
-						gc.drawImage(blackSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Black" && thisCard.getShape() == "Circle") {
-						gc.drawImage(blackCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Black" && thisCard.getShape() == "Plus") {
-						gc.drawImage(blackPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Yellow" && thisCard.getShape() == "Square") {
-						gc.drawImage(yellowSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Yellow" && thisCard.getShape() == "Circle") {
-						gc.drawImage(yellowCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Yellow" && thisCard.getShape() == "Plus") {
-						gc.drawImage(yellowPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Orange" && thisCard.getShape() == "Square") {
-						gc.drawImage(orangeSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Orange" && thisCard.getShape() == "Circle") {
-						gc.drawImage(orangeCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Orange" && thisCard.getShape() == "Plus") {
-						gc.drawImage(orangePlus, thisStartX, thisStartY, cardSize, cardSize);
+					if("Red".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
+					    gc.drawImage(redSquare, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Red".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
+					    gc.drawImage(redCircle, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Red".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
+					    gc.drawImage(redPlus, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Blue".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
+					    gc.drawImage(blueSquare, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Blue".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
+					    gc.drawImage(blueCircle, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Blue".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
+					    gc.drawImage(bluePlus, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Green".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
+					    gc.drawImage(greenSquare, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Green".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
+					    gc.drawImage(greenCircle, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Green".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
+					    gc.drawImage(greenPlus, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Black".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
+					    gc.drawImage(blackSquare, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Black".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
+					    gc.drawImage(blackCircle, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Black".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
+					    gc.drawImage(blackPlus, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Yellow".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
+					    gc.drawImage(yellowSquare, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Yellow".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
+					    gc.drawImage(yellowCircle, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Yellow".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
+					    gc.drawImage(yellowPlus, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Orange".equals(thisCard.getColor()) && "Square".equals(thisCard.getShape())) {
+					    gc.drawImage(orangeSquare, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Orange".equals(thisCard.getColor()) && "Circle".equals(thisCard.getShape())) {
+					    gc.drawImage(orangeCircle, thisStartX, thisStartY, cardSize, cardSize);
+					} else if("Orange".equals(thisCard.getColor()) && "Plus".equals(thisCard.getShape())) {
+					    gc.drawImage(orangePlus, thisStartX, thisStartY, cardSize, cardSize);
 					} else {
+						System.out.println("Drawing generic...");
 						gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
 					}
 				} else {
@@ -187,7 +190,11 @@ public class BoardPane extends BorderPane implements OurObserver {
 	public void clearCanvas() {
 		gc.setFill(Color.LIGHTGRAY);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		gamePrompt.setText("Start a New Game!");
+		if(this.game == null) {
+			gamePrompt.setText("Start a New Game!");
+		} else {
+			gamePrompt.setText("You are doing great!");
+		}
 		curScore.setText("0");
 	}
 	
@@ -412,6 +419,16 @@ public class BoardPane extends BorderPane implements OurObserver {
 		game.addObserver(this);
 		game.initGame();
 		gamePrompt.setText("Click Cards to Begin!");
+		gui.getCurrAcct().setNewGame(game);
+	}
+	
+	public void setGame(MemoryGame game) {
+		this.game = game;
+		this.game.addObserver(this);
+		System.out.println("curr design: " + this.game.getBoard().getDesign());
+		drawCards();
+		gamePrompt.setText("Resume Your Game!");
+		curScore.setText("" + game.getScore());
 	}
 
 	@Override
@@ -427,6 +444,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		if(!game.gameActive()) {
 			gamePrompt.setText("Congrats! You won!");
 			updateScores();
+			gui.getCurrAcct().endCurrGame();
 		}
 	}
 

@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * 
  * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
-public class Board {
+public class Board implements java.io.Serializable {
 	// Only square boards - can change later
 	private int size;
 	private Card[][] board;
@@ -57,6 +57,10 @@ public class Board {
 		changeDesign(this.cardDesign);
 		board = new Card[size][size];
 		shuffle();
+	}
+	
+	public int getDesign() {
+		return this.cardDesign;
 	}
 	
 	/**

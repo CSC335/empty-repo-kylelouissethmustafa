@@ -5,7 +5,7 @@ package model;
  * 
  * @author Kyle Myint
  */
-public class Card {
+public class Card implements java.io.Serializable {
 	// Characteristics of card to differentiate
 	private String color;
 	private String shape;

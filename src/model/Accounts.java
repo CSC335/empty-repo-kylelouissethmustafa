@@ -23,6 +23,8 @@ public class Accounts implements java.io.Serializable {
     private int best5Odd;
     private int best6Normal;
     private int best6ThreeKind;
+    
+    private MemoryGame currGame;
 
     /**
      * The constructor for accounts, which sets all best scores
@@ -43,6 +45,7 @@ public class Accounts implements java.io.Serializable {
         this.best5Odd = -1;
         this.best6Normal = -1;
         this.best6ThreeKind = -1;
+        this.currGame = null;
     }
     
     // TODO - recomment, add modes
@@ -198,5 +201,17 @@ public class Accounts implements java.io.Serializable {
     	} else {
     		return false;
     	}
+    }
+    
+    public void setNewGame(MemoryGame game) {
+    	this.currGame = game;
+    }
+    
+    public MemoryGame getCurrGame() {
+    	return this.currGame;
+    }
+    
+    public void endCurrGame() {
+    	this.currGame = null;
     }
 }

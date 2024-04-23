@@ -123,18 +123,40 @@ public class StatsPane extends BorderPane {
         username.setStyle("-fx-font-size: 15;");
         totalGamesPlayed.setStyle("-fx-font-size: 15;");
         Label lbl2Norm = new Label(String.valueOf(best2Norm));
+        if(lbl2Norm.getText().equals("-1")) {
+        	lbl2Norm.setText("Not Attempted");
+        }
         lbl2Norm.setStyle("-fx-font-size: 15;");
         Label lbl3Odd = new Label(String.valueOf(best3Odd));
+        if(lbl3Odd.getText().equals("-1")) {
+        	lbl3Odd.setText("Not Attempted");
+        }
         lbl3Odd.setStyle("-fx-font-size: 15;");
         Label lbl3ThreeKind = new Label(String.valueOf(best3ThreeKind));
+        if(lbl3ThreeKind.getText().equals("-1")) {
+        	lbl3ThreeKind.setText("Not Attempted");
+        }
         lbl3ThreeKind.setStyle("-fx-font-size: 15;");
         Label lbl4Norm = new Label(String.valueOf(best4Norm));
+        System.out.println("get text: " + lbl4Norm.getText());
+        if(lbl4Norm.getText().equals("-1")) {
+        	lbl4Norm.setText("Not Attempted");
+        }
         lbl4Norm.setStyle("-fx-font-size: 15;");
         Label lbl5Odd = new Label(String.valueOf(best5Odd));
+        if(lbl5Odd.getText().equals("-1")) {
+        	lbl5Odd.setText("Not Attempted");
+        }
         lbl5Odd.setStyle("-fx-font-size: 15;");
         Label lbl6Norm = new Label(String.valueOf(best6Norm));
+        if(lbl6Norm.getText().equals("-1")) {
+        	lbl6Norm.setText("Not Attempted");
+        }
         lbl6Norm.setStyle("-fx-font-size: 15;");
         Label lbl6ThreeKind = new Label(String.valueOf(best6ThreeKind));
+        if(lbl6ThreeKind.getText().equals("-1")) {
+        	lbl6ThreeKind.setText("Not Attempted");
+        }
         lbl6ThreeKind.setStyle("-fx-font-size: 15;");
         
         grid = new GridPane();

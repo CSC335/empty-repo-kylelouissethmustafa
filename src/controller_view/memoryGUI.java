@@ -7,12 +7,25 @@
 
 package controller_view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Optional;
+import java.util.Queue;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.AccountCollection;
@@ -60,7 +73,7 @@ public class memoryGUI extends Application {
 	 * adding the menu, and registering handlers.
 	 */
 	public void start(Stage primaryStage) throws Exception {
-		accountCollection = new AccountCollection();
+		getSavedDataOrNot();
 		loginPane = new LoginPane(currAcct, accountCollection, this);
 		boardPane = new BoardPane(this);
 		statsPane = new StatsPane(this);
@@ -70,16 +83,48 @@ public class memoryGUI extends Application {
 		
 		addMenu();
 		
-		addTestAccounts(); // TODO - remove this for final production.
+		//addTestAccounts(); // TODO - remove this for final production.
 		
 		setupGameSettings(2, 0);
-		
-		registerHandlers();
 
 		Scene scene = new Scene(all, 850, 650);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Memory Game");
 		primaryStage.show();
+		
+		registerHandlers(primaryStage);
+	}
+	
+	private void getSavedDataOrNot() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Start Up Option");
+		alert.setHeaderText("Load saved data?");
+		alert.setContentText("Click cancel to start new!");
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() == ButtonType.OK) {
+			try {
+				File file = new File("objects.ser");
+				
+				if(file.exists()) {
+					FileInputStream rawBytes = new FileInputStream("objects.ser");
+					ObjectInputStream inFile = new ObjectInputStream(rawBytes);
+					
+					AccountCollection inAccounts = (AccountCollection) inFile.readObject();
+					MemoryGame inGame = (MemoryGame) inFile.readObject();
+					
+					accountCollection = inAccounts;
+					game = inGame;
+					
+				}
+			} catch (IOException io) {
+				System.out.println("File IO Exception");
+			} catch (ClassNotFoundException c) {
+				System.out.println("Class Not Found Exception");
+			}
+		} else {
+			accountCollection = new AccountCollection();
+			addTestAccounts();
+		}
 	}
 
 	/**
@@ -112,6 +157,10 @@ public class memoryGUI extends Application {
 		all.setTop(menuBar);
 		all.setCenter(boardPane);
 		this.currAcct = accountCollection.getAccount(loginAcct.getUsername(), loginAcct.getPassword());
+		if(currAcct.getCurrGame() != null) {
+			boardPane.setGame(currAcct.getCurrGame());
+		}
+		
 		System.out.println("Current User: " + currAcct.getUsername());
 	}
 	
@@ -178,7 +227,7 @@ public class memoryGUI extends Application {
 	 * clicks of new game for each game mode,and clicks of leaderboard for each game mode.
 	 * 
 	 */
-	private void registerHandlers() {
+	private void registerHandlers(Stage stage) {
 		logout.setOnAction(event -> {
 			currAcct = null;
 			all.setTop(null);
@@ -213,6 +262,37 @@ public class memoryGUI extends Application {
 				
 				boardPane.startNewGame(curMode, curDim);
 			}
+		});
+		
+		stage.setOnCloseRequest(event -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Shut Down");
+			alert.setHeaderText("Save data?");
+			alert.setContentText("Press cancel to not save data.");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				String filename = "objects.ser";
+				try {
+					FileOutputStream bytesToDisk = new FileOutputStream(filename);
+					ObjectOutputStream outFile = new ObjectOutputStream(bytesToDisk);
+					
+					// Save AccountCollection
+					AccountCollection currAccounts = accountCollection;
+					
+					// Save MemoryGame
+					MemoryGame currGame = game;
+
+					outFile.writeObject(currAccounts);
+					outFile.writeObject(currGame);
+					outFile.close();
+				} catch (IOException io) {
+					System.out.println("File IO Exception");
+					System.out.println(io);
+				}
+			}
+
+			Platform.exit();
+			System.exit(0);
 		});
 	}
 }
