@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -26,30 +27,29 @@ public class StatsPane extends BorderPane {
 	private Accounts accounts;
     private Label username;
     private Label totalGamesPlayed;
-    private int totalScore;
-    private Label best2x2Score;
-    private Label best3x3Score;
-    private Label best4x4Score;
-    private Label best5x5Score;
-    private Label best6x6Score;
-    private int best2x2Val;
-    private int best3x3Val;
-    private int best4x4Val;
-    private int best5x5Val;
-    private int best6x6Val;
-    private String best2x2String;
-    private String best3x3String;
-    private String best4x4String;
-    private String best5x5String;
-    private String best6x6String;
     private Label usernameLabel;
     private Label gamesPlayedLabel;
-    private Label best2x2Label;
-    private Label best3x3Label;
-    private Label best4x4Label;
-    private Label best5x5Label;
-    private Label best6x6Label;
+    
+    private int best2Norm;
+    private int best3Odd;
+    private int best3ThreeKind;
+    private int best4Norm;
+    private int best5Odd;
+    private int best6Norm;
+    private int best6ThreeKind;
+    private Label str2Norm;
+    private Label str3Odd;
+    private Label str3ThreeKind;
+    private Label str4Norm;
+    private Label str5Odd;
+    private Label str6Norm;
+    private Label str6ThreeKind;
+    
+    
+    
+    
     private memoryGUI gui;
+    private BorderPane pane;
     private GridPane grid;
     
     private Label userStats;
@@ -72,104 +72,109 @@ public class StatsPane extends BorderPane {
      * labels that describe the current User's memory game statistics.
      */
     public void layoutStatsPane() {
-    	this.username =  new Label(gui.getCurrAcct().getUsername());  
-    	this.totalGamesPlayed = new Label(String.valueOf(gui.getCurrAcct().getGamesPlayed()));
-    	this.best2x2Val = gui.getCurrAcct().get2Normal();
-    	this.best3x3Val = gui.getCurrAcct().get3Odd();
-    	this.best4x4Val = gui.getCurrAcct().get4Normal();
-    	this.best5x5Val = gui.getCurrAcct().get5Odd();
-    	this.best6x6Val = gui.getCurrAcct().get6Normal();
-    	if(this.best2x2Val < 0){
-    		this.best2x2String = "Not Attempted";
-    	} else {
-    		this.best2x2String = String.valueOf(this.best2x2Val);
-    	}
-    	if(this.best3x3Val < 0){
-    		this.best3x3String = "Not Attempted";
-    	} else {
-    		this.best3x3String = String.valueOf(this.best3x3Val);
-    	}
-    	if(this.best4x4Val < 0){
-    		this.best4x4String = "Not Attempted";
-    	} else {
-    		this.best4x4String = String.valueOf(this.best4x4Val);
-    	}
-    	if(this.best5x5Val < 0){
-    		this.best5x5String = "Not Attempted";
-    	} else {
-    		this.best5x5String = String.valueOf(this.best5x5Val);
-    	}
-    	if(this.best6x6Val < 0){
-    		this.best6x6String = "Not Attempted";
-    	} else {
-    		this.best6x6String = String.valueOf(this.best6x6Val);
-    	}
+    	Accounts curAcct = gui.getCurrAcct();
+    	
+    	this.username =  new Label(curAcct.getUsername());  
+    	this.totalGamesPlayed = new Label(String.valueOf(curAcct.getGamesPlayed()));
+    	
+    	
+    	this.best2Norm = curAcct.getBestScore(2, 0);
+        this.best3Odd = curAcct.getBestScore(3, 1);
+        this.best3ThreeKind = curAcct.getBestScore(3, 2);
+        this.best4Norm = curAcct.getBestScore(4, 0);
+        this.best5Odd = curAcct.getBestScore(5, 1);
+        this.best6Norm = curAcct.getBestScore(6, 0);
+        this.best6ThreeKind = curAcct.getBestScore(6, 2);
+        
+        str2Norm = new Label("Best 2x2 Normal Score: ");
+        str3Odd = new Label("Best 3x3 Odd One Out Score:");
+        str3ThreeKind = new Label("Best 3x3 Three of a Kind Score: ");
+        str4Norm = new Label("Best 4x4 Normal Score: ");
+        str5Odd = new Label("Best 5x5 Odd One Out Score: ");
+        str6Norm = new Label("Best 6x6 Normal Score: ");
+        str6ThreeKind = new Label("Best 6x6 Three of a Kind Score: ");
+        
     	
     	setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
-    	
-    	this.best2x2Score = new Label(this.best2x2String);
-    	this.best3x3Score = new Label(this.best3x3String);
-    	this.best4x4Score = new Label(this.best4x4String);
-    	this.best5x5Score = new Label(this.best5x5String);
-    	this.best6x6Score = new Label(this.best6x6String);
     	
     	logoImage = new Image("file:StatsLogo.png");
     	canvas = new Canvas(800, 200);
         gc = canvas.getGraphicsContext2D();
         
-        gc.drawImage(logoImage, 250, 0, 200, 150);
+        gc.drawImage(logoImage, 290, 0, 200, 200);
     	
     	userStats = new Label("User Stats");
-    	userStats.setStyle("-fx-font-size: 30; -fx-font-weight: bold");
+    	userStats.setStyle("-fx-font-size: 50; -fx-font-weight: bold");
+    	userStats.setPadding(new Insets(0,0,10,0));
     	
         usernameLabel = new Label("Username: ");
         gamesPlayedLabel = new Label("Games Played: ");
-        best2x2Label = new Label("Best 2x2 Score: ");
-        best3x3Label = new Label("Best 3x3 Score: ");
-        best4x4Label = new Label("Best 4x4 Score: ");
-        best5x5Label = new Label("Best 5x5 Score: ");
-        best6x6Label = new Label("Best 6x6 Score: ");
         
         usernameLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
         gamesPlayedLabel.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
-        best2x2Label.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
-        best3x3Label.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
-        best4x4Label.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
-        best5x5Label.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
-        best6x6Label.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str2Norm.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str3Odd.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str3ThreeKind.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str4Norm.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str5Odd.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str6Norm.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str6ThreeKind.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
         
         username.setStyle("-fx-font-size: 15;");
         totalGamesPlayed.setStyle("-fx-font-size: 15;");
-        best2x2Score.setStyle("-fx-font-size: 15;");
-        best3x3Score.setStyle("-fx-font-size: 15;");
-        best4x4Score.setStyle("-fx-font-size: 15;");
-        best5x5Score.setStyle("-fx-font-size: 15;");
-        best6x6Score.setStyle("-fx-font-size: 15;");
+        Label lbl2Norm = new Label(String.valueOf(best2Norm));
+        lbl2Norm.setStyle("-fx-font-size: 15;");
+        Label lbl3Odd = new Label(String.valueOf(best3Odd));
+        lbl3Odd.setStyle("-fx-font-size: 15;");
+        Label lbl3ThreeKind = new Label(String.valueOf(best3ThreeKind));
+        lbl3ThreeKind.setStyle("-fx-font-size: 15;");
+        Label lbl4Norm = new Label(String.valueOf(best4Norm));
+        lbl4Norm.setStyle("-fx-font-size: 15;");
+        Label lbl5Odd = new Label(String.valueOf(best5Odd));
+        lbl5Odd.setStyle("-fx-font-size: 15;");
+        Label lbl6Norm = new Label(String.valueOf(best6Norm));
+        lbl6Norm.setStyle("-fx-font-size: 15;");
+        Label lbl6ThreeKind = new Label(String.valueOf(best6ThreeKind));
+        lbl6ThreeKind.setStyle("-fx-font-size: 15;");
         
         grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(8);
         
-        grid.add(userStats, 27, 0);
-        grid.add(usernameLabel, 27, 1);
-        grid.add(username, 28, 1);
-        grid.add(gamesPlayedLabel, 27, 2);
-        grid.add(totalGamesPlayed, 28, 2);
-        grid.add(best2x2Label, 27, 3);
-        grid.add(best2x2Score, 28, 3);
-        grid.add(best3x3Label, 27, 4);
-        grid.add(best3x3Score, 28, 4);
-        grid.add(best4x4Label, 27, 5);
-        grid.add(best4x4Score, 28, 5);
-        grid.add(best5x5Label, 27, 6);
-        grid.add(best5x5Score, 28, 6);
-        grid.add(best6x6Label, 27, 7);
-        grid.add(best6x6Score, 28, 7);
-
-        this.setTop(canvas);
-        setCenter(grid);
+        //grid.add(userStats, 0, 0);
+        grid.add(usernameLabel, 0, 1);
+        grid.add(username, 1, 1);
+        grid.add(gamesPlayedLabel, 0, 2);
+        grid.add(totalGamesPlayed, 1, 2);
+        grid.add(str2Norm, 0, 3);
+        grid.add(lbl2Norm, 1, 3);
+        grid.add(str3Odd, 0, 4);
+        grid.add(lbl3Odd, 1, 4);
+        grid.add(str3ThreeKind, 0, 5);
+        grid.add(lbl3ThreeKind, 1, 5);
+        grid.add(str4Norm, 0, 6);
+        grid.add(lbl4Norm, 1, 6);
+        grid.add(str5Odd, 0, 7);
+        grid.add(lbl5Odd, 1, 7);
+        grid.add(str6Norm, 0, 8);
+        grid.add(lbl6Norm, 1, 8);
+        grid.add(str6ThreeKind, 0, 9);
+        grid.add(lbl6ThreeKind, 1, 9);
         
-        this.setPadding(new Insets(20, 20, 20, 100));
-        // top, blank, blank, left
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setMinWidth(180);
+        grid.getColumnConstraints().add(col1);
+
+        pane = new BorderPane();
+        pane.setTop(userStats);
+        pane.setCenter(grid);
+        
+        pane.setPadding(new Insets(-20, 0, 0, 270));
+        
+        this.setTop(canvas);
+        this.setCenter(pane);
+        
+        this.setPadding(new Insets(0, 20, 20, 20));
+        // top, right, bottom, left
     }
 }
