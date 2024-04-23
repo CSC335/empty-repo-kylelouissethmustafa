@@ -65,7 +65,7 @@ public class SettingsPane extends BorderPane {
 		gameModeLbl.setStyle("-fx-font-size: 15;");
 		
 		gameTheme = new ComboBox<>();
-		gameTheme.getItems().addAll("Shapes", "Animals");
+		gameTheme.getItems().addAll("Shapes", "Animals", "Space");
 		gameTheme.setValue("Shapes");
 		gameThemeLbl = new Label("Game Theme");
 		gameThemeLbl.setStyle("-fx-font-size: 15;");
@@ -148,8 +148,10 @@ public class SettingsPane extends BorderPane {
 			
 			if(theme.equals("Shapes")) {
 				themeNum = 0;
-			} else {
+			} else if(theme.equals("Animals")) {
 				themeNum = 1;
+			} else {
+				themeNum = 2;
 			}
 			
 			gui.setupGameSettings(dimNum, modeNum, themeNum);

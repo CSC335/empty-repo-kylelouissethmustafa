@@ -190,6 +190,25 @@ public class BoardPane extends BorderPane implements OurObserver {
 			f1 = new Image("file:img/Raccoon.png");
 			f2 = new Image("file:img/Sheep.png");
 			f3 = new Image("file:img/Tiger.png");
+		} else if(gameTheme == 2) {
+			a1 = new Image("file:img/Alien.png");
+			a2 = new Image("file:img/alienShip.png");
+			a3 = new Image("file:img/asteroid.png");
+			b1 = new Image("file:img/Earth.png");
+			b2 = new Image("file:img/FullShip.png");
+			b3 = new Image("file:img/Jupiter.png");
+			c1 = new Image("file:img/Mars.png");
+			c2 = new Image("file:img/Neptune.png");
+			c3 = new Image("file:img/opAlien.png");
+			d1 = new Image("file:img/orangeAlien.png");
+			d2 = new Image("file:img/orangeAstronaut.png");
+			d3 = new Image("file:img/pbAlien.png");
+			e1 = new Image("file:img/rbRocket.png");
+			e2 = new Image("file:img/robot.png");
+			e3 = new Image("file:img/rover.png");
+			f1 = new Image("file:img/spaceMachine.png");
+			f2 = new Image("file:img/Uranus.png");
+			f3 = new Image("file:img/whiteAstronaut.png");
 		}
 	}
 	

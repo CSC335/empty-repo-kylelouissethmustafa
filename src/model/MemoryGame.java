@@ -25,7 +25,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	private ArrayList<Card> revealedCards = new ArrayList<>();
 	private int numMatches;
 	private boolean isGameActive;
-	private int gameTheme; // 0 - Shapes, 1 - Animals
+	private int gameTheme; // 0 - Shapes, 1 - Animals, 2 - space
 	private Timer timer;
 	
 	/**
