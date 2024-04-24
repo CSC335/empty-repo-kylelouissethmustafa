@@ -3,6 +3,7 @@ package tests;
 import org.junit.jupiter.api.Test;
 
 import model.Accounts;
+import model.MemoryGame;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,14 +34,72 @@ public class AccountsTest {
 		account.setNewBestScore(80, 3, 1);
 		assertEquals(80, account.get3Odd().intValue());
 		
+		account.setNewBestScore(90, 3, 2);
+		assertEquals(90, account.get3ThreeKind().intValue());
+		
+		account.setNewBestScore(50, 3, 3);
+		assertEquals(50, account.get3Power().intValue());
+		
 		account.setNewBestScore(60, 4, 0);
 		assertEquals(60, account.get4Normal().intValue());
+		
+		account.setNewBestScore(70, 4, 3);
+		assertEquals(70, account.get4Power().intValue());
 		
 		account.setNewBestScore(40, 5, 1);
 		assertEquals(40, account.get5Odd().intValue());
 		
+		account.setNewBestScore(120, 5, 3);
+		assertEquals(120, account.get5Power().intValue());
+		
 		account.setNewBestScore(20, 6, 0);
 		assertEquals(20, account.get6Normal().intValue());
+		
+		account.setNewBestScore(200, 6, 2);
+		assertEquals(200, account.get6ThreeKind().intValue());
+		
+		account.setNewBestScore(40, 6, 3);
+		assertEquals(40, account.get6Power().intValue());
+	}
+	
+	@Test
+	public void testSetGetStreak() {
+		Accounts account = new Accounts("Mustafa", "Mustafa123");
+		
+		account.setNewStreak(3, 2);
+		assertEquals(3, account.get2Streak());
+		assertEquals(3, account.getBestStreak(2));
+		
+		account.setNewStreak(4, 3);
+		assertEquals(4, account.get3Streak());
+		assertEquals(4, account.getBestStreak(3));
+		
+		account.setNewStreak(5, 4);
+		assertEquals(5, account.get4Streak());
+		assertEquals(5, account.getBestStreak(4));
+		
+		account.setNewStreak(6, 5);
+		assertEquals(6, account.get5Streak());
+		assertEquals(6, account.getBestStreak(5));
+		
+		account.setNewStreak(7, 6);
+		assertEquals(7, account.get6Streak());
+		assertEquals(7, account.getBestStreak(6));
+		
+		assertEquals(-1, account.getBestStreak(7));
+	}
+	
+	@Test
+	public void testNewGame() {
+		MemoryGame newGame = new MemoryGame(0, 2, 0);
+		newGame.initGame();
+		
+		Accounts account = new Accounts("Mustafa", "Mustafa123");
+		account.setNewGame(newGame);
+		assertEquals(newGame, account.getCurrGame());
+		
+		account.endCurrGame();
+		assertEquals(null, account.getCurrGame());
 	}
 	
 	@Test
@@ -61,14 +120,32 @@ public class AccountsTest {
 		account.setNewBestScore(150, 3, 1);
 		assertEquals(150, account.getBestScore(3, 1));
 		
+		account.setNewBestScore(160, 3, 2);
+		assertEquals(160, account.getBestScore(3, 2));
+		
+		account.setNewBestScore(170, 3, 3);
+		assertEquals(170, account.getBestScore(3, 3));
+		
 		account.setNewBestScore(200, 4, 0);
 		assertEquals(200, account.getBestScore(4, 0));
+		
+		account.setNewBestScore(210, 4, 3);
+		assertEquals(210, account.getBestScore(4, 3));
 		
 		account.setNewBestScore(250, 5, 1);
 		assertEquals(250, account.getBestScore(5, 1));
 		
+		account.setNewBestScore(240, 5, 3);
+		assertEquals(240, account.getBestScore(5, 3));
+		
 		account.setNewBestScore(300, 6, 0);
 		assertEquals(300, account.getBestScore(6, 0));
+		
+		account.setNewBestScore(310, 6, 2);
+		assertEquals(310, account.getBestScore(6, 2));
+		
+		account.setNewBestScore(320, 6, 3);
+		assertEquals(320, account.getBestScore(6, 3));
 		
 		assertEquals(-2, account.getBestScore(1, 0));
 	}

@@ -60,10 +60,6 @@ public class Board implements java.io.Serializable {
 		shuffle();
 	}
 	
-	public int getDesign() {
-		return this.cardDesign;
-	}
-	
 	/**
 	 * Getter for board size
 	 * 

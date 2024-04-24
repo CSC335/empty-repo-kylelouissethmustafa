@@ -62,7 +62,6 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		System.out.println("Init game called");
 		this.isGameActive = true;
 		notifyObservers(this);
-		this.printBoard();
 	}
 
 	public int getTheme() {
