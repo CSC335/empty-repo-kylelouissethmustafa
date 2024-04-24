@@ -20,9 +20,9 @@ public class shopCollection implements java.io.Serializable {
 	public shopCollection() {
 		items = new ArrayList<>();
 	}
-
+	
 	/**
-	 * Adds an account to the shopCollection.
+	 * Adds an item to the shopCollection.
 	 * 
 	 * @param shopItem the shopItem being added.
 	 */

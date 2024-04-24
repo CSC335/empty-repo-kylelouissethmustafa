@@ -63,7 +63,6 @@ public class ShopPane extends BorderPane {
 		table.getStyleClass().add("row-hover-effect");
 		
 		this.shopCollection = shopCollection;
-		this.shopCollection.add(new shopItem("Test", 100));
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<shopItem, String>("itemName"));
 		priceColumn.setCellValueFactory(new PropertyValueFactory<shopItem, Integer>("Price"));
@@ -77,7 +76,7 @@ public class ShopPane extends BorderPane {
 		table.setItems(items);
 		table.getColumns().addAll(nameColumn, priceColumn);
 
-		addAllUsernames();
+		addAllItems();
 		resortTable();
 
 		registerHandlers();
@@ -114,6 +113,8 @@ public class ShopPane extends BorderPane {
 		pane.setRight(balanceLabel);
 		pane.setBottom(buyButton);
 		pane.setCenter(table);
+		
+		pane.setMargin(table, new Insets(20, 20, 20, 0));
 
 		// Set this pane as the center content of the parent container.
 		this.setCenter(pane);
@@ -123,16 +124,20 @@ public class ShopPane extends BorderPane {
 	 * This method clears the shopItem list and then iterates through the shopItem
 	 * collection, adding each item to the item list. This will help populate the table
 	 */
-	private void addAllUsernames() {
+	private void addAllItems() {
 		items.clear();
 
 		for (int i = 0; i < croppedCollection.getSize(); i++) {
 			items.add(croppedCollection.getElement(i));
 		}
 	}
-	
+
 	// Registers event handlers
 	private void registerHandlers() {
 		// Handle buyButton based on selected entry in table
+		buyButton.setOnAction(event -> {
+			System.out.println("Bought " + table.getSelectionModel().getSelectedItem().getItemName());
+			// Handle logic for marking if the item is owned
+		});
 	}
 }

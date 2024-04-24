@@ -32,6 +32,7 @@ import model.AccountCollection;
 import model.shopCollection;
 import model.Accounts;
 import model.MemoryGame;
+import model.shopItem;
 
 
 public class memoryGUI extends Application {
@@ -86,6 +87,7 @@ public class memoryGUI extends Application {
 		loginPane = new LoginPane(currAcct, accountCollection, this);
 		boardPane = new BoardPane(this);
 		statsPane = new StatsPane(this);
+		initShopCollection();
 		shopPane = new ShopPane(shopCollection);
 //		settingsPane = new SettingsPane(this);
 		
@@ -216,7 +218,6 @@ public class memoryGUI extends Application {
 		gameSettings = new MenuItem("Game Settings");
 		
 		options.getItems().addAll(newGame, leaderboard, itemShop, logout, userStats, gameSettings, other);
-		options.getItems().addAll(newGame, gameSettings, leaderboard, userStats, logout, other);
 
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
@@ -237,7 +238,18 @@ public class memoryGUI extends Application {
 		this.gameTheme = theme;
 	}
 
-
+	/**
+	 * Initializes the shopCollection with the items for the memoryGame
+	 */
+	private void initShopCollection() {
+		shopCollection.add(new shopItem("6x6 Game Mode", 500));
+		shopCollection.add(new shopItem("Powers Game Mode", 1000));
+		shopCollection.add(new shopItem("Card Design 1", 500));
+		shopCollection.add(new shopItem("Card Design 2", 750));
+		shopCollection.add(new shopItem("Unlock Power Card: Bomb", 1250));
+		shopCollection.add(new shopItem("Unlock Power Card: Laser", 1000));
+	}
+	
 	/**
 	 * This method registers event handlers, including logout, click of UserStats in menu,
 	 * clicks of new game for each game mode,and clicks of leaderboard for each game mode.
