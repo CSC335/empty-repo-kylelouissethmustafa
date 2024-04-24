@@ -40,7 +40,7 @@ public class memoryGUI extends Application {
 	private BoardPane boardPane;
 	private StatsPane statsPane;
 	private ShopPane shopPane;
-//	private SettingsPane settingsPane;
+	private SettingsPane settingsPane;
 	private LeaderboardPane leaderboard2x2;
 	private LeaderboardPane leaderboardPane;
 	private LeaderboardPane leaderboard3x3;
@@ -87,7 +87,7 @@ public class memoryGUI extends Application {
 		boardPane = new BoardPane(this);
 		statsPane = new StatsPane(this);
 		shopPane = new ShopPane(shopCollection);
-//		settingsPane = new SettingsPane(this);
+		settingsPane = new SettingsPane(this);
 		
 		LayoutGUI();
 		
@@ -216,7 +216,6 @@ public class memoryGUI extends Application {
 		gameSettings = new MenuItem("Game Settings");
 		
 		options.getItems().addAll(newGame, leaderboard, itemShop, logout, userStats, gameSettings, other);
-		options.getItems().addAll(newGame, gameSettings, leaderboard, userStats, logout, other);
 
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
@@ -262,9 +261,9 @@ public class memoryGUI extends Application {
 			all.setCenter(statsPane);
 		});
 		
-//		gameSettings.setOnAction(event -> {
-//			all.setCenter(settingsPane);
-//		});
+		gameSettings.setOnAction(event -> {
+			all.setCenter(settingsPane);
+		});
 		
 		leaderboard.setOnAction(event -> {
 			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
