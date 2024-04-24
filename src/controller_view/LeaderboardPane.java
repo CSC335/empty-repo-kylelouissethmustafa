@@ -110,7 +110,12 @@ public class LeaderboardPane extends BorderPane {
 	private void setupLeaderboard() {
 		table = new TableView<>();
 		usernameColumn = new TableColumn<>("Username");
-		scoreColumn = new TableColumn<>("Score");
+		if(curMode != 4) {
+			scoreColumn = new TableColumn<>("Score");
+		} else {
+			scoreColumn = new TableColumn<>("Streak");
+		}
+		
 		table.getStyleClass().add("row-hover-effect");
 
 		usernameColumn.setCellValueFactory(new PropertyValueFactory<Accounts, String>("Username"));
@@ -124,6 +129,14 @@ public class LeaderboardPane extends BorderPane {
 				croppedCollection.clear();
 				for (int i = 0; i < accountCollection.getSize(); i++) {
 					if (accountCollection.getElement(i).get2Normal() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
+			} else if (curMode == 4) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2Streak"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get2Streak() >= 0) {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
@@ -153,6 +166,14 @@ public class LeaderboardPane extends BorderPane {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
+			} else if (curMode == 4) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("3Streak"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get3Streak() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
 			}
 		} else if (curDim == 4) {
 			if (curMode == 0) {
@@ -171,6 +192,14 @@ public class LeaderboardPane extends BorderPane {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
+			} else if (curMode == 4) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("4Streak"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get4Streak() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
 			}
 		} else if (curDim == 5) {
 			if (curMode == 1) {
@@ -186,6 +215,14 @@ public class LeaderboardPane extends BorderPane {
 				croppedCollection.clear();
 				for (int i = 0; i < accountCollection.getSize(); i++) {
 					if (accountCollection.getElement(i).get5Power() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
+			} else if (curMode == 4) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("5Streak"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get5Streak() >= 0) {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
@@ -213,6 +250,14 @@ public class LeaderboardPane extends BorderPane {
 				croppedCollection.clear();
 				for (int i = 0; i < accountCollection.getSize(); i++) {
 					if (accountCollection.getElement(i).get6Power() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
+			} else if (curMode == 4) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("6Streak"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get6Streak() >= 0) {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
@@ -252,7 +297,12 @@ public class LeaderboardPane extends BorderPane {
 		table.getSortOrder().add(scoreColumn);
 
 		// Set sort type to ascending.
-		scoreColumn.setSortType(TableColumn.SortType.ASCENDING);
+		if(curMode != 4) {
+			scoreColumn.setSortType(TableColumn.SortType.ASCENDING);
+		} else {
+			scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
+		}
+		
 
 		// Perform sorting.
 		table.sort();
@@ -348,41 +398,49 @@ public class LeaderboardPane extends BorderPane {
 
 		// TODO - add Power game mode...
 		if (newValue.equals("2x2")) {
-			gameModeSelection.getItems().addAll("Normal");
+			gameModeSelection.getItems().addAll("Normal", "Streak");
 			if(curMode == 0) {
 				gameModeSelection.setValue("Normal");
+			} else if(curMode == 4) {
+				gameModeSelection.setValue("Streak");
 			}
 		} else if (newValue.equals("3x3")) {
-			gameModeSelection.getItems().addAll("Odd Card Out", "3 of a Kind", "Power");
+			gameModeSelection.getItems().addAll("Odd Card Out", "3 of a Kind", "Power", "Streak");
 			if(curMode == 1) {
 				gameModeSelection.setValue("Odd Card Out");
 			} else if(curMode == 2) {
 				gameModeSelection.setValue("3 of a Kind");
 			} else if(curMode == 3) {
 				gameModeSelection.setValue("Power");
+			} else if(curMode == 4) {
+				gameModeSelection.setValue("Streak");
 			}
 		} else if (newValue.equals("4x4")) {
-			gameModeSelection.getItems().addAll("Normal", "Power");
+			gameModeSelection.getItems().addAll("Normal", "Power", "Streak");
 			if(curMode == 0) {
 				gameModeSelection.setValue("Normal");
 			} else if(curMode == 3) {
 				gameModeSelection.setValue("Power");
 			}
 		} else if (newValue.equals("5x5")) {
-			gameModeSelection.getItems().addAll("Odd Card Out", "Power");
+			gameModeSelection.getItems().addAll("Odd Card Out", "Power", "Streak");
 			if(curMode == 1) {
 				gameModeSelection.setValue("Odd Card Out");
 			} else if(curMode == 3) {
 				gameModeSelection.setValue("Power");
+			} else if(curMode == 4) {
+				gameModeSelection.setValue("Streak");
 			}
 		} else if (newValue.equals("6x6")) {
-			gameModeSelection.getItems().addAll("Normal", "3 of a Kind", "Power");
+			gameModeSelection.getItems().addAll("Normal", "3 of a Kind", "Power", "Streak");
 			if(curMode == 0) {
 				gameModeSelection.setValue("Normal");
 			} else if(curMode == 2) {
 				gameModeSelection.setValue("3 of a Kind");
 			} else if(curMode == 3) {
 				gameModeSelection.setValue("Power");
+			} else if(curMode == 4) {
+				gameModeSelection.setValue("Streak");
 			}
 			
 		}
@@ -425,6 +483,8 @@ public class LeaderboardPane extends BorderPane {
 				curMode = 2;
 			} else if(mode.equals("Power")) {
 				curMode = 3;
+			} else if(mode.equals("Streak")) {
+				curMode = 4;
 			}
 			
 			System.out.println("Viewing dim: " + curDim + " mode: " + curMode);

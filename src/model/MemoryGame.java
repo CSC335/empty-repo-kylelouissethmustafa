@@ -31,6 +31,8 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	private int lastClickedX = 0;
 	private int lastClickedY = 0;
 	private Boolean allowGuiClicks = true;
+	private int currStreak = 0;
+	private int bestStreak = 0;
 
 	/**
 	 * The constructor for memory game, creating a new board and initializing game
@@ -138,6 +140,23 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	public int getNumMatches() {
 		return numMatches;
 	}
+	
+	private void correctGuess() {
+		this.currStreak += 1;
+		if(this.currStreak > this.bestStreak) {
+			this.bestStreak = this.currStreak;
+		}
+		System.out.println("Correct! Current Streak: " + this.currStreak);
+	}
+	
+	private void incorrectGuess() {
+		System.out.println("Incorrect Guess!");
+		this.currStreak = 0;
+	}
+	
+	public int getBestStreak() {
+		return this.bestStreak;
+	}
 
 	/**
 	 * Handles a card being clicked by revealing the card, adding the card to the
@@ -175,12 +194,16 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 						int match = 0;
 						if (maxClicked == 2) {
 							if (this.checkMatch(revealedCards.get(0), revealedCards.get(1))) {
+								// CORRECT GUESS
+								this.correctGuess();
 								revealedCards.clear();
 								match = 1;
 								numMatches++;
 							}
 						} else if (maxClicked == 3) {
 							if (this.checkMatch(revealedCards.get(0), revealedCards.get(1), revealedCards.get(2))) {
+								// CORRECT GUESS
+								this.correctGuess();
 								revealedCards.clear();
 								match = 1;
 								numMatches++;
@@ -188,6 +211,8 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 						}
 						if (match == 0) {
 							// NEED TO SLEEP HERE FOR 2 Seconds
+							// INCORRECT GUESS
+							this.incorrectGuess();
 							PauseTransition pause = new PauseTransition(Duration.seconds(1));
 							pause.setOnFinished(event -> {
 								System.out.println("Pause finished");
@@ -199,8 +224,10 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							});
 							pause.play();
 						}
-					} else if (gameMode == 1 && (numMatches * 2) + revealedCards.size() == numCards) { // denotes move for
-																										// odd out card
+					} else if (gameMode == 1 && (numMatches * 2) + revealedCards.size() == numCards) {
+						// denotes move for odd card out
+						// CORRECT GUESS
+						this.correctGuess();
 						moves++;
 					}
 				} else {
@@ -210,6 +237,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							// second click is power
 							if (revealedCards.get(0).isPower() && revealedCards.get(1).isPower()) {
 								// flip both powers back over
+								// NEUTRAL GUESS
 								moves++;
 								PauseTransition pause = new PauseTransition(Duration.seconds(1));
 								pause.setOnFinished(event -> {
@@ -256,10 +284,14 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							// normal case
 							moves++;
 							if (this.checkMatch(revealedCards.get(0), revealedCards.get(1))) {
+								// CORRECT GUESS
+								this.correctGuess();
 								revealedCards.clear();
 								numMatches++;
 							} else {
 								// NEED TO SLEEP HERE FOR 2 Seconds
+								// INCORRECT GUESS
+								this.incorrectGuess();
 								PauseTransition pause = new PauseTransition(Duration.seconds(1));
 								pause.setOnFinished(event -> {
 									System.out.println("Pause finished");
@@ -297,7 +329,9 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							});
 							pause.play();
 						} else if (revealedCards.size() == 3 && this.powersRevealed == 1) {
+							// CORRECT GUESS
 							// pair has been completed with a power
+							this.correctGuess();
 							moves++;
 							revealedCards.clear();
 							numMatches++;

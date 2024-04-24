@@ -17,16 +17,21 @@ public class Accounts implements java.io.Serializable {
     private int gamesPlayed;
     
     private int best2Normal;
+    private int best2Streak;
     private int best3Odd;
     private int best3ThreeKind;
     private int best3Power;
+    private int best3Streak;
     private int best4Normal;
     private int best4Power;
+    private int best4Streak;
     private int best5Odd;
     private int best5Power;
+    private int best5Streak;
     private int best6Normal;
     private int best6ThreeKind;
     private int best6Power;
+    private int best6Streak;
     
     private MemoryGame currGame;
 
@@ -43,16 +48,21 @@ public class Accounts implements java.io.Serializable {
         this.gamesPlayed = 0;
         // NOTE - if -1, not played that mode yet...  
         this.best2Normal = -1;
+        this.best2Streak = -1;
         this.best3Odd = -1;
         this.best3ThreeKind = -1;
         this.best3Power = -1;
+        this.best3Streak = -1;
         this.best4Normal = -1;
         this.best4Power = -1;
+        this.best4Streak = -1;
         this.best5Odd = -1;
         this.best5Power = -1;
+        this.best5Streak = -1;
         this.best6Normal = -1;
         this.best6ThreeKind = -1;
         this.best6Power = -1;
+        this.best6Streak = -1;
         this.currGame = null;
     }
     
@@ -100,6 +110,30 @@ public class Accounts implements java.io.Serializable {
     	}
     }
     
+    public void setNewStreak(int newStreak, int dim) {
+    	if(dim == 2) {
+    		if(newStreak > this.best2Streak) {
+    			this.best2Streak = newStreak;
+    		}
+    	} else if(dim == 3) {
+    		if(newStreak > this.best3Streak) {
+    			this.best3Streak = newStreak;
+    		}
+    	} else if(dim == 4) {
+    		if(newStreak > this.best4Streak) {
+    			this.best4Streak = newStreak;
+    		}
+    	} else if(dim == 5) {
+    		if(newStreak > this.best5Streak) {
+    			this.best5Streak = newStreak;
+    		}
+    	} else if(dim == 6) {
+    		if(newStreak > this.best6Streak) {
+    			this.best6Streak = newStreak;
+    		}
+    	}
+    }
+    
     /**
      * Increments games played for the account.
      */
@@ -127,6 +161,10 @@ public class Accounts implements java.io.Serializable {
     	return this.best2Normal;
     }
     
+    public Integer get2Streak() {
+    	return this.best2Streak;
+    }
+    
     public Integer get3Odd() {
     	return this.best3Odd;
     }
@@ -139,6 +177,10 @@ public class Accounts implements java.io.Serializable {
     	return this.best3Power;
     }
     
+    public Integer get3Streak() {
+    	return this.best3Streak;
+    }
+    
     public Integer get4Normal() {
     	return this.best4Normal;
     }
@@ -147,12 +189,20 @@ public class Accounts implements java.io.Serializable {
     	return this.best4Power;
     }
     
+    public Integer get4Streak() {
+    	return this.best4Streak;
+    }
+    
     public Integer get5Odd() {
     	return this.best5Odd;
     }
     
     public Integer get5Power() {
     	return this.best5Power;
+    }
+    
+    public Integer get5Streak() {
+    	return this.best5Streak;
     }
     
     public Integer get6Normal() {
@@ -165,6 +215,10 @@ public class Accounts implements java.io.Serializable {
     
     public Integer get6Power() {
     	return this.best6Power;
+    }
+    
+    public Integer get6Streak() {
+    	return this.best6Streak;
     }
     
     // TODO - re comment, add game Modes
@@ -218,6 +272,22 @@ public class Accounts implements java.io.Serializable {
     		return score;
     	} else {
     		return score;
+    	}
+    }
+    
+    public int getBestStreak(int dim) {
+    	if(dim == 2) {
+    		return this.best2Streak;
+    	} else if(dim == 3) {
+    		return this.best3Streak;
+    	} else if(dim == 4) {
+    		return this.best4Streak;
+    	} else if(dim == 5) {
+    		return this.best5Streak;
+    	} else if(dim == 6) {
+    		return this.best6Streak;
+    	} else {
+    		return -1;
     	}
     }
     

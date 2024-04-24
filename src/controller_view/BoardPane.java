@@ -314,9 +314,10 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private void updateScores() {
 		if(game != null && !game.gameActive()) {
 			System.out.println("Game has ended!");
+			System.out.println("Best guess streak: " + game.getBestStreak());
 			Accounts currAcct = gui.getCurrAcct();
+			currAcct.setNewStreak(game.getBestStreak(), game.getSize());
 			currAcct.incrementGamesPlayed();
-			
 			currAcct.setNewBestScore(game.getScore(), game.getSize(), game.getGameMode());
 		}
 	}

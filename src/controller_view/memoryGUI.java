@@ -210,7 +210,7 @@ public class memoryGUI extends Application {
 	
 	/**
 	 * A getter for newGame.
-	 * 
+	 * 1
 	 * @return The new game.
 	 */
 	public MenuItem getNewGame() {
