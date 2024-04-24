@@ -177,30 +177,6 @@ public class Board implements java.io.Serializable {
 		initBoard();
 	}
 	
-	// TODO - I think we can now get rid of this...
-	/**
-	 * Changes card design
-	 * Make sure to rerun initBoard and shuffle after changing the design. 
-	 * TODO: If we need, I can make it so it just changes the design of the cards without changing the board
-	 * 
-	 * @param cardType - Card design to use. 0 = shapes/colors, 1 = general
-	 */
-	public void changeDesign(int cardType) {
-		this.cardDesign = cardType;
-		String[] shapes = {"Square", "Circle", "Plus"};
-		String[] color = {"Red", "Blue", "Green", "Black", "Orange", "Yellow"};
-		String[] general1 = {"1", "2", "3"};
-		String[] general2 = {"A", "B", "C", "D", "E", "F"};
-		
-		if(cardType == 0) {
-			type1 = shapes;
-			type2 = color;
-		}else if(cardType == 1) {
-			type1 = general1;
-			type2 = general2;
-		}
-	}
-	
 	/**
 	 * Getter for game mode
 	 * 
