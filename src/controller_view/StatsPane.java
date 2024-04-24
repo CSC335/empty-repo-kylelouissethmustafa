@@ -33,17 +33,25 @@ public class StatsPane extends BorderPane {
     private int best2Norm;
     private int best3Odd;
     private int best3ThreeKind;
+    private int best3Power;
     private int best4Norm;
+    private int best4Power;
     private int best5Odd;
+    private int best5Power;
     private int best6Norm;
     private int best6ThreeKind;
+    private int best6Power;
     private Label str2Norm;
     private Label str3Odd;
     private Label str3ThreeKind;
+    private Label str3Power;
     private Label str4Norm;
+    private Label str4Power;
     private Label str5Odd;
+    private Label str5Power;
     private Label str6Norm;
     private Label str6ThreeKind;
+    private Label str6Power;
     
     
     
@@ -81,18 +89,26 @@ public class StatsPane extends BorderPane {
     	this.best2Norm = curAcct.getBestScore(2, 0);
         this.best3Odd = curAcct.getBestScore(3, 1);
         this.best3ThreeKind = curAcct.getBestScore(3, 2);
+        this.best3Power = curAcct.getBestScore(3, 3);
         this.best4Norm = curAcct.getBestScore(4, 0);
+        this.best4Power = curAcct.getBestScore(4, 3);
         this.best5Odd = curAcct.getBestScore(5, 1);
+        this.best5Power = curAcct.getBestScore(5, 3);
         this.best6Norm = curAcct.getBestScore(6, 0);
         this.best6ThreeKind = curAcct.getBestScore(6, 2);
+        this.best6Power = curAcct.getBestScore(6, 3);
         
         str2Norm = new Label("Best 2x2 Normal Score: ");
         str3Odd = new Label("Best 3x3 Odd One Out Score:");
         str3ThreeKind = new Label("Best 3x3 Three of a Kind Score: ");
+        str3Power = new Label("Best 3x3 Power Score: ");
         str4Norm = new Label("Best 4x4 Normal Score: ");
+        str4Power = new Label("Best 4x4 Power Score: ");
         str5Odd = new Label("Best 5x5 Odd One Out Score: ");
+        str5Power = new Label("Best 5x5 Power Score: ");
         str6Norm = new Label("Best 6x6 Normal Score: ");
         str6ThreeKind = new Label("Best 6x6 Three of a Kind Score: ");
+        str6Power = new Label("Best 6x6 Power Score: ");
         
     	
     	setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
@@ -101,11 +117,11 @@ public class StatsPane extends BorderPane {
     	canvas = new Canvas(800, 200);
         gc = canvas.getGraphicsContext2D();
         
-        gc.drawImage(logoImage, 290, 0, 200, 200);
+        gc.drawImage(logoImage, 300, 0, 160, 160);
     	
     	userStats = new Label("User Stats");
     	userStats.setStyle("-fx-font-size: 50; -fx-font-weight: bold");
-    	userStats.setPadding(new Insets(0,0,10,0));
+    	userStats.setPadding(new Insets(-20,0,20,0));
     	
         usernameLabel = new Label("Username: ");
         gamesPlayedLabel = new Label("Games Played: ");
@@ -115,48 +131,72 @@ public class StatsPane extends BorderPane {
         str2Norm.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
         str3Odd.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
         str3ThreeKind.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str3Power.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
         str4Norm.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str4Power.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
         str5Odd.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str5Power.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
         str6Norm.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
         str6ThreeKind.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
+        str6Power.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
         
         username.setStyle("-fx-font-size: 15;");
         totalGamesPlayed.setStyle("-fx-font-size: 15;");
         Label lbl2Norm = new Label(String.valueOf(best2Norm));
         if(lbl2Norm.getText().equals("-1")) {
-        	lbl2Norm.setText("Not Attempted");
+        	lbl2Norm.setText("N/A");
         }
         lbl2Norm.setStyle("-fx-font-size: 15;");
         Label lbl3Odd = new Label(String.valueOf(best3Odd));
         if(lbl3Odd.getText().equals("-1")) {
-        	lbl3Odd.setText("Not Attempted");
+        	lbl3Odd.setText("N/A");
         }
         lbl3Odd.setStyle("-fx-font-size: 15;");
         Label lbl3ThreeKind = new Label(String.valueOf(best3ThreeKind));
         if(lbl3ThreeKind.getText().equals("-1")) {
-        	lbl3ThreeKind.setText("Not Attempted");
+        	lbl3ThreeKind.setText("N/A");
         }
         lbl3ThreeKind.setStyle("-fx-font-size: 15;");
+        Label lbl3Power = new Label(String.valueOf(best3Power));
+        if(lbl3Power.getText().equals("-1")) {
+        	lbl3Power.setText("N/A");
+        }
+        lbl3Power.setStyle("-fx-font-size: 15;");
         Label lbl4Norm = new Label(String.valueOf(best4Norm));
         if(lbl4Norm.getText().equals("-1")) {
-        	lbl4Norm.setText("Not Attempted");
+        	lbl4Norm.setText("N/A");
         }
         lbl4Norm.setStyle("-fx-font-size: 15;");
+        Label lbl4Power = new Label(String.valueOf(best4Power));
+        if(lbl4Power.getText().equals("-1")) {
+        	lbl4Power.setText("N/A");
+        }
+        lbl4Power.setStyle("-fx-font-size: 15;");
         Label lbl5Odd = new Label(String.valueOf(best5Odd));
         if(lbl5Odd.getText().equals("-1")) {
-        	lbl5Odd.setText("Not Attempted");
+        	lbl5Odd.setText("N/A");
         }
         lbl5Odd.setStyle("-fx-font-size: 15;");
+        Label lbl5Power = new Label(String.valueOf(best5Power));
+        if(lbl5Power.getText().equals("-1")) {
+        	lbl5Power.setText("N/A");
+        }
+        lbl5Power.setStyle("-fx-font-size: 15;");
         Label lbl6Norm = new Label(String.valueOf(best6Norm));
         if(lbl6Norm.getText().equals("-1")) {
-        	lbl6Norm.setText("Not Attempted");
+        	lbl6Norm.setText("N/A");
         }
         lbl6Norm.setStyle("-fx-font-size: 15;");
         Label lbl6ThreeKind = new Label(String.valueOf(best6ThreeKind));
         if(lbl6ThreeKind.getText().equals("-1")) {
-        	lbl6ThreeKind.setText("Not Attempted");
+        	lbl6ThreeKind.setText("N/A");
         }
         lbl6ThreeKind.setStyle("-fx-font-size: 15;");
+        Label lbl6Power = new Label(String.valueOf(best6Power));
+        if(lbl6Power.getText().equals("-1")) {
+        	lbl6Power.setText("N/A");
+        }
+        lbl6Power.setStyle("-fx-font-size: 15;");
         
         grid = new GridPane();
         grid.setHgap(10);
@@ -173,24 +213,34 @@ public class StatsPane extends BorderPane {
         grid.add(lbl3Odd, 1, 4);
         grid.add(str3ThreeKind, 0, 5);
         grid.add(lbl3ThreeKind, 1, 5);
-        grid.add(str4Norm, 0, 6);
-        grid.add(lbl4Norm, 1, 6);
-        grid.add(str5Odd, 0, 7);
-        grid.add(lbl5Odd, 1, 7);
-        grid.add(str6Norm, 0, 8);
-        grid.add(lbl6Norm, 1, 8);
-        grid.add(str6ThreeKind, 0, 9);
-        grid.add(lbl6ThreeKind, 1, 9);
+        grid.add(str3Power, 0, 6);
+        grid.add(lbl3Power, 1, 6);
+        grid.add(str4Norm, 0, 7);
+        grid.add(lbl4Norm, 1, 7);
+        grid.add(str4Power, 0, 8);
+        grid.add(lbl4Power, 1, 8);
+        grid.add(str5Odd, 0, 9);
+        grid.add(lbl5Odd, 1, 9);
+        grid.add(str5Power, 0, 10);
+        grid.add(lbl5Power, 1, 10);
+        grid.add(str6Norm, 0, 11);
+        grid.add(lbl6Norm, 1, 11);
+        grid.add(str6ThreeKind, 0, 12);
+        grid.add(lbl6ThreeKind, 1, 12);
+        grid.add(str6Power, 0, 13);
+        grid.add(lbl6Power, 1, 13);
         
         ColumnConstraints col1 = new ColumnConstraints();
         col1.setMinWidth(180);
         grid.getColumnConstraints().add(col1);
+        
+        grid.setPadding(new Insets(-20, 0, 0, 0));
 
         pane = new BorderPane();
         pane.setTop(userStats);
         pane.setCenter(grid);
         
-        pane.setPadding(new Insets(-20, 0, 0, 270));
+        pane.setPadding(new Insets(-50, 0, 0, 270));
         
         this.setTop(canvas);
         this.setCenter(pane);

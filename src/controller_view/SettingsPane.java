@@ -87,21 +87,20 @@ public class SettingsPane extends BorderPane {
 			
 			gameMode.getItems().clear();
 			
-			// TODO - add Power game mode...
 			if(newValue.equals("2x2")) {
 				gameMode.getItems().addAll("Normal");
 				gameMode.setValue("Normal");
 			} else if(newValue.equals("3x3")) {
-				gameMode.getItems().addAll("Odd Card Out", "3 of a Kind");
+				gameMode.getItems().addAll("Odd Card Out", "3 of a Kind", "Power");
 				gameMode.setValue("Odd Card Out");
 			} else if(newValue.equals("4x4")) {
-				gameMode.getItems().addAll("Normal");
+				gameMode.getItems().addAll("Normal", "Power");
 				gameMode.setValue("Normal");
 			} else if(newValue.equals("5x5")) {
-				gameMode.getItems().addAll("Odd Card Out");
+				gameMode.getItems().addAll("Odd Card Out", "Power");
 				gameMode.setValue("Odd Card Out");
 			} else if(newValue.equals("6x6")) {
-				gameMode.getItems().addAll("Normal", "3 of a Kind");
+				gameMode.getItems().addAll("Normal", "3 of a Kind", "Power");
 				gameMode.setValue("Normal");
 			}
 			
@@ -142,6 +141,8 @@ public class SettingsPane extends BorderPane {
 				modeNum = 1;
 			} else if(mode.equals("3 of a Kind")) {
 				modeNum = 2;
+			} else if(mode.equals("Power")) {
+				modeNum = 3;
 			} else {
 				modeNum = 0;
 			}

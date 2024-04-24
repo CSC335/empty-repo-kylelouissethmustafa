@@ -19,10 +19,14 @@ public class Accounts implements java.io.Serializable {
     private int best2Normal;
     private int best3Odd;
     private int best3ThreeKind;
+    private int best3Power;
     private int best4Normal;
+    private int best4Power;
     private int best5Odd;
+    private int best5Power;
     private int best6Normal;
     private int best6ThreeKind;
+    private int best6Power;
     
     private MemoryGame currGame;
 
@@ -41,10 +45,14 @@ public class Accounts implements java.io.Serializable {
         this.best2Normal = -1;
         this.best3Odd = -1;
         this.best3ThreeKind = -1;
+        this.best3Power = -1;
         this.best4Normal = -1;
+        this.best4Power = -1;
         this.best5Odd = -1;
+        this.best5Power = -1;
         this.best6Normal = -1;
         this.best6ThreeKind = -1;
+        this.best6Power = -1;
         this.currGame = null;
     }
     
@@ -66,20 +74,28 @@ public class Accounts implements java.io.Serializable {
     			this.best3Odd = newScore;
     		} else if(gameMode == 2) {
     			this.best3ThreeKind = newScore;
+    		} else if(gameMode == 3) {
+    			this.best3Power = newScore;
     		}
     	} else if(dim == 4) {
     		if(gameMode == 0) {
     			this.best4Normal = newScore;
+    		} else if(gameMode == 3) {
+    			this.best4Power = newScore;
     		}
     	} else if(dim == 5) {
     		if(gameMode == 1) {
     			this.best5Odd = newScore;
+    		} else if(gameMode == 3) {
+    			this.best5Power = newScore;
     		}
     	} else if(dim == 6) {
     		if(gameMode == 0) {
     			this.best6Normal = newScore;
     		} else if(gameMode == 2) {
     			this.best6ThreeKind = newScore;
+    		} else if(gameMode == 3) {
+    			this.best6Power = newScore;
     		}
     	}
     }
@@ -119,12 +135,24 @@ public class Accounts implements java.io.Serializable {
     	return this.best3ThreeKind;
     }
     
+    public Integer get3Power() {
+    	return this.best3Power;
+    }
+    
     public Integer get4Normal() {
     	return this.best4Normal;
     }
     
+    public Integer get4Power() {
+    	return this.best4Power;
+    }
+    
     public Integer get5Odd() {
     	return this.best5Odd;
+    }
+    
+    public Integer get5Power() {
+    	return this.best5Power;
     }
     
     public Integer get6Normal() {
@@ -133,6 +161,10 @@ public class Accounts implements java.io.Serializable {
     
     public Integer get6ThreeKind() {
     	return this.best6ThreeKind;
+    }
+    
+    public Integer get6Power() {
+    	return this.best6Power;
     }
     
     // TODO - re comment, add game Modes
@@ -153,20 +185,28 @@ public class Accounts implements java.io.Serializable {
     			score = this.best3Odd;
     		} else if(gameMode == 2) {
     			score = this.best3ThreeKind;
+    		} else if(gameMode == 3) {
+    			score = this.best3Power;
     		}
     	} else if(dim == 4) {
     		if(gameMode == 0) {
     			score = this.best4Normal;
+    		} else if(gameMode == 3) {
+    			score = this.best4Power;
     		}
     	} else if(dim == 5) {
     		if(gameMode == 1) {
     			score = this.best5Odd;
+    		} else if(gameMode == 3) {
+    			score = this.best5Power;
     		}
     	} else if(dim == 6) {
     		if(gameMode == 0) {
     			score = this.best6Normal;
     		} else if(gameMode == 2) {
     			score = this.best6ThreeKind;
+    		} else if(gameMode == 3) {
+    			score = this.best6Power;
     		}
     	}
     	

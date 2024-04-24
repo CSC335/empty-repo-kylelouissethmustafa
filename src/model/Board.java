@@ -139,6 +139,7 @@ public class Board implements java.io.Serializable {
 		// Add more game modes when we need
 	}
 	
+	// TODO - fix commenting here
 	/**
 	 * Finds and reveals the matching card of the given coordinate (for Powers)
 	 * Run if the second card chosen isn't also a power card; just award like -100 points
@@ -148,16 +149,22 @@ public class Board implements java.io.Serializable {
 	 * @param x - x row of card to match
 	 * @param y - y column of card to match
 	 */
-	public void findMatch(int x, int y) {
+	public int[] findMatch(int x, int y) {
 		String type2 = board[x][y].getType2();
 		String type1 = board[x][y].getType1();
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
 				if(board[i][j].getType2().equals(type2) && board[i][j].getType1().equals(type1)) {
-					board[i][j].toggle();
+					if(i != x || j != y) {
+						int[] coords = new int[2];
+						coords[0] = i;
+						coords[1] = j;
+						return coords;
+					}
 				}
 			}
 		}
+		return null;
 	}
 	
 	/**

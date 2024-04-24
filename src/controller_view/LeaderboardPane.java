@@ -145,6 +145,14 @@ public class LeaderboardPane extends BorderPane {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
+			} else if (curMode == 3) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("3Power"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get3Power() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
 			}
 		} else if (curDim == 4) {
 			if (curMode == 0) {
@@ -155,6 +163,14 @@ public class LeaderboardPane extends BorderPane {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
+			} else if (curMode == 3) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("4Power"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get4Power() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
 			}
 		} else if (curDim == 5) {
 			if (curMode == 1) {
@@ -162,6 +178,14 @@ public class LeaderboardPane extends BorderPane {
 				croppedCollection.clear();
 				for (int i = 0; i < accountCollection.getSize(); i++) {
 					if (accountCollection.getElement(i).get5Odd() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
+			} else if (curMode == 3) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("5Power"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get5Power() >= 0) {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
@@ -184,7 +208,15 @@ public class LeaderboardPane extends BorderPane {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
-			}
+			} else if (curMode == 3) {
+				scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("6Power"));
+				croppedCollection.clear();
+				for (int i = 0; i < accountCollection.getSize(); i++) {
+					if (accountCollection.getElement(i).get6Power() >= 0) {
+						croppedCollection.add(accountCollection.getElement(i));
+					}
+				}
+			} 
 
 		} else {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2Normal"));
@@ -321,28 +353,36 @@ public class LeaderboardPane extends BorderPane {
 				gameModeSelection.setValue("Normal");
 			}
 		} else if (newValue.equals("3x3")) {
-			gameModeSelection.getItems().addAll("Odd Card Out", "3 of a Kind");
+			gameModeSelection.getItems().addAll("Odd Card Out", "3 of a Kind", "Power");
 			if(curMode == 1) {
 				gameModeSelection.setValue("Odd Card Out");
 			} else if(curMode == 2) {
 				gameModeSelection.setValue("3 of a Kind");
+			} else if(curMode == 3) {
+				gameModeSelection.setValue("Power");
 			}
 		} else if (newValue.equals("4x4")) {
-			gameModeSelection.getItems().addAll("Normal");
+			gameModeSelection.getItems().addAll("Normal", "Power");
 			if(curMode == 0) {
 				gameModeSelection.setValue("Normal");
+			} else if(curMode == 3) {
+				gameModeSelection.setValue("Power");
 			}
 		} else if (newValue.equals("5x5")) {
-			gameModeSelection.getItems().addAll("Odd Card Out");
+			gameModeSelection.getItems().addAll("Odd Card Out", "Power");
 			if(curMode == 1) {
 				gameModeSelection.setValue("Odd Card Out");
+			} else if(curMode == 3) {
+				gameModeSelection.setValue("Power");
 			}
 		} else if (newValue.equals("6x6")) {
-			gameModeSelection.getItems().addAll("Normal", "3 of a Kind");
+			gameModeSelection.getItems().addAll("Normal", "3 of a Kind", "Power");
 			if(curMode == 0) {
 				gameModeSelection.setValue("Normal");
 			} else if(curMode == 2) {
 				gameModeSelection.setValue("3 of a Kind");
+			} else if(curMode == 3) {
+				gameModeSelection.setValue("Power");
 			}
 			
 		}
@@ -383,6 +423,8 @@ public class LeaderboardPane extends BorderPane {
 				curMode = 1;
 			} else if (mode.equals("3 of a Kind")) {
 				curMode = 2;
+			} else if(mode.equals("Power")) {
+				curMode = 3;
 			}
 			
 			System.out.println("Viewing dim: " + curDim + " mode: " + curMode);

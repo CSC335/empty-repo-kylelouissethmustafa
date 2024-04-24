@@ -77,6 +77,10 @@ public class Card implements java.io.Serializable {
 	public Boolean getRevealed() {
 		return revealed;
 	}
+	
+	public Boolean isPower() {
+		return this.type1 == "POWER" && this.type2 == "POWER";
+	}
 
 	// GUI can have a method to turn a card into a object
 }

@@ -47,6 +47,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 	
 	private Image cardBack;
 	private Image cardFront;
+	private Image power1;
 	private Image a1;
 	private Image a2;
 	private Image a3;
@@ -149,6 +150,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private void initImages() {
 		cardBack = new Image("file:img/BasicCardBack.png");
 		cardFront = new Image("file:img/BasicCardInside.png");
+		power1 = new Image("file:img/power1.png");
 		
 		int gameTheme = game.getTheme();
 		
@@ -249,6 +251,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 		    gc.drawImage(f2, thisStartX, thisStartY, cardSize, cardSize);
 		} else if("F".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
 		    gc.drawImage(f3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("POWER".equals(thisCard.getType2()) && "POWER".equals(thisCard.getType1())) {
+			gc.drawImage(power1, thisStartX, thisStartY, cardSize, cardSize);
 		} else {
 			System.out.println("Drawing generic...");
 			gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
@@ -468,7 +472,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 					if(curRow == -1 | curCol == -1) {
 						System.out.println("Registered invalid click");
 					} else {
-						game.cardClicked(curRow, curCol);
+						game.cardClicked(curRow, curCol, 1);
 					}
 				}
 			}
