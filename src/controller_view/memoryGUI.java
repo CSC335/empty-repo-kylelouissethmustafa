@@ -34,21 +34,20 @@ import model.Accounts;
 import model.MemoryGame;
 import model.shopItem;
 
-
 public class memoryGUI extends Application {
-	
+
 	private LoginPane loginPane;
 	private BoardPane boardPane;
 	private StatsPane statsPane;
 	private ShopPane shopPane;
-//	private SettingsPane settingsPane;
+	private SettingsPane settingsPane;
 	private LeaderboardPane leaderboard2x2;
 	private LeaderboardPane leaderboardPane;
 	private LeaderboardPane leaderboard3x3;
 	private LeaderboardPane leaderboard4x4;
 	private LeaderboardPane leaderboard5x5;
 	private LeaderboardPane leaderboard6x6;
-	
+
 	private MenuBar menuBar;
 	private MenuItem logout;
 	private MenuItem newGame;
@@ -57,12 +56,12 @@ public class memoryGUI extends Application {
 	private MenuItem userStats;
 	private MenuItem gameSettings;
 	private MenuItem itemShop;
-	
+
 	private Accounts currAcct;
-	
+
 	private AccountCollection accountCollection;
 	private shopCollection shopCollection;
-	
+
 	private int gameDim;
 	private int gameMode;
 	private int gameTheme;
@@ -73,60 +72,59 @@ public class memoryGUI extends Application {
 
 	private BorderPane all;
 
-
 	@Override
 	/**
-	 * This method starts the GUI, calling methods to layout the GUI,
-	 * adding the menu, and registering handlers.
+	 * This method starts the GUI, calling methods to layout the GUI, adding the
+	 * menu, and registering handlers.
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		accountCollection = new AccountCollection();
 		shopCollection = new shopCollection();
-		
+
 		getSavedDataOrNot();
 		loginPane = new LoginPane(currAcct, accountCollection, this);
 		boardPane = new BoardPane(this);
 		statsPane = new StatsPane(this);
 		initShopCollection();
 		shopPane = new ShopPane(shopCollection);
-//		settingsPane = new SettingsPane(this);
-		
+		settingsPane = new SettingsPane(this);
+
 		LayoutGUI();
-		
+
 		addMenu();
-		
-		//addTestAccounts(); // TODO - remove this for final production.
-		
+
+		// addTestAccounts(); // TODO - remove this for final production.
+
 		setupGameSettings(2, 0, 0);
 
 		Scene scene = new Scene(all, 850, 650);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Memory Game");
 		primaryStage.show();
-		
+
 		registerHandlers(primaryStage);
 	}
-	
+
 	private void getSavedDataOrNot() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Start Up Option");
 		alert.setHeaderText("Load saved data?");
 		alert.setContentText("Click cancel to start new!");
 		Optional<ButtonType> result = alert.showAndWait();
-		if(result.get() == ButtonType.OK) {
+		if (result.get() == ButtonType.OK) {
 			try {
 				File file = new File("objects.ser");
-				
-				if(file.exists()) {
+
+				if (file.exists()) {
 					FileInputStream rawBytes = new FileInputStream("objects.ser");
 					ObjectInputStream inFile = new ObjectInputStream(rawBytes);
-					
+
 					AccountCollection inAccounts = (AccountCollection) inFile.readObject();
 					MemoryGame inGame = (MemoryGame) inFile.readObject();
-					
+
 					accountCollection = inAccounts;
 					game = inGame;
-					
+
 				}
 			} catch (IOException io) {
 				System.out.println("File IO Exception");
@@ -140,15 +138,15 @@ public class memoryGUI extends Application {
 	}
 
 	/**
-	 * This method lays out the gui by setting the loginPane
-	 * to the center initially.
+	 * This method lays out the gui by setting the loginPane to the center
+	 * initially.
 	 */
 	private void LayoutGUI() {
 		all = new BorderPane();
-		
+
 		all.setCenter(loginPane);
 	}
-	
+
 	/**
 	 * A getter for the accountCollection.
 	 * 
@@ -157,10 +155,10 @@ public class memoryGUI extends Application {
 	private AccountCollection getAcctCollection() {
 		return accountCollection;
 	}
-	
+
 	/**
-	 * The method that handles a successful login, setting up a menu and
-	 * clear canvas, as well as setting the current user.
+	 * The method that handles a successful login, setting up a menu and clear
+	 * canvas, as well as setting the current user.
 	 * 
 	 * @param loginAcct The account that just successfully logged in.
 	 */
@@ -169,13 +167,13 @@ public class memoryGUI extends Application {
 		all.setTop(menuBar);
 		all.setCenter(boardPane);
 		this.currAcct = accountCollection.getAccount(loginAcct.getUsername(), loginAcct.getPassword());
-		if(currAcct.getCurrGame() != null) {
+		if (currAcct.getCurrGame() != null) {
 			boardPane.setGame(currAcct.getCurrGame());
 		}
-		
+
 		System.out.println("Current User: " + currAcct.getUsername());
 	}
-	
+
 	/**
 	 * A getter for the current user's account.
 	 * 
@@ -184,54 +182,61 @@ public class memoryGUI extends Application {
 	public Accounts getCurrAcct() {
 		return this.currAcct;
 	}
-	
+
 	private void addTestAccounts() {
 		Accounts account1 = new Accounts("Seth", "Seth123");
 		account1.setNewBestScore(20, 2, 0);
 		account1.setNewBestScore(50, 3, 1);
-		
+
 		Accounts account2 = new Accounts("Mustafa", "Mustafa123");
 		account2.setNewBestScore(50, 2, 0);
 		account2.setNewBestScore(20, 3, 1);
-		
-		
+
 		Accounts account3 = new Accounts("Mustafa2", "Mustafa1");
 		account3.setNewBestScore(10, 2, 0);
 		account3.setNewBestScore(90, 3, 1);
-		
+
 		accountCollection.add(account1);
 		accountCollection.add(account2);
 		accountCollection.add(account3);
 	}
-	
+
 	private void addMenu() {
 		// see ButtonView from TTTStart
 		newGame = new MenuItem("New Game");
 		MenuItem other = new MenuItem("Other");
 		leaderboard = new MenuItem("Leaderboard");
 		logout = new MenuItem("Logout");
-		
 
 		Menu options = new Menu("Options");
 		itemShop = new MenuItem("Item Shop");
 		userStats = new MenuItem("User Stats");
 		gameSettings = new MenuItem("Game Settings");
-		
+
 		options.getItems().addAll(newGame, leaderboard, itemShop, logout, userStats, gameSettings, other);
 
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
 	}
-	
+
 	/**
-	 * A getter for newGame.
-	 * 1
+	 * A getter for newGame. 1
+	 * 
 	 * @return The new game.
 	 */
 	public MenuItem getNewGame() {
 		return newGame;
 	}
-	
+
+	/**
+	 * Given dimension, game mode, and theme, this function sets the game settings
+	 * in the instance variables of this class.
+	 * 
+	 * @param dim   The integer representing dimension (2 for 2x2, etc.) of the
+	 *              current game.
+	 * @param mode  The integer representing gameMode of the game.
+	 * @param theme The integer representing theme of the game.
+	 */
 	public void setupGameSettings(int dim, int mode, int theme) {
 		this.gameDim = dim;
 		this.gameMode = mode;
@@ -251,54 +256,56 @@ public class memoryGUI extends Application {
 	}
 	
 	/**
-	 * This method registers event handlers, including logout, click of UserStats in menu,
-	 * clicks of new game for each game mode,and clicks of leaderboard for each game mode.
+	 * This method registers event handlers, including logout, click of UserStats in
+	 * menu, clicks of new game for each game mode,and clicks of leaderboard for
+	 * each game mode.
 	 * 
+	 * @param stage The stage of the GUI.
 	 */
 	private void registerHandlers(Stage stage) {
 		itemShop.setOnAction(event -> {
 			shopPane.layoutShop();
 			all.setCenter(shopPane);
 		});
-		
+
 		logout.setOnAction(event -> {
 			currAcct = null;
 			all.setTop(null);
 			all.setCenter(loginPane);
 			loginPane.logout();
 		});
-		
-		
+
 		userStats.setOnAction(event -> {
 			statsPane.layoutStatsPane();
 			all.setCenter(statsPane);
 		});
-		
-//		gameSettings.setOnAction(event -> {
-//			all.setCenter(settingsPane);
-//		});
-		
-		leaderboard.setOnAction(event -> {
-			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
-			
-			leaderboardPane = new LeaderboardPane(accountCollection);
-			
-			all.setCenter(leaderboardPane);
-			System.out.println("Leaderboard Clicked");			
-			
+
+		gameSettings.setOnAction(event -> {
+			all.setCenter(settingsPane);
 		});
-		
+
+		leaderboard.setOnAction(event -> {
+			// When leaderboard is clicked in the menu, switch leaderboardPane to be the
+			// center
+
+			leaderboardPane = new LeaderboardPane(accountCollection);
+
+			all.setCenter(leaderboardPane);
+			System.out.println("Leaderboard Clicked");
+
+		});
+
 		newGame.setOnAction(event -> {
-			if(currAcct != null) {
+			if (currAcct != null) {
 				all.setCenter(boardPane);
 				int curDim = this.gameDim;
 				int curMode = this.gameMode;
 				int curTheme = this.gameTheme;
-				
+
 				boardPane.startNewGame(curMode, curDim, curTheme);
 			}
 		});
-		
+
 		stage.setOnCloseRequest(event -> {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Shut Down");
@@ -310,10 +317,10 @@ public class memoryGUI extends Application {
 				try {
 					FileOutputStream bytesToDisk = new FileOutputStream(filename);
 					ObjectOutputStream outFile = new ObjectOutputStream(bytesToDisk);
-					
+
 					// Save AccountCollection
 					AccountCollection currAccounts = accountCollection;
-					
+
 					// Save MemoryGame
 					MemoryGame currGame = game;
 

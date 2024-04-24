@@ -70,15 +70,11 @@ public class LeaderboardPane extends BorderPane {
 	 * This is a public method/constructor that constructs a new LeaderboardPane
 	 * instance. The constructor initializes a new leaderboard pane with the
 	 * provided account collection and game mode. The leaderboard displays the
-	 * scores of accounts according to the specified game mode, ranging from 2x2
-	 * grid to 6x6 grid.
+	 * scores of accounts according to the specified gameMode.
 	 * 
 	 * 
 	 * @param accountCollection The collection of accounts to be displayed on the
 	 *                          leaderboard.
-	 * @param gameMode          The game mode for which the leaderboard is being
-	 *                          constructed. Valid values are 2 through 6
-	 *                          representing the dimensions of the game grid.
 	 */
 	public LeaderboardPane(AccountCollection accountCollection) {
 
@@ -107,15 +103,20 @@ public class LeaderboardPane extends BorderPane {
 
 	}
 
+	/**
+	 * This function sets up the leaderboard, which is a tableView, to be displayed
+	 * on the leaderboardPane, based on the current dimension and current mode being
+	 * inquired about by the user.
+	 */
 	private void setupLeaderboard() {
 		table = new TableView<>();
 		usernameColumn = new TableColumn<>("Username");
-		if(curMode != 4) {
+		if (curMode != 4) {
 			scoreColumn = new TableColumn<>("Score");
 		} else {
 			scoreColumn = new TableColumn<>("Streak");
 		}
-		
+
 		table.getStyleClass().add("row-hover-effect");
 
 		usernameColumn.setCellValueFactory(new PropertyValueFactory<Accounts, String>("Username"));
@@ -261,7 +262,7 @@ public class LeaderboardPane extends BorderPane {
 						croppedCollection.add(accountCollection.getElement(i));
 					}
 				}
-			} 
+			}
 
 		} else {
 			scoreColumn.setCellValueFactory(new PropertyValueFactory<Accounts, Integer>("2Normal"));
@@ -272,16 +273,16 @@ public class LeaderboardPane extends BorderPane {
 				}
 			}
 		}
-		
+
 		addAllUsernames();
 
 		// Set up table data and columns.
 		table.setItems(accounts);
 		table.getColumns().clear();
 		table.getColumns().addAll(usernameColumn, scoreColumn);
-		
+
 		// Populate the table with account data and perform initial sorting (ASCENDING).
-		
+
 		resortTable();
 	}
 
@@ -297,17 +298,16 @@ public class LeaderboardPane extends BorderPane {
 		table.getSortOrder().add(scoreColumn);
 
 		// Set sort type to ascending.
-		if(curMode != 4) {
+		if (curMode != 4) {
 			scoreColumn.setSortType(TableColumn.SortType.ASCENDING);
 		} else {
 			scoreColumn.setSortType(TableColumn.SortType.DESCENDING);
 		}
-		
 
 		// Perform sorting.
 		table.sort();
 	}
-	
+
 	/**
 	 * This method clears the accounts list and then iterates through the account
 	 * collection, adding each account to the accounts list. It is used to populate
@@ -322,7 +322,7 @@ public class LeaderboardPane extends BorderPane {
 		for (int i = 0; i < croppedCollection.getSize(); i++) {
 			accounts.add(croppedCollection.getElement(i));
 		}
-		
+
 		System.out.println("new accounts size: " + accounts.size());
 	}
 
@@ -353,7 +353,7 @@ public class LeaderboardPane extends BorderPane {
 
 		gameModeSelection = new ComboBox<>();
 		gameModeLbl = new Label("Game Mode");
-		
+
 		showCurrentSettings();
 
 		viewLeaderboardBtn = new Button("View Leaderboard");
@@ -385,13 +385,13 @@ public class LeaderboardPane extends BorderPane {
 
 		this.setTop(canvas);
 		this.setCenter(outerPane);
-		
+
 		registerHandlers();
 	}
-	
+
 	private void showCurrentSettings() {
 		dimensionSelection.getSelectionModel().select(curDim - 2);
-		
+
 		String newValue = dimensionSelection.getValue();
 
 		gameModeSelection.getItems().clear();
@@ -399,57 +399,57 @@ public class LeaderboardPane extends BorderPane {
 		// TODO - add Power game mode...
 		if (newValue.equals("2x2")) {
 			gameModeSelection.getItems().addAll("Normal", "Streak");
-			if(curMode == 0) {
+			if (curMode == 0) {
 				gameModeSelection.setValue("Normal");
-			} else if(curMode == 4) {
+			} else if (curMode == 4) {
 				gameModeSelection.setValue("Streak");
 			}
 		} else if (newValue.equals("3x3")) {
 			gameModeSelection.getItems().addAll("Odd Card Out", "3 of a Kind", "Power", "Streak");
-			if(curMode == 1) {
+			if (curMode == 1) {
 				gameModeSelection.setValue("Odd Card Out");
-			} else if(curMode == 2) {
+			} else if (curMode == 2) {
 				gameModeSelection.setValue("3 of a Kind");
-			} else if(curMode == 3) {
+			} else if (curMode == 3) {
 				gameModeSelection.setValue("Power");
-			} else if(curMode == 4) {
+			} else if (curMode == 4) {
 				gameModeSelection.setValue("Streak");
 			}
 		} else if (newValue.equals("4x4")) {
 			gameModeSelection.getItems().addAll("Normal", "Power", "Streak");
-			if(curMode == 0) {
+			if (curMode == 0) {
 				gameModeSelection.setValue("Normal");
-			} else if(curMode == 3) {
+			} else if (curMode == 3) {
 				gameModeSelection.setValue("Power");
 			}
 		} else if (newValue.equals("5x5")) {
 			gameModeSelection.getItems().addAll("Odd Card Out", "Power", "Streak");
-			if(curMode == 1) {
+			if (curMode == 1) {
 				gameModeSelection.setValue("Odd Card Out");
-			} else if(curMode == 3) {
+			} else if (curMode == 3) {
 				gameModeSelection.setValue("Power");
-			} else if(curMode == 4) {
+			} else if (curMode == 4) {
 				gameModeSelection.setValue("Streak");
 			}
 		} else if (newValue.equals("6x6")) {
 			gameModeSelection.getItems().addAll("Normal", "3 of a Kind", "Power", "Streak");
-			if(curMode == 0) {
+			if (curMode == 0) {
 				gameModeSelection.setValue("Normal");
-			} else if(curMode == 2) {
+			} else if (curMode == 2) {
 				gameModeSelection.setValue("3 of a Kind");
-			} else if(curMode == 3) {
+			} else if (curMode == 3) {
 				gameModeSelection.setValue("Power");
-			} else if(curMode == 4) {
+			} else if (curMode == 4) {
 				gameModeSelection.setValue("Streak");
 			}
-			
+
 		}
 	}
 
 	private void registerHandlers() {
 		dimensionSelection.setOnAction(event -> {
 			String dim = dimensionSelection.getValue();
-			
+
 			if (dim.equals("2x2")) {
 				curDim = 2;
 				curMode = 0;
@@ -481,12 +481,12 @@ public class LeaderboardPane extends BorderPane {
 				curMode = 1;
 			} else if (mode.equals("3 of a Kind")) {
 				curMode = 2;
-			} else if(mode.equals("Power")) {
+			} else if (mode.equals("Power")) {
 				curMode = 3;
-			} else if(mode.equals("Streak")) {
+			} else if (mode.equals("Streak")) {
 				curMode = 4;
 			}
-			
+
 			System.out.println("Viewing dim: " + curDim + " mode: " + curMode);
 
 			setupLeaderboard();

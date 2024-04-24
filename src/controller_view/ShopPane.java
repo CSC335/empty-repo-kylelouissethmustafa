@@ -25,11 +25,10 @@ import model.Accounts;
 import model.shopCollection;
 import model.shopItem;
 
-
 /**
- * This class represents the shop pane in our MemoryGame. It'll allow
- * users to buy new game modes and powers with in-game currency so they
- * may experience more features and get a sense of progression.
+ * This class represents the shop pane in our MemoryGame. It'll allow users to
+ * buy new game modes and powers with in-game currency so they may experience
+ * more features and get a sense of progression.
  * 
  * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
@@ -42,13 +41,13 @@ public class ShopPane extends BorderPane {
 	private TableView<shopItem> table;
 	private TableColumn<shopItem, String> nameColumn;
 	private TableColumn<shopItem, Integer> priceColumn;
-	
+
 	private Label balanceLabel;
 	private Button buyButton;
-	
+
 	private shopCollection shopCollection;
 	private shopCollection croppedCollection;
-	
+
 	public ShopPane(shopCollection shopCollection) {
 
 		// Initialize UI components.
@@ -60,17 +59,19 @@ public class ShopPane extends BorderPane {
 		table = new TableView<>();
 		nameColumn = new TableColumn<>("Item Name");
 		priceColumn = new TableColumn<>("Price");
-		
+
 		setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
 		table.getStyleClass().add("row-hover-effect");
-		
+
 		this.shopCollection = shopCollection;
-		
+
+		this.shopCollection.add(new shopItem("Test", 100));
+
 		nameColumn.setCellValueFactory(new PropertyValueFactory<shopItem, String>("itemName"));
 		priceColumn.setCellValueFactory(new PropertyValueFactory<shopItem, Integer>("Price"));
-		
+
 		croppedCollection = new shopCollection();
-		
+
 		for (int i = 0; i < shopCollection.getSize(); i++) {
 			croppedCollection.add(shopCollection.getElement(i));
 		}
@@ -86,8 +87,8 @@ public class ShopPane extends BorderPane {
 	}
 
 	/**
-	 * This method sets the default sort column to the price column and
-	 * sorts the table in ascending order based on the prices.
+	 * This method sets the default sort column to the price column and sorts the
+	 * table in ascending order based on the prices.
 	 */
 	public void resortTable() {
 		table.getSortOrder().add(priceColumn);
@@ -124,7 +125,8 @@ public class ShopPane extends BorderPane {
 
 	/**
 	 * This method clears the shopItem list and then iterates through the shopItem
-	 * collection, adding each item to the item list. This will help populate the table
+	 * collection, adding each item to the item list. This will help populate the
+	 * table
 	 */
 	private void addAllItems() {
 		items.clear();

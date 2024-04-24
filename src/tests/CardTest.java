@@ -47,6 +47,7 @@ class CardTest {
 	public void testAll() {
 		Card testCard = new Card("Red", "Square");
 		Card testCard2 = new Card("Red", "Square");
+		Card testCard5 = new Card("Red", "Square");
 		Card testCard3 = new Card("Green", "Circle");
 		Card testCard4 = new Card("Red", "Circle");
 		assertEquals(true, testCard.checkMatch(testCard2));
@@ -59,5 +60,14 @@ class CardTest {
 		assertEquals(true, testCard.checkMatch(testCard2));
 		testCard.toggle();
 		assertEquals(true, testCard.checkMatch(testCard2));
+		assertEquals(true, testCard.checkMatch(testCard2, testCard5));
+		assertEquals(false, testCard.checkMatch(testCard2, testCard3));
 	}
+	
+	@Test
+	public void testPower() {
+		Card powerCard = new Card("POWER", "POWER");
+		assertEquals(true, powerCard.isPower());
+	}
+	
 }
