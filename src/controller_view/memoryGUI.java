@@ -16,6 +16,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.AccountCollection;
+import model.shopCollection;
 import model.Accounts;
 import model.MemoryGame;
 
@@ -25,7 +26,8 @@ public class memoryGUI extends Application {
 	private LoginPane loginPane;
 	private BoardPane boardPane;
 	private StatsPane statsPane;
-	private SettingsPane settingsPane;
+	private ShopPane shopPane;
+//	private SettingsPane settingsPane;
 	private LeaderboardPane leaderboard2x2;
 	private LeaderboardPane leaderboard3x3;
 	private LeaderboardPane leaderboard4x4;
@@ -49,10 +51,12 @@ public class memoryGUI extends Application {
 	private MenuItem sixBySix;
 	private MenuItem userStats;
 	private MenuItem gameSettings;
+	private MenuItem itemShop;
 	
 	private Accounts currAcct;
 	
 	private AccountCollection accountCollection;
+	private shopCollection shopCollection;
 	
 	private int gameDim;
 
@@ -70,10 +74,13 @@ public class memoryGUI extends Application {
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		accountCollection = new AccountCollection();
+		shopCollection = new shopCollection();
+		
 		loginPane = new LoginPane(currAcct, accountCollection, this);
 		boardPane = new BoardPane(this);
 		statsPane = new StatsPane(this);
-		settingsPane = new SettingsPane(this);
+		shopPane = new ShopPane(shopCollection);
+//		settingsPane = new SettingsPane(this);
 		
 		LayoutGUI();
 		
@@ -170,11 +177,14 @@ public class memoryGUI extends Application {
 		sixBySix = new MenuItem("6x6");
 		leaderboard.getItems().addAll(twoByTwo, threeByThree, fourByFour, fiveByFive, sixBySix);
 		logout = new MenuItem("Logout");
+		
 
 		Menu options = new Menu("Options");
+		itemShop = new MenuItem("Item Shop");
 		userStats = new MenuItem("User Stats");
 		gameSettings = new MenuItem("Game Settings");
-		options.getItems().addAll(newGame, leaderboard, logout, userStats, gameSettings, other);
+		
+		options.getItems().addAll(newGame, leaderboard, itemShop, logout, userStats, gameSettings, other);
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
 	}
@@ -199,6 +209,11 @@ public class memoryGUI extends Application {
 	 * 
 	 */
 	private void registerHandlers() {
+		itemShop.setOnAction(event -> {
+			shopPane.layoutShop();
+			all.setCenter(shopPane);
+		});
+		
 		logout.setOnAction(event -> {
 			currAcct = null;
 			all.setTop(null);
@@ -206,14 +221,15 @@ public class memoryGUI extends Application {
 			loginPane.logout();
 		});
 		
+		
 		userStats.setOnAction(event -> {
 			statsPane.layoutStatsPane();
 			all.setCenter(statsPane);
 		});
 		
-		gameSettings.setOnAction(event -> {
-			all.setCenter(settingsPane);
-		});
+//		gameSettings.setOnAction(event -> {
+//			all.setCenter(settingsPane);
+//		});
 		
 		twoByTwo.setOnAction(event -> {
 			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
