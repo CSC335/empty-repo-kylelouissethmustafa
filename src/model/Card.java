@@ -11,7 +11,12 @@ public class Card implements java.io.Serializable {
 	private String type2; // was color
 	private Boolean revealed;
 
-	// Constructor
+	/**
+	 * The constructor for Card.
+	 * 
+	 * @param type2 The String representing type2 charactarization for the card.
+	 * @param type1 The String representing type2 charactarization for the card.
+	 */
 	public Card(String type2, String type1) {
 		this.type1 = type1;
 		this.type2 = type2;
@@ -43,6 +48,14 @@ public class Card implements java.io.Serializable {
 		return false;
 	}
 
+	/**
+	 * Checks if this card matches with two other cards.
+	 * 
+	 * @param other1 The first other card being compared to.
+	 * @param other2 The second other card being compared to.
+	 * 
+	 * @return True if the three cards match, false otherwise.
+	 */
 	public Boolean checkMatch(Card other1, Card other2) {
 		if (this.type2 == other1.getType2() && this.type2 == other2.getType2() && this.type1 == other1.getType1()
 				&& this.type1 == other2.getType1()) {
@@ -52,18 +65,18 @@ public class Card implements java.io.Serializable {
 	}
 
 	/**
-	 * A getter for color of the Card.
+	 * A getter for type2 of the Card.
 	 * 
-	 * @return The color of the card.
+	 * @return The type2 of the card.
 	 */
 	public String getType2() {
 		return type2;
 	}
 
 	/**
-	 * A getter for the shape on the Card.
+	 * A getter for the type1 on the Card.
 	 * 
-	 * @return The shape on the card.
+	 * @return The type1 on the card.
 	 */
 	public String getType1() {
 		return type1;
@@ -77,7 +90,12 @@ public class Card implements java.io.Serializable {
 	public Boolean getRevealed() {
 		return revealed;
 	}
-	
+
+	/**
+	 * Returns whether or not the card is a power card.
+	 * 
+	 * @return True if this Card is a power card, false otherwise.
+	 */
 	public Boolean isPower() {
 		return this.type1 == "POWER" && this.type2 == "POWER";
 	}

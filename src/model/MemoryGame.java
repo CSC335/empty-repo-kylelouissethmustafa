@@ -38,8 +38,9 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	 * The constructor for memory game, creating a new board and initializing game
 	 * stats.
 	 * 
-	 * @param gameMode The initialized game's game mode.
-	 * @param size     The board size for the MemoryGame.
+	 * @param gameMode  The initialized game's game mode.
+	 * @param size      The board size for the MemoryGame.
+	 * @param gameTheme The theme of the game being initialized.
 	 */
 	public MemoryGame(int gameMode, int size, int gameTheme) {
 		board = new Board(size);
@@ -64,6 +65,11 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		notifyObservers(this);
 	}
 
+	/**
+	 * Returns the theme of this MemoryGame.
+	 * 
+	 * @return The theme of this MemoryGame.
+	 */
 	public int getTheme() {
 		return this.gameTheme;
 	}
@@ -139,35 +145,43 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	public int getNumMatches() {
 		return numMatches;
 	}
-	
+
 	private void correctGuess() {
 		this.currStreak += 1;
-		if(this.currStreak > this.bestStreak) {
+		if (this.currStreak > this.bestStreak) {
 			this.bestStreak = this.currStreak;
 		}
 		System.out.println("Correct! Current Streak: " + this.currStreak);
 	}
-	
+
 	private void incorrectGuess() {
 		System.out.println("Incorrect Guess!");
 		this.currStreak = 0;
 	}
-	
+
+	/**
+	 * Returns the best guess streak from this MemoryGame.
+	 * 
+	 * @return The best guess streak from this MemoryGame.
+	 */
 	public int getBestStreak() {
 		return this.bestStreak;
 	}
 
 	/**
 	 * Handles a card being clicked by revealing the card, adding the card to the
-	 * array of revealed cards, creating an animation to flip 2 cards back over if
-	 * they don't match, and ending the game when appropriate.
+	 * array of revealed cards, creating an animation to flip cards back over if
+	 * they don't match, and ending the game when appropriate. Handles all game
+	 * modes processing clicks according to the methodology of the gameMode.
 	 * 
-	 * @param row The number specifying row of card clicked.
-	 * @param col The number specifying col of card clicked.
+	 * @param row      The number specifying row of card clicked.
+	 * @param col      The number specifying col of card clicked.
+	 * @param guiClick Whether or not the click being registered is from the GUI (1)
+	 *                 or from the computer (0) for power game mode.
 	 */
 	public void cardClicked(int row, int col, int guiClick) {
 		Card clickedCard = board.getCard(row, col);
-		if(!clickedCard.isPower()) {
+		if (!clickedCard.isPower()) {
 			this.lastClickedX = row;
 			this.lastClickedY = col;
 		}
@@ -180,8 +194,8 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		} else {
 			maxClicked = 2;
 		}
-		
-		if((guiClick == 1 && allowGuiClicks == true) || guiClick == 0) {
+
+		if ((guiClick == 1 && allowGuiClicks == true) || guiClick == 0) {
 			if (this.revealedCards.size() < maxClicked && !clickedCard.getRevealed()
 					|| (this.getGameMode() == 3 && this.revealedCards.size() == 2 && this.powersRevealed == 1)) {
 				clickedCard.toggle();
@@ -252,14 +266,14 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							} else {
 								Card regCard;
 								int[] matchCardCoords;
-								if(revealedCards.get(0).isPower()) {
+								if (revealedCards.get(0).isPower()) {
 									regCard = revealedCards.get(1);
 									matchCardCoords = this.board.findMatch(row, col);
 								} else {
 									regCard = revealedCards.get(0);
 									matchCardCoords = this.board.findMatch(this.lastClickedX, this.lastClickedY);
 								}
-								
+
 								allowGuiClicks = false;
 								PauseTransition pause = new PauseTransition(Duration.seconds(1));
 								pause.setOnFinished(event -> {
@@ -273,9 +287,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 								});
 								pause.play();
 							}
-							
-								
-							
+
 						}
 					} else {
 						// need to increment moves at some point...
@@ -314,7 +326,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 								regCard = revealedCards.get(0);
 								matchCardCoords = this.board.findMatch(this.lastClickedX, this.lastClickedY);
 							}
-							
+
 							allowGuiClicks = false;
 							PauseTransition pause = new PauseTransition(Duration.seconds(1));
 							pause.setOnFinished(event -> {
@@ -341,8 +353,6 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 				}
 			}
 		}
-
-		
 
 		if (gameMode == 0) {
 			if (numMatches == (numCards / 2)) {
@@ -392,6 +402,15 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		return card1.checkMatch(card2);
 	}
 
+	/**
+	 * Checks whether 3 cards match.
+	 * 
+	 * @param card1 The first Card being checked.
+	 * @param card2 The second Card being checked.
+	 * @param card3 The third Card being checked.
+	 * 
+	 * @return True if all three cards match, false otherwise.
+	 */
 	public Boolean checkMatch(Card card1, Card card2, Card card3) {
 		return card1.checkMatch(card2, card3);
 	}

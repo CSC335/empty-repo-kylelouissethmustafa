@@ -9,20 +9,20 @@ package model;
 
 public class shopItem {
 	private String itemName;
-    private int price;
+	private int price;
 
-    public shopItem(String itemName, int price) {
-        this.itemName = itemName;
-        this.price = price;
-    }
+	public shopItem(String itemName, int price) {
+		this.itemName = itemName;
+		this.price = price;
+	}
 
-    // Getter for itemName
-    public String getItemName() {
-        return itemName;
-    }
+	// Getter for itemName
+	public String getItemName() {
+		return itemName;
+	}
 
-    // Getter for item price
-    public int getPrice() {
-        return price;
-    }
+	// Getter for item price
+	public int getPrice() {
+		return price;
+	}
 }

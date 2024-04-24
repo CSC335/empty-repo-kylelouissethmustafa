@@ -22,9 +22,9 @@ import model.MemoryGame;
 import model.OurObserver;
 
 /**
- * The BoardPane class is a BorderPane that displays the MemoryGame
- * and allows for user interaction with the game. Live stats and
- * game messages are displayed at the bottom of the pane.
+ * The BoardPane class is a BorderPane that displays the MemoryGame and allows
+ * for user interaction with the game. Live stats and game messages are
+ * displayed at the bottom of the pane.
  * 
  * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  *
@@ -35,7 +35,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private MemoryGame game;
 	private BorderPane messageArea;
 	private GridPane liveStatsGrid;
-	
+
 	private Label scoreLbl;
 	private Label curScore;
 	private Label gamePrompt;
@@ -44,7 +44,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private int startX;
 	private int startY;
 	private int cardGap;
-	
+
 	private Image cardBack;
 	private Image cardFront;
 	private Image power1;
@@ -66,13 +66,12 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private Image f1;
 	private Image f2;
 	private Image f3;
-	
-	
+
 	private memoryGUI gui;
 
 	/**
-	 * The Board Pane constructor, which lays out the game board
-	 * visually and registers event handlers.
+	 * The Board Pane constructor, which lays out the game board visually and
+	 * registers event handlers.
 	 * 
 	 * @param gui A reference to the memoryGUI so its methods may be used.
 	 * 
@@ -80,28 +79,19 @@ public class BoardPane extends BorderPane implements OurObserver {
 	public BoardPane(memoryGUI gui) {
 		layoutBoard();
 		this.gui = gui;
-		
 
 		this.registerHandlers();
 	}
 
 	/**
-	 * This method draws the cards of the memory game to the canvas,
-	 * taking into account their state and card value.
+	 * This method draws the cards of the memory game to the canvas, taking into
+	 * account their state and card value.
 	 * 
 	 */
 	public void drawCards() {
-		/**
-		 * This function should know the state of the game... Should blank out the
-		 * canvas Should go through all of the cards Figure out their card type, whether
-		 * or not flipped display image accordingly.
-		 * 
-		 * Called initially?, and then by observer as game changes.
-		 * 
-		 */
 		clearCanvas();
 		int boardSize = game.getSize();
-		
+
 		initImages();
 
 		if (boardSize == 2) {
@@ -109,7 +99,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 			startX = 210;
 			startY = 40;
 			cardGap = 20;
-		} else if(boardSize == 3) {
+		} else if (boardSize == 3) {
 			cardSize = 140;
 			startX = 180;
 			startY = 10;
@@ -119,12 +109,12 @@ public class BoardPane extends BorderPane implements OurObserver {
 			startX = 175;
 			startY = 15;
 			cardGap = 15;
-		} else if(boardSize == 5) {
+		} else if (boardSize == 5) {
 			cardSize = 75;
 			startX = 180;
 			startY = 10;
 			cardGap = 15;
-		} else if(boardSize == 6) {
+		} else if (boardSize == 6) {
 			cardSize = 60;
 			startX = 180;
 			startY = 15;
@@ -136,8 +126,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 				int thisStartX = startX + (col * (cardSize + cardGap));
 				int thisStartY = startY + (row * (cardSize + cardGap));
 				Card thisCard = game.getBoard().getCard(row, col);
-				
-				if(thisCard.getRevealed()) {
+
+				if (thisCard.getRevealed()) {
 					drawCard(thisCard, thisStartX, thisStartY);
 				} else {
 					gc.drawImage(cardBack, thisStartX, thisStartY, cardSize, cardSize);
@@ -146,15 +136,20 @@ public class BoardPane extends BorderPane implements OurObserver {
 		}
 
 	}
-	
+
+	/**
+	 * This function initializes all of the image files that will be need to be
+	 * displayed on the GUI based on the gameTheme.
+	 * 
+	 */
 	private void initImages() {
 		cardBack = new Image("file:img/BasicCardBack.png");
 		cardFront = new Image("file:img/BasicCardInside.png");
 		power1 = new Image("file:img/power1.png");
-		
+
 		int gameTheme = game.getTheme();
-		
-		if(gameTheme == 0) {
+
+		if (gameTheme == 0) {
 			a1 = new Image("file:img/RedSquare.png");
 			a2 = new Image("file:img/RedCircle.png");
 			a3 = new Image("file:img/RedPlus.png");
@@ -173,7 +168,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 			f1 = new Image("file:img/OrangeSquare.png");
 			f2 = new Image("file:img/OrangeCircle.png");
 			f3 = new Image("file:img/OrangePlus.png");
-		} else if(gameTheme == 1) {
+		} else if (gameTheme == 1) {
 			a1 = new Image("file:img/Ape.png");
 			a2 = new Image("file:img/Bear.png");
 			a3 = new Image("file:img/Beaver.png");
@@ -192,7 +187,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 			f1 = new Image("file:img/Raccoon.png");
 			f2 = new Image("file:img/Sheep.png");
 			f3 = new Image("file:img/Tiger.png");
-		} else if(gameTheme == 2) {
+		} else if (gameTheme == 2) {
 			a1 = new Image("file:img/Alien.png");
 			a2 = new Image("file:img/alienShip.png");
 			a3 = new Image("file:img/asteroid.png");
@@ -213,69 +208,79 @@ public class BoardPane extends BorderPane implements OurObserver {
 			f3 = new Image("file:img/whiteAstronaut.png");
 		}
 	}
-	
+
+	/**
+	 * This function draws a card to the board, given a start X and start Y
+	 * coordinate determined by the board size and card index, as well as the card
+	 * itself, properly drawing the specific card type considering its revealed
+	 * state.
+	 * 
+	 * @param thisCard   The card to be drawn to the canvas.
+	 * @param thisStartX The start X coordinate of the card to be drawn.
+	 * @param thisStartY The start Y coordinate of the card to be drawn.
+	 */
 	public void drawCard(Card thisCard, int thisStartX, int thisStartY) {
-		if("A".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
-		    gc.drawImage(a1, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("A".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
-		    gc.drawImage(a2, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("A".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
-		    gc.drawImage(a3, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("B".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
-		    gc.drawImage(b1, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("B".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
-		    gc.drawImage(b2, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("B".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
-		    gc.drawImage(b3, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("C".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
-		    gc.drawImage(c1, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("C".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
-		    gc.drawImage(c2, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("C".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
-		    gc.drawImage(c3, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("D".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
-		    gc.drawImage(d1, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("D".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
-		    gc.drawImage(d2, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("D".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
-		    gc.drawImage(d3, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("E".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
-		    gc.drawImage(e1, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("E".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
-		    gc.drawImage(e2, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("E".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
-		    gc.drawImage(e3, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("F".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
-		    gc.drawImage(f1, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("F".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
-		    gc.drawImage(f2, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("F".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
-		    gc.drawImage(f3, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("POWER".equals(thisCard.getType2()) && "POWER".equals(thisCard.getType1())) {
+		if ("A".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+			gc.drawImage(a1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("A".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+			gc.drawImage(a2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("A".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+			gc.drawImage(a3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("B".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+			gc.drawImage(b1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("B".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+			gc.drawImage(b2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("B".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+			gc.drawImage(b3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("C".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+			gc.drawImage(c1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("C".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+			gc.drawImage(c2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("C".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+			gc.drawImage(c3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("D".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+			gc.drawImage(d1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("D".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+			gc.drawImage(d2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("D".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+			gc.drawImage(d3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("E".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+			gc.drawImage(e1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("E".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+			gc.drawImage(e2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("E".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+			gc.drawImage(e3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("F".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+			gc.drawImage(f1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("F".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+			gc.drawImage(f2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("F".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+			gc.drawImage(f3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if ("POWER".equals(thisCard.getType2()) && "POWER".equals(thisCard.getType1())) {
 			gc.drawImage(power1, thisStartX, thisStartY, cardSize, cardSize);
 		} else {
 			System.out.println("Drawing generic...");
 			gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
 		}
 	}
-	
+
 	/**
 	 * This method clears the canvas before redrawing of a new game.
 	 */
 	public void clearCanvas() {
 		gc.setFill(Color.LIGHTGRAY);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		if(this.game == null) {
+		if (this.game == null) {
 			gamePrompt.setText("Start a New Game!");
 		} else {
 			gamePrompt.setText("You are doing great!");
 		}
 		curScore.setText("0");
 	}
-	
+
 	/**
-	 * This method creates the canvas for the game and adds
-	 * the game prompt and live score to the pane.
+	 * This method creates the canvas for the game and adds the game prompt and live
+	 * score to the pane.
 	 */
 	public void layoutBoard() {
 		this.setMinWidth(850);
@@ -286,10 +291,10 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 		gc.setFill(Color.LIGHTGRAY);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		
+
 		liveStatsGrid = new GridPane();
 		messageArea = new BorderPane();
-		
+
 		scoreLbl = new Label("Score:");
 		scoreLbl.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
 		curScore = new Label("0");
@@ -297,10 +302,10 @@ public class BoardPane extends BorderPane implements OurObserver {
 		gamePrompt = new Label("Start a New Game!");
 		gamePrompt.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: blue");
 		liveStatsGrid.setHgap(5);
-		
+
 		liveStatsGrid.add(scoreLbl, 0, 0);
 		liveStatsGrid.add(curScore, 1, 0);
-		
+
 		messageArea.setTop(gamePrompt);
 		messageArea.setCenter(liveStatsGrid);
 		liveStatsGrid.setPadding(new Insets(0, 0, 0, 60));
@@ -309,10 +314,9 @@ public class BoardPane extends BorderPane implements OurObserver {
 		this.setTop(canvas);
 		this.setCenter(messageArea);
 	}
-	
-	// TODO - need scores for other game modes.
+
 	private void updateScores() {
-		if(game != null && !game.gameActive()) {
+		if (game != null && !game.gameActive()) {
 			System.out.println("Game has ended!");
 			System.out.println("Best guess streak: " + game.getBestStreak());
 			Accounts currAcct = gui.getCurrAcct();
@@ -323,11 +327,10 @@ public class BoardPane extends BorderPane implements OurObserver {
 	}
 
 	/**
-	 * This method registers handlers for the BoardPane, in this case
-	 * specifically, it handles clicks on the canvas. Calculations are
-	 * made based on game mode and board size to handle clicks of cards
-	 * properly, and updating of account statistics occurs on ending of a
-	 * game.
+	 * This method registers handlers for the BoardPane, in this case specifically,
+	 * it handles clicks on the canvas. Calculations are made based on game mode and
+	 * board size to handle clicks of cards properly, and updating of account
+	 * statistics occurs on ending of a game.
 	 */
 	public void registerHandlers() {
 
@@ -342,7 +345,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 				int curRow = -1;
 				int curCol = -1;
-				
+
 				if (curX >= startX && curX <= xBorder && curY >= startY && curY <= yBorder) {
 					if (curX <= startX + cardSize) {
 						curCol = 0;
@@ -470,24 +473,26 @@ public class BoardPane extends BorderPane implements OurObserver {
 							curRow = 5;
 						}
 					}
-					if(curRow == -1 | curCol == -1) {
+					if (curRow == -1 | curCol == -1) {
 						System.out.println("Registered invalid click");
 					} else {
 						game.cardClicked(curRow, curCol, 1);
 					}
 				}
 			}
-			
+
 		});
-		
+
 	}
-	
+
 	/**
 	 * This method creates a new MemoryGame, adding this Pane as an observer,
 	 * initializes the game, and sets the game prompt.
 	 * 
-	 * @param gameMode the integer representing the current game's game mode.
-	 * @param boardSize  the integer representing the current game's board size.
+	 * @param gameMode  the integer representing the current game's game mode.
+	 * @param boardSize the integer representing the current game's board size.
+	 * @param gameTheme The integer representing the theme of the game, for visual
+	 *                  purposes.
 	 */
 	public void startNewGame(int gameMode, int boardSize, int gameTheme) {
 		System.out.println("New Game Clicked");
@@ -497,7 +502,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		gamePrompt.setText("Click Cards to Begin!");
 		gui.getCurrAcct().setNewGame(game);
 	}
-	
+
 	public void setGame(MemoryGame game) {
 		this.game = game;
 		this.game.addObserver(this);
@@ -516,7 +521,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 	public void update(Object theObserved) {
 		drawCards();
 		curScore.setText("" + game.getScore());
-		if(!game.gameActive()) {
+		if (!game.gameActive()) {
 			gamePrompt.setText("Congrats! You won!");
 			updateScores();
 			gui.getCurrAcct().endCurrGame();
