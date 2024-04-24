@@ -7,12 +7,25 @@
 
 package controller_view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Optional;
+import java.util.Queue;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.AccountCollection;
@@ -29,6 +42,7 @@ public class memoryGUI extends Application {
 	private ShopPane shopPane;
 //	private SettingsPane settingsPane;
 	private LeaderboardPane leaderboard2x2;
+	private LeaderboardPane leaderboardPane;
 	private LeaderboardPane leaderboard3x3;
 	private LeaderboardPane leaderboard4x4;
 	private LeaderboardPane leaderboard5x5;
@@ -37,18 +51,8 @@ public class memoryGUI extends Application {
 	private MenuBar menuBar;
 	private MenuItem logout;
 	private MenuItem newGame;
-	private MenuItem twoGame;
-	private MenuItem threeGame;
-	private MenuItem fourGame;
-	private MenuItem fiveGame;
-	private MenuItem sixGame;
-	private Menu leaderboard;
+	private MenuItem leaderboard;
 	private MemoryGame game;
-	private MenuItem twoByTwo;
-	private MenuItem threeByThree;
-	private MenuItem fourByFour;
-	private MenuItem fiveByFive;
-	private MenuItem sixBySix;
 	private MenuItem userStats;
 	private MenuItem gameSettings;
 	private MenuItem itemShop;
@@ -59,6 +63,8 @@ public class memoryGUI extends Application {
 	private shopCollection shopCollection;
 	
 	private int gameDim;
+	private int gameMode;
+	private int gameTheme;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -76,6 +82,7 @@ public class memoryGUI extends Application {
 		accountCollection = new AccountCollection();
 		shopCollection = new shopCollection();
 		
+		getSavedDataOrNot();
 		loginPane = new LoginPane(currAcct, accountCollection, this);
 		boardPane = new BoardPane(this);
 		statsPane = new StatsPane(this);
@@ -86,16 +93,48 @@ public class memoryGUI extends Application {
 		
 		addMenu();
 		
-		addTestAccounts(); // TODO - remove this for final production.
+		//addTestAccounts(); // TODO - remove this for final production.
 		
-		setupGameSettings(2);
-		
-		registerHandlers();
+		setupGameSettings(2, 0, 0);
 
 		Scene scene = new Scene(all, 850, 650);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Memory Game");
 		primaryStage.show();
+		
+		registerHandlers(primaryStage);
+	}
+	
+	private void getSavedDataOrNot() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Start Up Option");
+		alert.setHeaderText("Load saved data?");
+		alert.setContentText("Click cancel to start new!");
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() == ButtonType.OK) {
+			try {
+				File file = new File("objects.ser");
+				
+				if(file.exists()) {
+					FileInputStream rawBytes = new FileInputStream("objects.ser");
+					ObjectInputStream inFile = new ObjectInputStream(rawBytes);
+					
+					AccountCollection inAccounts = (AccountCollection) inFile.readObject();
+					MemoryGame inGame = (MemoryGame) inFile.readObject();
+					
+					accountCollection = inAccounts;
+					game = inGame;
+					
+				}
+			} catch (IOException io) {
+				System.out.println("File IO Exception");
+			} catch (ClassNotFoundException c) {
+				System.out.println("Class Not Found Exception");
+			}
+		} else {
+			accountCollection = new AccountCollection();
+			addTestAccounts();
+		}
 	}
 
 	/**
@@ -128,6 +167,10 @@ public class memoryGUI extends Application {
 		all.setTop(menuBar);
 		all.setCenter(boardPane);
 		this.currAcct = accountCollection.getAccount(loginAcct.getUsername(), loginAcct.getPassword());
+		if(currAcct.getCurrGame() != null) {
+			boardPane.setGame(currAcct.getCurrGame());
+		}
+		
 		System.out.println("Current User: " + currAcct.getUsername());
 	}
 	
@@ -142,17 +185,17 @@ public class memoryGUI extends Application {
 	
 	private void addTestAccounts() {
 		Accounts account1 = new Accounts("Seth", "Seth123");
-		account1.setNewBestScore(20, 2);
-		account1.setNewBestScore(50, 3);
+		account1.setNewBestScore(20, 2, 0);
+		account1.setNewBestScore(50, 3, 1);
 		
 		Accounts account2 = new Accounts("Mustafa", "Mustafa123");
-		account2.setNewBestScore(50, 2);
-		account2.setNewBestScore(20, 3);
+		account2.setNewBestScore(50, 2, 0);
+		account2.setNewBestScore(20, 3, 1);
 		
 		
 		Accounts account3 = new Accounts("Mustafa2", "Mustafa1");
-		account3.setNewBestScore(10, 2);
-		account3.setNewBestScore(90, 3);
+		account3.setNewBestScore(10, 2, 0);
+		account3.setNewBestScore(90, 3, 1);
 		
 		accountCollection.add(account1);
 		accountCollection.add(account2);
@@ -162,20 +205,8 @@ public class memoryGUI extends Application {
 	private void addMenu() {
 		// see ButtonView from TTTStart
 		newGame = new MenuItem("New Game");
-		//twoGame = new MenuItem("2x2");
-		//threeGame = new MenuItem("3x3");
-		//fourGame = new MenuItem("4x4");
-		//fiveGame = new MenuItem("5x5");
-		//sixGame = new MenuItem("6x6");
-		//newGame.getItems().addAll(twoGame, threeGame, fourGame, fiveGame, sixGame);
 		MenuItem other = new MenuItem("Other");
-		leaderboard = new Menu("Leaderboard");
-		twoByTwo = new MenuItem("2x2");
-		threeByThree = new MenuItem("3x3");
-		fourByFour = new MenuItem("4x4");
-		fiveByFive = new MenuItem("5x5");
-		sixBySix = new MenuItem("6x6");
-		leaderboard.getItems().addAll(twoByTwo, threeByThree, fourByFour, fiveByFive, sixBySix);
+		leaderboard = new MenuItem("Leaderboard");
 		logout = new MenuItem("Logout");
 		
 
@@ -185,21 +216,25 @@ public class memoryGUI extends Application {
 		gameSettings = new MenuItem("Game Settings");
 		
 		options.getItems().addAll(newGame, leaderboard, itemShop, logout, userStats, gameSettings, other);
+		options.getItems().addAll(newGame, gameSettings, leaderboard, userStats, logout, other);
+
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
 	}
 	
 	/**
 	 * A getter for newGame.
-	 * 
+	 * 1
 	 * @return The new game.
 	 */
 	public MenuItem getNewGame() {
 		return newGame;
 	}
 	
-	public void setupGameSettings(int dim) {
+	public void setupGameSettings(int dim, int mode, int theme) {
 		this.gameDim = dim;
+		this.gameMode = mode;
+		this.gameTheme = theme;
 	}
 
 
@@ -208,7 +243,7 @@ public class memoryGUI extends Application {
 	 * clicks of new game for each game mode,and clicks of leaderboard for each game mode.
 	 * 
 	 */
-	private void registerHandlers() {
+	private void registerHandlers(Stage stage) {
 		itemShop.setOnAction(event -> {
 			shopPane.layoutShop();
 			all.setCenter(shopPane);
@@ -231,52 +266,12 @@ public class memoryGUI extends Application {
 //			all.setCenter(settingsPane);
 //		});
 		
-		twoByTwo.setOnAction(event -> {
+		leaderboard.setOnAction(event -> {
 			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
 			
-			leaderboard2x2 = new LeaderboardPane(accountCollection, 2);
+			leaderboardPane = new LeaderboardPane(accountCollection);
 			
-			all.setCenter(leaderboard2x2);
-			System.out.println("Leaderboard Clicked");			
-			
-		});
-		
-		threeByThree.setOnAction(event -> {
-			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
-			
-			leaderboard3x3 = new LeaderboardPane(accountCollection, 3);
-			
-			all.setCenter(leaderboard3x3);
-			System.out.println("Leaderboard Clicked");			
-			
-		});
-		
-		fourByFour.setOnAction(event -> {
-			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
-			
-			leaderboard4x4 = new LeaderboardPane(accountCollection, 4);
-			
-			all.setCenter(leaderboard4x4);
-			System.out.println("Leaderboard Clicked");			
-			
-		});
-		
-		fiveByFive.setOnAction(event -> {
-			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
-			
-			leaderboard5x5 = new LeaderboardPane(accountCollection, 5);
-			
-			all.setCenter(leaderboard5x5);
-			System.out.println("Leaderboard Clicked");			
-			
-		});
-		
-		sixBySix.setOnAction(event -> {
-			// When leaderboard is clicked in the menu, switch leaderboardPane to be the center
-			
-			leaderboard6x6 = new LeaderboardPane(accountCollection, 6);
-			
-			all.setCenter(leaderboard6x6);
+			all.setCenter(leaderboardPane);
 			System.out.println("Leaderboard Clicked");			
 			
 		});
@@ -285,15 +280,42 @@ public class memoryGUI extends Application {
 			if(currAcct != null) {
 				all.setCenter(boardPane);
 				int curDim = this.gameDim;
-				int mode;
-				if(curDim % 2 == 0) {
-					mode = 0;
-				} else {
-					mode = 1;
-				}
+				int curMode = this.gameMode;
+				int curTheme = this.gameTheme;
 				
-				boardPane.startNewGame(mode, curDim);
+				boardPane.startNewGame(curMode, curDim, curTheme);
 			}
+		});
+		
+		stage.setOnCloseRequest(event -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Shut Down");
+			alert.setHeaderText("Save data?");
+			alert.setContentText("Press cancel to not save data.");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				String filename = "objects.ser";
+				try {
+					FileOutputStream bytesToDisk = new FileOutputStream(filename);
+					ObjectOutputStream outFile = new ObjectOutputStream(bytesToDisk);
+					
+					// Save AccountCollection
+					AccountCollection currAccounts = accountCollection;
+					
+					// Save MemoryGame
+					MemoryGame currGame = game;
+
+					outFile.writeObject(currAccounts);
+					outFile.writeObject(currGame);
+					outFile.close();
+				} catch (IOException io) {
+					System.out.println("File IO Exception");
+					System.out.println(io);
+				}
+			}
+
+			Platform.exit();
+			System.exit(0);
 		});
 	}
 }

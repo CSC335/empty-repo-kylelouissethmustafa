@@ -16,7 +16,7 @@ class MemoryGameTest {
 
 	@Test
 	void testInit() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		game.printBoard();
 		assertEquals(true, game.gameActive());
@@ -31,23 +31,23 @@ class MemoryGameTest {
 	
 	@Test
 	void testGoodGuess() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
 		Card card3 = game.getBoard().getCard(1, 0);
 		if(game.checkMatch(card1, card2)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 		} else if(game.checkMatch(card1, card3)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 		} else if(game.checkMatch(card3, card2)) {
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 		}
 		
 		assertEquals(1, game.getNumMoves());
@@ -58,25 +58,25 @@ class MemoryGameTest {
 	
 	@Test
 	void testBadGuess() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
 		Card card3 = game.getBoard().getCard(1, 0);
 		if(!game.checkMatch(card1, card2)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(2, game.getNumCardsSelected());
 		} else if(!game.checkMatch(card1, card3)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(2, game.getNumCardsSelected());
 		} else if(!game.checkMatch(card3, card2)) {
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(2, game.getNumCardsSelected());
 		}
 		
@@ -88,40 +88,40 @@ class MemoryGameTest {
 	
 	@Test
 	void testFlipBack() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
 		Card card3 = game.getBoard().getCard(1, 0);
 		if(!game.checkMatch(card1, card2)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(2, game.getNumCardsSelected());
 			
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(0, game.getNumCardsSelected());
 		} else if(!game.checkMatch(card1, card3)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(2, game.getNumCardsSelected());
 			
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(0, game.getNumCardsSelected());
 		} else if(!game.checkMatch(card3, card2)) {
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(2, game.getNumCardsSelected());
 			
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(0, game.getNumCardsSelected());
 		}
 		
@@ -133,34 +133,34 @@ class MemoryGameTest {
 	
 	@Test
 	void testNoThirdClick() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
 		Card card3 = game.getBoard().getCard(1, 0);
 		if(!game.checkMatch(card1, card2)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(2, game.getNumCardsSelected());
 			
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(2, game.getNumCardsSelected());
 		} else if(!game.checkMatch(card1, card3)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(2, game.getNumCardsSelected());
 			
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(2, game.getNumCardsSelected());
 		} else if(!game.checkMatch(card3, card2)) {
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(2, game.getNumCardsSelected());
 			
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(2, game.getNumCardsSelected());
 		}
 		
@@ -172,16 +172,16 @@ class MemoryGameTest {
 	
 	@Test
 	void testProperTermination() {
-		MemoryGame game = new MemoryGame(0,2);
+		MemoryGame game = new MemoryGame(0, 2, 0);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
 		Card card3 = game.getBoard().getCard(1, 0);
 		Card card4 = game.getBoard().getCard(1, 1);
 		if(game.checkMatch(card1, card2)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			
 			assertEquals(0, game.getNumCardsSelected());
 			assertEquals(1, game.getNumMoves());
@@ -189,13 +189,13 @@ class MemoryGameTest {
 			assertEquals(1, game.getNumMatches());
 			assertEquals(true, game.gameActive());
 			
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(1, 1);
+			game.cardClicked(1, 1, 1);
 		} else if(game.checkMatch(card1, card3)) {
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			
 			assertEquals(0, game.getNumCardsSelected());
 			assertEquals(1, game.getNumMoves());
@@ -203,13 +203,13 @@ class MemoryGameTest {
 			assertEquals(1, game.getNumMatches());
 			assertEquals(true, game.gameActive());
 			
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(1, 1);
+			game.cardClicked(1, 1, 1);
 		} else if(game.checkMatch(card3, card2)) {
-			game.cardClicked(1, 0);
+			game.cardClicked(1, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(0, 1);
+			game.cardClicked(0, 1, 1);
 			
 			assertEquals(0, game.getNumCardsSelected());
 			assertEquals(1, game.getNumMoves());
@@ -217,9 +217,9 @@ class MemoryGameTest {
 			assertEquals(1, game.getNumMatches());
 			assertEquals(true, game.gameActive());
 			
-			game.cardClicked(0, 0);
+			game.cardClicked(0, 0, 1);
 			assertEquals(1, game.getNumCardsSelected());
-			game.cardClicked(1, 1);
+			game.cardClicked(1, 1, 1);
 		}
 		
 		assertEquals(2, game.getNumMoves());

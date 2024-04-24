@@ -19,8 +19,8 @@ class CardTest {
 	@Test
 	public void testInit() {
 		Card testCard = new Card("Red", "Square");
-		assertEquals("Red", testCard.getColor());
-		assertEquals("Square", testCard.getShape());
+		assertEquals("Red", testCard.getType2());
+		assertEquals("Square", testCard.getType1());
 		assertEquals(false, testCard.getRevealed());
 	}
 	

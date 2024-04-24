@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * 
  * @author Kyle Myint, Louis Romeo, Seth Jernigan, Mustafa Alnidawi
  */
-public class Board {
+public class Board implements java.io.Serializable {
 	// Only square boards - can change later
 	private int size;
 	private Card[][] board;
@@ -22,6 +22,7 @@ public class Board {
 	 *     - 3 = Powers
 	 */
 	private int gameMode;
+	
 	/*
 	 * Card Designs
 	 *     - 0 = Shapes/Colors
@@ -53,10 +54,14 @@ public class Board {
 			gameMode = 1;
 		}
 		this.size = size;
-		this.cardDesign = 0;
-		changeDesign(this.cardDesign);
+		//this.cardDesign = 0;
+		//changeDesign(this.cardDesign);
 		board = new Card[size][size];
 		shuffle();
+	}
+	
+	public int getDesign() {
+		return this.cardDesign;
 	}
 	
 	/**
@@ -134,6 +139,7 @@ public class Board {
 		// Add more game modes when we need
 	}
 	
+	// TODO - fix commenting here
 	/**
 	 * Finds and reveals the matching card of the given coordinate (for Powers)
 	 * Run if the second card chosen isn't also a power card; just award like -100 points
@@ -143,16 +149,22 @@ public class Board {
 	 * @param x - x row of card to match
 	 * @param y - y column of card to match
 	 */
-	public void findMatch(int x, int y) {
-		String color = board[x][y].getColor();
-		String shape = board[x][y].getShape();
+	public int[] findMatch(int x, int y) {
+		String type2 = board[x][y].getType2();
+		String type1 = board[x][y].getType1();
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
-				if(board[i][j].getColor().equals(color) && board[i][j].getShape().equals(shape)) {
-					board[i][j].toggle();
+				if(board[i][j].getType2().equals(type2) && board[i][j].getType1().equals(type1)) {
+					if(i != x || j != y) {
+						int[] coords = new int[2];
+						coords[0] = i;
+						coords[1] = j;
+						return coords;
+					}
 				}
 			}
 		}
+		return null;
 	}
 	
 	/**
@@ -163,29 +175,6 @@ public class Board {
 	public void changeMode(int gameMode) {
 		this.gameMode = gameMode;
 		initBoard();
-	}
-	
-	/**
-	 * Changes card design
-	 * Make sure to rerun initBoard and shuffle after changing the design. 
-	 * TODO: If we need, I can make it so it just changes the design of the cards without changing the board
-	 * 
-	 * @param cardType - Card design to use. 0 = shapes/colors, 1 = general
-	 */
-	public void changeDesign(int cardType) {
-		this.cardDesign = cardType;
-		String[] shapes = {"Square", "Circle", "Plus"};
-		String[] color = {"Red", "Blue", "Green", "Black", "Orange", "Yellow"};
-		String[] general1 = {"1", "2", "3"};
-		String[] general2 = {"A", "B", "C", "D", "E", "F"};
-		
-		if(cardType == 0) {
-			type1 = shapes;
-			type2 = color;
-		}else if(cardType == 1) {
-			type1 = general1;
-			type2 = general2;
-		}
 	}
 	
 	/**
@@ -249,7 +238,7 @@ public class Board {
 		String ret = "";
 		for(int i = 0; i < size; i++) {
 			for(int j = 0; j < size; j++) {
-				ret += "|" + board[i][j].getColor() + " " + board[i][j].getShape();
+				ret += "|" + board[i][j].getType2() + " " + board[i][j].getType1();
 			}
 			ret += "\n";
 		}

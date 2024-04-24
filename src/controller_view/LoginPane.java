@@ -69,9 +69,9 @@ public class LoginPane extends BorderPane {
 		canvas = new Canvas(800, 200);
         gc = canvas.getGraphicsContext2D();
 		
-		loginGrid.setPadding(new Insets(100,50,50,280));
+		loginGrid.setPadding(new Insets(45,50,50,270));
 	
-		gc.drawImage(logoImage, 250, 100, 350, 100);
+		gc.drawImage(logoImage, 240, 100, 350, 100);
 		
         // Set the canvas as the top component of the BorderPane
         this.setTop(canvas);

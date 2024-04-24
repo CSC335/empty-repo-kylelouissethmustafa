@@ -45,6 +45,29 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private int startY;
 	private int cardGap;
 	
+	private Image cardBack;
+	private Image cardFront;
+	private Image power1;
+	private Image a1;
+	private Image a2;
+	private Image a3;
+	private Image b1;
+	private Image b2;
+	private Image b3;
+	private Image c1;
+	private Image c2;
+	private Image c3;
+	private Image d1;
+	private Image d2;
+	private Image d3;
+	private Image e1;
+	private Image e2;
+	private Image e3;
+	private Image f1;
+	private Image f2;
+	private Image f3;
+	
+	
 	private memoryGUI gui;
 
 	/**
@@ -78,27 +101,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 		 */
 		clearCanvas();
 		int boardSize = game.getSize();
-
-		Image cardBack = new Image("file:BasicCardBack.png");
-		Image cardFront = new Image("file:BasicCardInside.png");
-		Image redSquare = new Image("file:RedSquare.png");
-		Image redCircle = new Image("file:RedCircle.png");
-		Image redPlus = new Image("file:RedPlus.png");
-		Image blueSquare = new Image("file:BlueSquare.png");
-		Image blueCircle = new Image("file:BlueCircle.png");
-		Image bluePlus = new Image("file:BluePlus.png");
-		Image greenSquare = new Image("file:GreenSquare.png");
-		Image greenCircle = new Image("file:GreenCircle.png");
-		Image greenPlus = new Image("file:GreenPlus.png");
-		Image blackSquare = new Image("file:BlackSquare.png");
-		Image blackCircle = new Image("file:BlackCircle.png");
-		Image blackPlus = new Image("file:BlackPlus.png");
-		Image yellowSquare = new Image("file:YellowSquare.png");
-		Image yellowCircle = new Image("file:YellowCircle.png");
-		Image yellowPlus = new Image("file:YellowPlus.png");
-		Image orangeSquare = new Image("file:OrangeSquare.png");
-		Image orangeCircle = new Image("file:OrangeCircle.png");
-		Image orangePlus = new Image("file:OrangePlus.png");
+		
+		initImages();
 
 		if (boardSize == 2) {
 			cardSize = 180;
@@ -134,45 +138,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 				Card thisCard = game.getBoard().getCard(row, col);
 				
 				if(thisCard.getRevealed()) {
-					if(thisCard.getColor() == "Red" && thisCard.getShape() == "Square") {
-						gc.drawImage(redSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Red" && thisCard.getShape() == "Circle") {
-						gc.drawImage(redCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Red" && thisCard.getShape() == "Plus") {
-						gc.drawImage(redPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Blue" && thisCard.getShape() == "Square") {
-						gc.drawImage(blueSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Blue" && thisCard.getShape() == "Circle") {
-						gc.drawImage(blueCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Blue" && thisCard.getShape() == "Plus") {
-						gc.drawImage(bluePlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Green" && thisCard.getShape() == "Square") {
-						gc.drawImage(greenSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Green" && thisCard.getShape() == "Circle") {
-						gc.drawImage(greenCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Green" && thisCard.getShape() == "Plus") {
-						gc.drawImage(greenPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Black" && thisCard.getShape() == "Square") {
-						gc.drawImage(blackSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Black" && thisCard.getShape() == "Circle") {
-						gc.drawImage(blackCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Black" && thisCard.getShape() == "Plus") {
-						gc.drawImage(blackPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Yellow" && thisCard.getShape() == "Square") {
-						gc.drawImage(yellowSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Yellow" && thisCard.getShape() == "Circle") {
-						gc.drawImage(yellowCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Yellow" && thisCard.getShape() == "Plus") {
-						gc.drawImage(yellowPlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Orange" && thisCard.getShape() == "Square") {
-						gc.drawImage(orangeSquare, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Orange" && thisCard.getShape() == "Circle") {
-						gc.drawImage(orangeCircle, thisStartX, thisStartY, cardSize, cardSize);
-					} else if(thisCard.getColor() == "Orange" && thisCard.getShape() == "Plus") {
-						gc.drawImage(orangePlus, thisStartX, thisStartY, cardSize, cardSize);
-					} else {
-						gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
-					}
+					drawCard(thisCard, thisStartX, thisStartY);
 				} else {
 					gc.drawImage(cardBack, thisStartX, thisStartY, cardSize, cardSize);
 				}
@@ -181,13 +147,129 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 	}
 	
+	private void initImages() {
+		cardBack = new Image("file:img/BasicCardBack.png");
+		cardFront = new Image("file:img/BasicCardInside.png");
+		power1 = new Image("file:img/power1.png");
+		
+		int gameTheme = game.getTheme();
+		
+		if(gameTheme == 0) {
+			a1 = new Image("file:img/RedSquare.png");
+			a2 = new Image("file:img/RedCircle.png");
+			a3 = new Image("file:img/RedPlus.png");
+			b1 = new Image("file:img/BlueSquare.png");
+			b2 = new Image("file:img/BlueCircle.png");
+			b3 = new Image("file:img/BluePlus.png");
+			c1 = new Image("file:img/GreenSquare.png");
+			c2 = new Image("file:img/GreenCircle.png");
+			c3 = new Image("file:img/GreenPlus.png");
+			d1 = new Image("file:img/BlackSquare.png");
+			d2 = new Image("file:img/BlackCircle.png");
+			d3 = new Image("file:img/BlackPlus.png");
+			e1 = new Image("file:img/YellowSquare.png");
+			e2 = new Image("file:img/YellowCircle.png");
+			e3 = new Image("file:img/YellowPlus.png");
+			f1 = new Image("file:img/OrangeSquare.png");
+			f2 = new Image("file:img/OrangeCircle.png");
+			f3 = new Image("file:img/OrangePlus.png");
+		} else if(gameTheme == 1) {
+			a1 = new Image("file:img/Ape.png");
+			a2 = new Image("file:img/Bear.png");
+			a3 = new Image("file:img/Beaver.png");
+			b1 = new Image("file:img/Bulldog.png");
+			b2 = new Image("file:img/ClimbMonkey.png");
+			b3 = new Image("file:img/Deer.png");
+			c1 = new Image("file:img/Dog.png");
+			c2 = new Image("file:img/Duck.png");
+			c3 = new Image("file:img/Elephant.png");
+			d1 = new Image("file:img/FlySquirrel.png");
+			d2 = new Image("file:img/Frog.png");
+			d3 = new Image("file:img/Goose.png");
+			e1 = new Image("file:img/Lion.png");
+			e2 = new Image("file:img/Monkey.png");
+			e3 = new Image("file:img/Pig.png");
+			f1 = new Image("file:img/Raccoon.png");
+			f2 = new Image("file:img/Sheep.png");
+			f3 = new Image("file:img/Tiger.png");
+		} else if(gameTheme == 2) {
+			a1 = new Image("file:img/Alien.png");
+			a2 = new Image("file:img/alienShip.png");
+			a3 = new Image("file:img/asteroid.png");
+			b1 = new Image("file:img/Earth.png");
+			b2 = new Image("file:img/FullShip.png");
+			b3 = new Image("file:img/Jupiter.png");
+			c1 = new Image("file:img/Mars.png");
+			c2 = new Image("file:img/Neptune.png");
+			c3 = new Image("file:img/opAlien.png");
+			d1 = new Image("file:img/orangeAlien.png");
+			d2 = new Image("file:img/orangeAstronaut.png");
+			d3 = new Image("file:img/pbAlien.png");
+			e1 = new Image("file:img/rbRocket.png");
+			e2 = new Image("file:img/robot.png");
+			e3 = new Image("file:img/rover.png");
+			f1 = new Image("file:img/spaceMachine.png");
+			f2 = new Image("file:img/Uranus.png");
+			f3 = new Image("file:img/whiteAstronaut.png");
+		}
+	}
+	
+	public void drawCard(Card thisCard, int thisStartX, int thisStartY) {
+		if("A".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(a1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("A".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(a2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("A".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(a3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("B".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(b1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("B".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(b2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("B".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(b3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("C".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(c1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("C".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(c2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("C".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(c3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("D".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(d1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("D".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(d2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("D".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(d3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("E".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(e1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("E".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(e2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("E".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(e3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("F".equals(thisCard.getType2()) && "1".equals(thisCard.getType1())) {
+		    gc.drawImage(f1, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("F".equals(thisCard.getType2()) && "2".equals(thisCard.getType1())) {
+		    gc.drawImage(f2, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("F".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
+		    gc.drawImage(f3, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("POWER".equals(thisCard.getType2()) && "POWER".equals(thisCard.getType1())) {
+			gc.drawImage(power1, thisStartX, thisStartY, cardSize, cardSize);
+		} else {
+			System.out.println("Drawing generic...");
+			gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
+		}
+	}
+	
 	/**
 	 * This method clears the canvas before redrawing of a new game.
 	 */
 	public void clearCanvas() {
 		gc.setFill(Color.LIGHTGRAY);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		gamePrompt.setText("Start a New Game!");
+		if(this.game == null) {
+			gamePrompt.setText("Start a New Game!");
+		} else {
+			gamePrompt.setText("You are doing great!");
+		}
 		curScore.setText("0");
 	}
 	
@@ -222,10 +304,22 @@ public class BoardPane extends BorderPane implements OurObserver {
 		messageArea.setTop(gamePrompt);
 		messageArea.setCenter(liveStatsGrid);
 		liveStatsGrid.setPadding(new Insets(0, 0, 0, 60));
-		messageArea.setPadding(new Insets(0, 0, 0, 350));
+		messageArea.setPadding(new Insets(0, 0, 0, 310));
 
 		this.setTop(canvas);
 		this.setCenter(messageArea);
+	}
+	
+	// TODO - need scores for other game modes.
+	private void updateScores() {
+		if(game != null && !game.gameActive()) {
+			System.out.println("Game has ended!");
+			System.out.println("Best guess streak: " + game.getBestStreak());
+			Accounts currAcct = gui.getCurrAcct();
+			currAcct.setNewStreak(game.getBestStreak(), game.getSize());
+			currAcct.incrementGamesPlayed();
+			currAcct.setNewBestScore(game.getScore(), game.getSize(), game.getGameMode());
+		}
 	}
 
 	/**
@@ -379,39 +473,11 @@ public class BoardPane extends BorderPane implements OurObserver {
 					if(curRow == -1 | curCol == -1) {
 						System.out.println("Registered invalid click");
 					} else {
-						System.out.println("user clicked row: " + curRow + " col: " + curCol);
-						game.cardClicked(curRow, curCol);
+						game.cardClicked(curRow, curCol, 1);
 					}
 				}
 			}
 			
-			if(game != null && !game.gameActive()) {
-				System.out.println("Game has ended!");
-				System.out.println("Game mode: " + game.getGameMode() + " size: " + game.getSize());
-				Accounts currAcct = gui.getCurrAcct();
-				currAcct.incrementGamesPlayed();
-				if(game.getGameMode() == 0 && game.getSize() == 2) {
-					if((game.getScore() < currAcct.get2x2Score()) | currAcct.get2x2Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				} else if(game.getGameMode() == 1 && game.getSize() == 3) {
-					if((game.getScore() < currAcct.get3x3Score())  | currAcct.get3x3Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				} else if(game.getGameMode() == 0 && game.getSize() == 4) {
-					if((game.getScore() < currAcct.get4x4Score())  | currAcct.get4x4Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				} else if(game.getGameMode() == 1 && game.getSize() == 5) {
-					if((game.getScore() < currAcct.get5x5Score()) | currAcct.get5x5Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				} else if(game.getGameMode() == 0 && game.getSize() == 6) {
-					if((game.getScore() < currAcct.get6x6Score()) | currAcct.get6x6Score() == -1) {
-						currAcct.setNewBestScore(game.getScore(), game.getSize());
-					}
-				}
-			}
 		});
 		
 	}
@@ -423,12 +489,21 @@ public class BoardPane extends BorderPane implements OurObserver {
 	 * @param gameMode the integer representing the current game's game mode.
 	 * @param boardSize  the integer representing the current game's board size.
 	 */
-	public void startNewGame(int gameMode, int boardSize) {
+	public void startNewGame(int gameMode, int boardSize, int gameTheme) {
 		System.out.println("New Game Clicked");
-		game = new MemoryGame(gameMode, boardSize);
+		game = new MemoryGame(gameMode, boardSize, gameTheme);
 		game.addObserver(this);
 		game.initGame();
 		gamePrompt.setText("Click Cards to Begin!");
+		gui.getCurrAcct().setNewGame(game);
+	}
+	
+	public void setGame(MemoryGame game) {
+		this.game = game;
+		this.game.addObserver(this);
+		drawCards();
+		gamePrompt.setText("Resume Your Game!");
+		curScore.setText("" + game.getScore());
 	}
 
 	@Override
@@ -443,6 +518,8 @@ public class BoardPane extends BorderPane implements OurObserver {
 		curScore.setText("" + game.getScore());
 		if(!game.gameActive()) {
 			gamePrompt.setText("Congrats! You won!");
+			updateScores();
+			gui.getCurrAcct().endCurrGame();
 		}
 	}
 

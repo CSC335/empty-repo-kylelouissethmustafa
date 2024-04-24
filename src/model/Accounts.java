@@ -1,6 +1,3 @@
-/*
- * Louis Romeo
- */
 package model;
 
 import java.util.HashMap;
@@ -18,11 +15,25 @@ public class Accounts implements java.io.Serializable {
     private String username;
     private String password;
     private int gamesPlayed;
-    private int best2Score;
-    private int best3Score;
-    private int best4Score;
-    private int best5Score;
-    private int best6Score;
+    
+    private int best2Normal;
+    private int best2Streak;
+    private int best3Odd;
+    private int best3ThreeKind;
+    private int best3Power;
+    private int best3Streak;
+    private int best4Normal;
+    private int best4Power;
+    private int best4Streak;
+    private int best5Odd;
+    private int best5Power;
+    private int best5Streak;
+    private int best6Normal;
+    private int best6ThreeKind;
+    private int best6Power;
+    private int best6Streak;
+    
+    private MemoryGame currGame;
 
     /**
      * The constructor for accounts, which sets all best scores
@@ -35,14 +46,27 @@ public class Accounts implements java.io.Serializable {
         this.username = username;
         this.password = password;
         this.gamesPlayed = 0;
-        // NOTE - if -1, not played that mode yet...
-        this.best2Score = -1;
-        this.best3Score = -1;
-        this.best4Score = -1;
-        this.best5Score = -1;
-        this.best6Score = -1;
+        // NOTE - if -1, not played that mode yet...  
+        this.best2Normal = -1;
+        this.best2Streak = -1;
+        this.best3Odd = -1;
+        this.best3ThreeKind = -1;
+        this.best3Power = -1;
+        this.best3Streak = -1;
+        this.best4Normal = -1;
+        this.best4Power = -1;
+        this.best4Streak = -1;
+        this.best5Odd = -1;
+        this.best5Power = -1;
+        this.best5Streak = -1;
+        this.best6Normal = -1;
+        this.best6ThreeKind = -1;
+        this.best6Power = -1;
+        this.best6Streak = -1;
+        this.currGame = null;
     }
     
+    // TODO - recomment, add modes
     /**
      * Given a newScore and game mode, this method sets a new
      * best score for the account.
@@ -50,17 +74,63 @@ public class Accounts implements java.io.Serializable {
      * @param newScore The value of the newest score.
      * @param gameMode The specified game mode to update best score of.
      */
-    public void setNewBestScore(int newScore, int gameMode) {
-    	if(gameMode == 2) {
-    		this.best2Score = newScore;
-    	} else if(gameMode == 3) {
-    		this.best3Score = newScore;
-    	} else if(gameMode == 4) {
-    		this.best4Score = newScore;
-    	} else if(gameMode == 5) {
-    		this.best5Score = newScore;
-    	} else if(gameMode == 6) {
-    		this.best6Score = newScore;
+    public void setNewBestScore(int newScore, int dim, int gameMode) {
+    	if(dim == 2) {
+    		if(gameMode == 0) {
+    			this.best2Normal = newScore;
+    		}
+    	} else if(dim == 3) {
+    		if(gameMode == 1) {
+    			this.best3Odd = newScore;
+    		} else if(gameMode == 2) {
+    			this.best3ThreeKind = newScore;
+    		} else if(gameMode == 3) {
+    			this.best3Power = newScore;
+    		}
+    	} else if(dim == 4) {
+    		if(gameMode == 0) {
+    			this.best4Normal = newScore;
+    		} else if(gameMode == 3) {
+    			this.best4Power = newScore;
+    		}
+    	} else if(dim == 5) {
+    		if(gameMode == 1) {
+    			this.best5Odd = newScore;
+    		} else if(gameMode == 3) {
+    			this.best5Power = newScore;
+    		}
+    	} else if(dim == 6) {
+    		if(gameMode == 0) {
+    			this.best6Normal = newScore;
+    		} else if(gameMode == 2) {
+    			this.best6ThreeKind = newScore;
+    		} else if(gameMode == 3) {
+    			this.best6Power = newScore;
+    		}
+    	}
+    }
+    
+    public void setNewStreak(int newStreak, int dim) {
+    	if(dim == 2) {
+    		if(newStreak > this.best2Streak) {
+    			this.best2Streak = newStreak;
+    		}
+    	} else if(dim == 3) {
+    		if(newStreak > this.best3Streak) {
+    			this.best3Streak = newStreak;
+    		}
+    	} else if(dim == 4) {
+    		if(newStreak > this.best4Streak) {
+    			this.best4Streak = newStreak;
+    		}
+    	} else if(dim == 5) {
+    		if(newStreak > this.best5Streak) {
+    			this.best5Streak = newStreak;
+    		}
+    	} else if(dim == 6) {
+    		if(newStreak > this.best6Streak) {
+    			this.best6Streak = newStreak;
+    		}
     	}
     }
     
@@ -87,81 +157,111 @@ public class Accounts implements java.io.Serializable {
     	return this.password;
     }
     
-    /**
-     * A getter for the best 2x2 game mode score.
-     * 
-     * @return The Account's best 2x2 game mode score.
-     */
-    public Integer getScore() {
-    	return this.best2Score;
-    	//return String.valueOf(this.best2Score);
+    public Integer get2Normal() {
+    	return this.best2Normal;
     }
     
-    /**
-     * A getter for the best 2x2 game mode score.
-     * 
-     * @return The Account's best 2x2 game mode score.
-     */
-    public Integer get2x2Score() {
-    	return this.best2Score;
+    public Integer get2Streak() {
+    	return this.best2Streak;
     }
     
-    /**
-     * A getter for the best 3x3 game mode score.
-     * 
-     * @return The Account's best 3x3 game mode score.
-     */
-    public Integer get3x3Score() {
-    	return this.best3Score;
+    public Integer get3Odd() {
+    	return this.best3Odd;
     }
     
-    /**
-     * A getter for the best 4x4 game mode score.
-     * 
-     * @return The Account's best 4x4 game mode score.
-     */
-    public Integer get4x4Score() {
-    	return this.best4Score;
+    public Integer get3ThreeKind() {
+    	return this.best3ThreeKind;
     }
     
-    /**
-     * A getter for the best 5x5 game mode score.
-     * 
-     * @return The Account's best 5x5 game mode score.
-     */
-    public Integer get5x5Score() {
-    	return this.best5Score;
+    public Integer get3Power() {
+    	return this.best3Power;
     }
     
-    /**
-     * A getter for the best 6x6 game mode score.
-     * 
-     * @return The Account's best 6x6 game mode score.
-     */
-    public Integer get6x6Score() {
-    	return this.best6Score;
+    public Integer get3Streak() {
+    	return this.best3Streak;
     }
     
+    public Integer get4Normal() {
+    	return this.best4Normal;
+    }
+    
+    public Integer get4Power() {
+    	return this.best4Power;
+    }
+    
+    public Integer get4Streak() {
+    	return this.best4Streak;
+    }
+    
+    public Integer get5Odd() {
+    	return this.best5Odd;
+    }
+    
+    public Integer get5Power() {
+    	return this.best5Power;
+    }
+    
+    public Integer get5Streak() {
+    	return this.best5Streak;
+    }
+    
+    public Integer get6Normal() {
+    	return this.best6Normal;
+    }
+    
+    public Integer get6ThreeKind() {
+    	return this.best6ThreeKind;
+    }
+    
+    public Integer get6Power() {
+    	return this.best6Power;
+    }
+    
+    public Integer get6Streak() {
+    	return this.best6Streak;
+    }
+    
+    // TODO - re comment, add game Modes
     /**
      * For specified game mode, a getter for Account's best score.
      * 
      * @param gameMode The game mode being queried for best user score.
      * @return The best score for the Account's specified game mode.
      */
-    public int getBestScore(int gameMode) {
-    	int score;
-    	if(gameMode == 2) {
-    		score = this.best2Score;
-    	} else if(gameMode == 3) {
-    		score = this.best3Score;
-    	} else if(gameMode == 4) {
-    		score = this.best4Score;
-    	} else if(gameMode == 5) {
-    		score = this.best5Score;
-    	} else if(gameMode == 6) {
-    		score = this.best6Score;
-    	} else {
-    		score = -2;
+    public int getBestScore(int dim, int gameMode) {
+    	int score = -2;
+    	if(dim == 2) {
+    		if(gameMode == 0) {
+    			score = this.best2Normal;
+    		}
+    	} else if(dim == 3) {
+    		if(gameMode == 1) {
+    			score = this.best3Odd;
+    		} else if(gameMode == 2) {
+    			score = this.best3ThreeKind;
+    		} else if(gameMode == 3) {
+    			score = this.best3Power;
+    		}
+    	} else if(dim == 4) {
+    		if(gameMode == 0) {
+    			score = this.best4Normal;
+    		} else if(gameMode == 3) {
+    			score = this.best4Power;
+    		}
+    	} else if(dim == 5) {
+    		if(gameMode == 1) {
+    			score = this.best5Odd;
+    		} else if(gameMode == 3) {
+    			score = this.best5Power;
+    		}
+    	} else if(dim == 6) {
+    		if(gameMode == 0) {
+    			score = this.best6Normal;
+    		} else if(gameMode == 2) {
+    			score = this.best6ThreeKind;
+    		} else if(gameMode == 3) {
+    			score = this.best6Power;
+    		}
     	}
     	
     	if(score == -1) {
@@ -172,6 +272,22 @@ public class Accounts implements java.io.Serializable {
     		return score;
     	} else {
     		return score;
+    	}
+    }
+    
+    public int getBestStreak(int dim) {
+    	if(dim == 2) {
+    		return this.best2Streak;
+    	} else if(dim == 3) {
+    		return this.best3Streak;
+    	} else if(dim == 4) {
+    		return this.best4Streak;
+    	} else if(dim == 5) {
+    		return this.best5Streak;
+    	} else if(dim == 6) {
+    		return this.best6Streak;
+    	} else {
+    		return -1;
     	}
     }
     
@@ -195,5 +311,17 @@ public class Accounts implements java.io.Serializable {
     	} else {
     		return false;
     	}
+    }
+    
+    public void setNewGame(MemoryGame game) {
+    	this.currGame = game;
+    }
+    
+    public MemoryGame getCurrGame() {
+    	return this.currGame;
+    }
+    
+    public void endCurrGame() {
+    	this.currGame = null;
     }
 }
