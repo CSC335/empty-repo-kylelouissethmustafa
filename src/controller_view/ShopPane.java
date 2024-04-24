@@ -19,6 +19,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import model.AccountCollection;
 import model.Accounts;
 import model.shopCollection;
@@ -55,6 +56,7 @@ public class ShopPane extends BorderPane {
 		shopLabel = new Label("Feature Shop");
 		buyButton = new Button("Buy Selected Item");
 		balanceLabel = new Label("User Balance: ");
+		balanceLabel.setFont(new Font(20));
 		table = new TableView<>();
 		nameColumn = new TableColumn<>("Item Name");
 		priceColumn = new TableColumn<>("Price");
