@@ -14,7 +14,7 @@ Our project is a Memory Game which is played by flipping over cards to make matc
 ### Wow Factors
 
 - Item shop
-We have many special features and game modes that can be purchased in the item shop. Users earn coins via daily login and completing games, and can use them to buy different card designs, harder game modes, and new power cards.
+  - We have many special features and game modes that can be purchased in the item shop. Users earn coins via daily login and completing games, and can use them to buy different card designs, harder game modes, and new power cards.
 
 - Power Card game mode
-This game mode is unique as it has cards that, when revealed, have special effects. For example, the Star card will automatically reveal a matching card for the other card you select. The bomb card will show you all of the surrounding cards for you to quickly memorize before they flip back over.
+  - This game mode is unique as it has cards that, when revealed, have special effects. For example, the Star card will automatically reveal a matching card for the other card you select. The bomb card will show you all of the surrounding cards for you to quickly memorize before they flip back over.
