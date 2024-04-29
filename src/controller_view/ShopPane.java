@@ -8,7 +8,10 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,6 +50,8 @@ public class ShopPane extends BorderPane {
 
 	private shopCollection shopCollection;
 	private shopCollection croppedCollection;
+	
+	private Accounts userAccount;
 
 	public ShopPane(shopCollection shopCollection) {
 
@@ -84,6 +89,8 @@ public class ShopPane extends BorderPane {
 
 		registerHandlers();
 		layoutShop();
+		
+		this.userAccount = userAccount;
 	}
 
 	/**
@@ -138,10 +145,31 @@ public class ShopPane extends BorderPane {
 
 	// Registers event handlers
 	private void registerHandlers() {
-		// Handle buyButton based on selected entry in table
-		buyButton.setOnAction(event -> {
-			System.out.println("Bought " + table.getSelectionModel().getSelectedItem().getItemName());
-			// Handle logic for marking if the item is owned
-		});
+	    // Handle buyButton based on selected entry in table
+	    buyButton.setOnAction(event -> {
+	        shopItem selectedItem = table.getSelectionModel().getSelectedItem();
+	        if (selectedItem != null) {
+	            if (userAccount.hasUnlockedItem(selectedItem)) {
+	                Alert alert = new Alert(AlertType.INFORMATION, "You already own this item.", ButtonType.OK);
+	                alert.showAndWait();
+	            } else if (userAccount.getBalance() < selectedItem.getPrice()) {
+	                Alert alert = new Alert(AlertType.WARNING, "Insufficient balance.", ButtonType.OK);
+	                alert.showAndWait();
+	            } else {
+	                // Deduct the price from the user's balance
+	                userAccount.deductBalance(selectedItem.getPrice());
+	                // Add the item to the unlocked list
+	                userAccount.addUnlockedItem(selectedItem);
+	                // Update balance label
+	                balanceLabel.setText("User Balance: " + userAccount.getBalance());
+	                // Inform the user about the purchase
+	                Alert alert = new Alert(AlertType.CONFIRMATION, "You have successfully bought " + selectedItem.getItemName() + ".", ButtonType.OK);
+	                alert.showAndWait();
+	            }
+	        } else {
+	            Alert alert = new Alert(AlertType.WARNING, "Please select an item to buy.", ButtonType.OK);
+	            alert.showAndWait();
+	        }
+	    });
 	}
 }
