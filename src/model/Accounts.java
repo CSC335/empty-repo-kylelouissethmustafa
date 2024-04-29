@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -34,6 +36,9 @@ public class Accounts implements java.io.Serializable {
 	private int best6Streak;
 
 	private MemoryGame currGame;
+	
+	private int balance;
+    private List<shopItem> unlockedItems;
 
 	/**
 	 * The constructor for accounts, which sets all best scores to -1 by default,
@@ -64,7 +69,10 @@ public class Accounts implements java.io.Serializable {
 		this.best6Power = -1;
 		this.best6Streak = -1;
 		this.currGame = null;
-	}
+		
+		this.balance = balance;
+        this.unlockedItems = new ArrayList<>();	
+    }
 
 	/**
 	 * Given a newScore, dimension, and gameMode, this method sets a new best score
@@ -426,4 +434,34 @@ public class Accounts implements java.io.Serializable {
 	public void endCurrGame() {
 		this.currGame = null;
 	}
+	
+	// Getters and setters for balance
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    // Methods for unlocked items
+
+    public List<shopItem> getUnlockedItems() {
+        return unlockedItems;
+    }
+
+    public void addUnlockedItem(shopItem item) {
+        unlockedItems.add(item);
+    }
+
+    public boolean hasUnlockedItem(shopItem item) {
+        return unlockedItems.contains(item);
+    }
+
+    // Method to deduct balance
+    public void deductBalance(int amount) {
+        balance -= amount;
+    }	
+
 }
