@@ -90,7 +90,8 @@ public class Card implements java.io.Serializable {
 	public Boolean getRevealed() {
 		return revealed;
 	}
-
+	
+	// TODO - change this to isStar, make isBomb and isLaser
 	/**
 	 * Returns whether or not the card is a power card.
 	 * 

@@ -47,7 +47,9 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 	private Image cardBack;
 	private Image cardFront;
-	private Image power1;
+	private Image starPower;
+	private Image bombPower;
+	private Image laserPower;
 	private Image a1;
 	private Image a2;
 	private Image a3;
@@ -145,7 +147,10 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private void initImages() {
 		cardBack = new Image("file:img/BasicCardBack.png");
 		cardFront = new Image("file:img/BasicCardInside.png");
-		power1 = new Image("file:img/power1.png");
+		starPower = new Image("file:img/power1.png");
+		bombPower = new Image("file:img/bombPower.png");
+		laserPower = new Image("file:img/laserPower.png");
+		
 
 		int gameTheme = game.getTheme();
 
@@ -257,7 +262,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		} else if ("F".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
 			gc.drawImage(f3, thisStartX, thisStartY, cardSize, cardSize);
 		} else if ("POWER".equals(thisCard.getType2()) && "POWER".equals(thisCard.getType1())) {
-			gc.drawImage(power1, thisStartX, thisStartY, cardSize, cardSize);
+			gc.drawImage(starPower, thisStartX, thisStartY, cardSize, cardSize);
 		} else {
 			System.out.println("Drawing generic...");
 			gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);

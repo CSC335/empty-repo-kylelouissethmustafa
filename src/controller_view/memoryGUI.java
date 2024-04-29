@@ -202,9 +202,7 @@ public class memoryGUI extends Application {
 	}
 
 	private void addMenu() {
-		// see ButtonView from TTTStart
 		newGame = new MenuItem("New Game");
-		MenuItem other = new MenuItem("Other");
 		leaderboard = new MenuItem("Leaderboard");
 		logout = new MenuItem("Logout");
 
@@ -213,7 +211,7 @@ public class memoryGUI extends Application {
 		userStats = new MenuItem("User Stats");
 		gameSettings = new MenuItem("Game Settings");
 
-		options.getItems().addAll(newGame, leaderboard, itemShop, logout, userStats, gameSettings, other);
+		options.getItems().addAll(newGame, leaderboard, itemShop, logout, userStats, gameSettings);
 
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
