@@ -206,8 +206,6 @@ public class memoryGUI extends Application {
 		Accounts master = new Accounts("Admin", "1");
 		shopItem bomb = new shopItem("Unlock Power Card: Bomb", 0);
 		shopItem laser = new shopItem("Unlock Power Card: Laser", 0);
-		master.addUnlockedItem(bomb);
-		master.addUnlockedItem(laser);
 		master.setBalance(10000);
 
 		accountCollection.add(account1);
