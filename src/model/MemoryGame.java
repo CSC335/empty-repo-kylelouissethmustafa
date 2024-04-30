@@ -41,9 +41,11 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	 * The constructor for memory game, creating a new board and initializing game
 	 * stats.
 	 * 
-	 * @param gameMode  The initialized game's game mode.
-	 * @param size      The board size for the MemoryGame.
-	 * @param gameTheme The theme of the game being initialized.
+	 * @param gameMode     The initialized game's game mode.
+	 * @param size         The board size for the MemoryGame.
+	 * @param gameTheme    The theme of the game being initialized.
+	 * @param user         The user playing the game.
+	 * @param gameSubLabel The label displaying bonuses within the BoardPane.
 	 */
 	public MemoryGame(int gameMode, int size, int gameTheme, Accounts user, Label gameSubLabel) {
 		board = new Board(size);
@@ -56,7 +58,16 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		this.starsRevealed = 0;
 		this.gameUser = user;
 	}
-	
+
+	/**
+	 * An alternative constructor for memory game, which calls the primary
+	 * constructor with a null gameSubLabel
+	 * 
+	 * @param gameMode  The initialized game's game mode.
+	 * @param size      The board size for the MemoryGame.
+	 * @param gameTheme The theme of the game being initialized.
+	 * @param user      The user playing the game.
+	 */
 	public MemoryGame(int gameMode, int size, int gameTheme, Accounts user) {
 		this(gameMode, size, gameTheme, user, null);
 	}
@@ -156,6 +167,10 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		return numMatches;
 	}
 
+	/**
+	 * Logs a correct guess by adding to current streak and resetting best streak if
+	 * applicable.
+	 */
 	private void correctGuess() {
 		this.currStreak += 1;
 		if (this.currStreak > this.bestStreak) {
@@ -164,85 +179,106 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		System.out.println("Correct! Current Streak: " + this.currStreak);
 	}
 
+	/**
+	 * Logs an incorrect guess by zero-ing out the current streak.
+	 */
 	private void incorrectGuess() {
 		System.out.println("Incorrect Guess!");
 		this.currStreak = 0;
 	}
-	
+
+	/**
+	 * Reveals all adjacent cards around a bomb power up for 1.5 seconds.
+	 * 
+	 * @param rowBomb The row of the bomb card.
+	 * @param colBomb The column of the bomb card.
+	 */
 	private void revealAdjacent(int rowBomb, int colBomb) {
 		int lowerRowLim;
 		int lowerColLim;
-		
+
 		ArrayList<Card> peakCards = new ArrayList<>();
-		
-		if(colBomb - 1 < 0) {
+
+		if (colBomb - 1 < 0) {
 			lowerColLim = colBomb;
 		} else {
 			lowerColLim = colBomb - 1;
 		}
-		
-		if(rowBomb - 1 < 0) {
+
+		if (rowBomb - 1 < 0) {
 			lowerRowLim = rowBomb;
 		} else {
 			lowerRowLim = rowBomb - 1;
 		}
-		
-		for(int i = lowerRowLim; i < rowBomb + 2; i++) {
-			for(int j = lowerColLim; j < colBomb + 2; j++) {
-				if(i < this.getSize() && j < this.getSize()) {
+
+		for (int i = lowerRowLim; i < rowBomb + 2; i++) {
+			for (int j = lowerColLim; j < colBomb + 2; j++) {
+				if (i < this.getSize() && j < this.getSize()) {
 					Card thisCard = board.getCard(i, j);
-					if(!thisCard.getRevealed()) {
+					if (!thisCard.getRevealed()) {
 						thisCard.toggle();
 						peakCards.add(thisCard);
 					}
 				}
 			}
 		}
-		
+
 		notifyObservers(this);
-		
+
 		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
 		pause.setOnFinished(event -> {
 			System.out.println("Adjacent Reveal Finished");
-			
-			for(int c = 0; c < peakCards.size(); c++) {
+
+			for (int c = 0; c < peakCards.size(); c++) {
 				peakCards.get(c).toggle();
 			}
-			
+
 			allowGuiClicks = true;
 			notifyObservers(this);
 		});
 		pause.play();
-		
+
 	}
-	
+
+	/**
+	 * Reveals all cards in the column of a laser power up for 1.5 seconds.
+	 * 
+	 * @param laserCol The column of the laser card.
+	 */
 	private void revealColumn(int laserCol) {
 		ArrayList<Card> peakCards = new ArrayList<>();
-		
-		for(int i = 0; i < this.getSize(); i++) {
+
+		for (int i = 0; i < this.getSize(); i++) {
 			Card thisCard = board.getCard(i, laserCol);
-			if(!thisCard.getRevealed()) {
+			if (!thisCard.getRevealed()) {
 				thisCard.toggle();
 				peakCards.add(thisCard);
 			}
 		}
-		
+
 		notifyObservers(this);
-		
+
 		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
 		pause.setOnFinished(event -> {
 			System.out.println("Column Reveal Finished");
-			
-			for(int c = 0; c < peakCards.size(); c++) {
+
+			for (int c = 0; c < peakCards.size(); c++) {
 				peakCards.get(c).toggle();
 			}
-			
+
 			allowGuiClicks = true;
 			notifyObservers(this);
 		});
 		pause.play();
 	}
-	
+
+	/**
+	 * A method that flips two cards to their back and removes them from revealed
+	 * cards, implementing a 1 second pause animation.
+	 * 
+	 * @param maxCardsClicked The maximum number of cards clicked at once based on
+	 *                        the game mode.
+	 */
 	private void flipCardsBackBasic(int maxCardsClicked) {
 		PauseTransition pause = new PauseTransition(Duration.seconds(1));
 		pause.setOnFinished(event -> {
@@ -255,7 +291,14 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		});
 		pause.play();
 	}
-	
+
+	/**
+	 * This method reveals matching cards, as specified by the star power up, using
+	 * a one second animation pause.
+	 * 
+	 * @param matchRow The row of the matching card to be revealed.
+	 * @param matchCol The column of the matching card to be revealed.
+	 */
 	private void starPowerReveal(int matchRow, int matchCol) {
 		PauseTransition pause = new PauseTransition(Duration.seconds(1));
 		pause.setOnFinished(event -> {
@@ -276,9 +319,14 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	public int getBestStreak() {
 		return this.bestStreak;
 	}
-	
+
+	/**
+	 * This method updates the game sub prompt to a specified prompt.
+	 * 
+	 * @param prompt The string which is the prompt to be updated to.
+	 */
 	private void updateGamePrompt(String prompt) {
-		if(gameSubLabel != null) {
+		if (gameSubLabel != null) {
 			gameSubLabel.setText(prompt);
 			notifyObservers(this);
 		}
@@ -376,8 +424,9 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							}
 
 						}
-					} else if(clickedCard.isBomb()) {
-						if(revealedCards.size() == 2 && (revealedCards.get(0).isStar() | revealedCards.get(1).isStar())) { 
+					} else if (clickedCard.isBomb()) {
+						if (revealedCards.size() == 2
+								&& (revealedCards.get(0).isStar() | revealedCards.get(1).isStar())) {
 							// First click star, second click bomb
 							// For now, just flip both back over?
 							this.updateGamePrompt("You found 2 Power Cards! +10 BONUS");
@@ -390,14 +439,15 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							moves++;
 							allowGuiClicks = false;
 							this.revealAdjacent(row, col);
-							if(revealedCards.get(0).isBomb()) {
+							if (revealedCards.get(0).isBomb()) {
 								revealedCards.remove(0);
 							} else {
 								revealedCards.remove(1);
 							}
 						}
-					} else if(clickedCard.isLaser()) {
-						if(revealedCards.size() == 2 && (revealedCards.get(0).isStar() | revealedCards.get(1).isStar())) { 
+					} else if (clickedCard.isLaser()) {
+						if (revealedCards.size() == 2
+								&& (revealedCards.get(0).isStar() | revealedCards.get(1).isStar())) {
 							// First click star, second click laser
 							// For now, just flip both back over?
 							this.updateGamePrompt("You found 2 Power Cards! +10 BONUS");
@@ -410,13 +460,13 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							moves++;
 							allowGuiClicks = false;
 							this.revealColumn(col);
-							if(revealedCards.get(0).isLaser()) {
+							if (revealedCards.get(0).isLaser()) {
 								revealedCards.remove(0);
 							} else {
 								revealedCards.remove(1);
 							}
 						}
-						
+
 					} else { // Power game mode, card clicked isn't power
 						if (revealedCards.size() == 2 && this.starsRevealed == 0) { // 2 normal cards clicked
 							// normal case - two regular cards clicked

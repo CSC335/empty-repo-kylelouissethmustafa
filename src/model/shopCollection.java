@@ -19,7 +19,7 @@ public class shopCollection implements java.io.Serializable {
 	public shopCollection() {
 		items = new ArrayList<>();
 	}
-	
+
 	/**
 	 * Adds an item to the shopCollection.
 	 * 

@@ -59,6 +59,10 @@ public class SettingsPane extends BorderPane {
 		// top, x, x, left
 	}
 
+	/**
+	 * This method lays out the Settings Pane with components including
+	 * its title, its various option combo boxes and labels, and a save button.
+	 */
 	private void layoutPane() {
 		title = new Label("Game Settings");
 		title.setStyle("-fx-font-size: 40; -fx-font-weight: bold");
@@ -113,6 +117,10 @@ public class SettingsPane extends BorderPane {
 		grid.add(saveSettingsBtn, 0, 3);
 	}
 
+	/**
+	 * This method registers handlers for change of the dimensions combo box,
+	 * as well as the click of save settings.
+	 */
 	private void registerHandlers() {
 		dimensions.setOnAction(event -> {
 			String newValue = dimensions.getValue();

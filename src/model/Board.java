@@ -13,6 +13,7 @@ public class Board implements java.io.Serializable {
 	// Only square boards - can change later
 	private int size;
 	private Card[][] board;
+
 	/*
 	 * Game modes: - 0 = Basic - 1 = Odd one out - 2 = Three of a kind - 3 = Powers
 	 */
@@ -26,13 +27,10 @@ public class Board implements java.io.Serializable {
 	 * change in the middle of the game.
 	 */
 	private int cardDesign;
-	
 
 	// Preset to general type
 	private String[] type1 = { "1", "2", "3" };
 	private String[] type2 = { "A", "B", "C", "D", "E", "F" };
-
-	// Green - #028A0F Orange - #FF7300 Yellow - #F6FF00
 
 	/**
 	 * Constructs a new Board object. Size must be less than or equal to 6.
@@ -121,25 +119,25 @@ public class Board implements java.io.Serializable {
 			}
 			// Set power cards
 			for (int i = 0; i < powerCount; i++) {
-				if(user == null) {
+				if (user == null) {
 					board[size - 1][size - 1 - i] = new Card("POWER", "Star");
-				}else {
+				} else {
 					Random random = new Random();
 					shopItem bomb = new shopItem("Unlock Power Card: Bomb", 0);
 					shopItem laser = new shopItem("Unlock Power Card: Laser", 0);
 					Boolean chosen = false;
-					while(!chosen) {
+					while (!chosen) {
 						int cardType = random.nextInt(3);
-						if(cardType == 0) {
+						if (cardType == 0) {
 							board[size - 1][size - 1 - i] = new Card("POWER", "Star");
 							chosen = true;
-						}else if(cardType == 1) {
-							if(user.hasUnlockedItem(bomb)) {
+						} else if (cardType == 1) {
+							if (user.hasUnlockedItem(bomb)) {
 								board[size - 1][size - 1 - i] = new Card("POWER", "Bomb");
 								chosen = true;
 							}
-						}else if(cardType == 2) {
-							if(user.hasUnlockedItem(laser)) {
+						} else if (cardType == 2) {
+							if (user.hasUnlockedItem(laser)) {
 								board[size - 1][size - 1 - i] = new Card("POWER", "Laser");
 								chosen = true;
 							}

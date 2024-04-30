@@ -389,6 +389,10 @@ public class LeaderboardPane extends BorderPane {
 		registerHandlers();
 	}
 
+	/**
+	 * This method displays the currently selected game size and mode on the GUI
+	 * when viewing the leaderboard.
+	 */
 	private void showCurrentSettings() {
 		dimensionSelection.getSelectionModel().select(curDim - 2);
 
@@ -396,7 +400,6 @@ public class LeaderboardPane extends BorderPane {
 
 		gameModeSelection.getItems().clear();
 
-		// TODO - add Power game mode...
 		if (newValue.equals("2x2")) {
 			gameModeSelection.getItems().addAll("Normal", "Streak");
 			if (curMode == 0) {
@@ -446,6 +449,10 @@ public class LeaderboardPane extends BorderPane {
 		}
 	}
 
+	/**
+	 * This method registers handlers for change of game dimension and click of the
+	 * view leaderboard button.
+	 */
 	private void registerHandlers() {
 		dimensionSelection.setOnAction(event -> {
 			String dim = dimensionSelection.getValue();

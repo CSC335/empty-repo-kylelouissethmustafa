@@ -87,7 +87,7 @@ public class memoryGUI extends Application {
 		statsPane = new StatsPane(this);
 		initShopCollection();
 		shopPane = new ShopPane(shopCollection);
-		//settingsPane = new SettingsPane(this);
+		// settingsPane = new SettingsPane(this);
 
 		LayoutGUI();
 
@@ -105,6 +105,10 @@ public class memoryGUI extends Application {
 		registerHandlers(primaryStage);
 	}
 
+	/**
+	 * Sets up GUI and memoryGame data with saved data if the user would like to
+	 * load saved data.
+	 */
 	private void getSavedDataOrNot() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Start Up Option");
@@ -183,6 +187,9 @@ public class memoryGUI extends Application {
 		return this.currAcct;
 	}
 
+	/**
+	 * This method adds default accounts for testing.
+	 */
 	private void addTestAccounts() {
 		Accounts account1 = new Accounts("Seth", "Seth123");
 		account1.setNewBestScore(20, 2, 0);
@@ -195,13 +202,13 @@ public class memoryGUI extends Application {
 		Accounts account3 = new Accounts("Mustafa2", "Mustafa1");
 		account3.setNewBestScore(10, 2, 0);
 		account3.setNewBestScore(90, 3, 1);
-		
+
 		Accounts master = new Accounts("Admin", "1");
 		shopItem bomb = new shopItem("Unlock Power Card: Bomb", 0);
 		shopItem laser = new shopItem("Unlock Power Card: Laser", 0);
 		master.addUnlockedItem(bomb);
 		master.addUnlockedItem(laser);
-		master.setBalance(2000);
+		master.setBalance(10000);
 
 		accountCollection.add(account1);
 		accountCollection.add(account2);
@@ -209,6 +216,9 @@ public class memoryGUI extends Application {
 		accountCollection.add(master);
 	}
 
+	/**
+	 * This method sets up the Menu for the GUI.
+	 */
 	private void addMenu() {
 		newGame = new MenuItem("New Game");
 		leaderboard = new MenuItem("Leaderboard");
@@ -219,14 +229,14 @@ public class memoryGUI extends Application {
 		userStats = new MenuItem("User Stats");
 		gameSettings = new MenuItem("Game Settings");
 
-		options.getItems().addAll(newGame, leaderboard, itemShop, logout, userStats, gameSettings);
+		options.getItems().addAll(newGame, leaderboard, itemShop, userStats, gameSettings, logout);
 
 		menuBar = new MenuBar();
 		menuBar.getMenus().addAll(options);
 	}
 
 	/**
-	 * A getter for newGame. 1
+	 * A getter for newGame.
 	 * 
 	 * @return The new game.
 	 */
@@ -260,7 +270,7 @@ public class memoryGUI extends Application {
 		shopCollection.add(new shopItem("Unlock Power Card: Bomb", 1250));
 		shopCollection.add(new shopItem("Unlock Power Card: Laser", 1000));
 	}
-	
+
 	/**
 	 * This method registers event handlers, including logout, click of UserStats in
 	 * menu, clicks of new game for each game mode,and clicks of leaderboard for

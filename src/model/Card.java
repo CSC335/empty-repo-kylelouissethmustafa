@@ -90,8 +90,7 @@ public class Card implements java.io.Serializable {
 	public Boolean getRevealed() {
 		return revealed;
 	}
-	
-	// TODO - change this to isStar, make isBomb and isLaser
+
 	/**
 	 * Returns whether or not the card is a power card.
 	 * 
@@ -100,18 +99,31 @@ public class Card implements java.io.Serializable {
 	public Boolean isPower() {
 		return this.type2 == "POWER";
 	}
-	
+
+	/**
+	 * Returns whether or not this card is a Star card.
+	 * 
+	 * @return True if this is a Star, false otherwise.
+	 */
 	public Boolean isStar() {
 		return this.type2 == "POWER" && this.type1 == "Star";
 	}
-	
+
+	/**
+	 * Returns whether or not this card is a Bomb card.
+	 * 
+	 * @return True if this is a Bomb, false otherwise.
+	 */
 	public Boolean isBomb() {
 		return this.type2 == "POWER" && this.type1 == "Bomb";
 	}
-	
+
+	/**
+	 * Returns whether or not this card is a Laser card.
+	 * 
+	 * @return True if this is a Laser, false otherwise.
+	 */
 	public Boolean isLaser() {
 		return this.type2 == "POWER" && this.type1 == "Laser";
 	}
-
-	// GUI can have a method to turn a card into a object
 }

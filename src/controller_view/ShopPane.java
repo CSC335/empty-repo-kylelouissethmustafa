@@ -51,9 +51,16 @@ public class ShopPane extends BorderPane {
 
 	private shopCollection shopCollection;
 	private shopCollection croppedCollection;
-	
+
 	private Accounts userAccount;
 
+	/**
+	 * This method is the constructor for ShopPane, initializing the Pane given a
+	 * shopCollection of shop Items.
+	 * 
+	 * @param shopCollection The collection of shop items to be displayed within the
+	 *                       shop.
+	 */
 	public ShopPane(shopCollection shopCollection) {
 
 		// Initialize UI components.
@@ -91,13 +98,24 @@ public class ShopPane extends BorderPane {
 		registerHandlers();
 		layoutShop();
 	}
-	
+
+	/**
+	 * This method sets the user account within this class to currAcct, allowing for
+	 * changing of user balance.
+	 * 
+	 * @param currAcct An Account being passed in to be set as this class' current
+	 *                 account.
+	 */
 	public void setUserAccount(Accounts currAcct) {
 		this.userAccount = currAcct;
-		
+
 		this.adjustUserBalance();
 	}
-	
+
+	/**
+	 * This method sets the balance label to the user's balance.
+	 * 
+	 */
 	public void adjustUserBalance() {
 		balanceLabel.setText("User Balance: " + userAccount.getBalance());
 	}
@@ -132,7 +150,7 @@ public class ShopPane extends BorderPane {
 		pane.setRight(balanceLabel);
 		pane.setBottom(buyButton);
 		pane.setCenter(table);
-		
+
 		pane.setMargin(table, new Insets(20, 20, 20, 0));
 
 		// Set this pane as the center content of the parent container.
@@ -152,33 +170,37 @@ public class ShopPane extends BorderPane {
 		}
 	}
 
-	// Registers event handlers
+	/**
+	 * This method registers event handlers, in this case, just the event of a click
+	 * of the buy item button.
+	 */
 	private void registerHandlers() {
-	    // Handle buyButton based on selected entry in table
-	    buyButton.setOnAction(event -> {
-	        shopItem selectedItem = table.getSelectionModel().getSelectedItem();
-	        if (selectedItem != null) {
-	            if (userAccount.hasUnlockedItem(selectedItem)) {
-	                Alert alert = new Alert(AlertType.INFORMATION, "You already own this item.", ButtonType.OK);
-	                alert.showAndWait();
-	            } else if (userAccount.getBalance() < selectedItem.getPrice()) {
-	                Alert alert = new Alert(AlertType.WARNING, "Insufficient balance.", ButtonType.OK);
-	                alert.showAndWait();
-	            } else {
-	                // Deduct the price from the user's balance
-	                userAccount.deductBalance(selectedItem.getPrice());
-	                // Add the item to the unlocked list
-	                userAccount.addUnlockedItem(selectedItem);
-	                // Update balance label
-	                this.adjustUserBalance();
-	                // Inform the user about the purchase
-	                Alert alert = new Alert(AlertType.CONFIRMATION, "You have successfully bought " + selectedItem.getItemName() + ".", ButtonType.OK);
-	                alert.showAndWait();
-	            }
-	        } else {
-	            Alert alert = new Alert(AlertType.WARNING, "Please select an item to buy.", ButtonType.OK);
-	            alert.showAndWait();
-	        }
-	    });
+		// Handle buyButton based on selected entry in table
+		buyButton.setOnAction(event -> {
+			shopItem selectedItem = table.getSelectionModel().getSelectedItem();
+			if (selectedItem != null) {
+				if (userAccount.hasUnlockedItem(selectedItem)) {
+					Alert alert = new Alert(AlertType.INFORMATION, "You already own this item.", ButtonType.OK);
+					alert.showAndWait();
+				} else if (userAccount.getBalance() < selectedItem.getPrice()) {
+					Alert alert = new Alert(AlertType.WARNING, "Insufficient balance.", ButtonType.OK);
+					alert.showAndWait();
+				} else {
+					// Deduct the price from the user's balance
+					userAccount.deductBalance(selectedItem.getPrice());
+					// Add the item to the unlocked list
+					userAccount.addUnlockedItem(selectedItem);
+					// Update balance label
+					this.adjustUserBalance();
+					// Inform the user about the purchase
+					Alert alert = new Alert(AlertType.CONFIRMATION,
+							"You have successfully bought " + selectedItem.getItemName() + ".", ButtonType.OK);
+					alert.showAndWait();
+				}
+			} else {
+				Alert alert = new Alert(AlertType.WARNING, "Please select an item to buy.", ButtonType.OK);
+				alert.showAndWait();
+			}
+		});
 	}
 }

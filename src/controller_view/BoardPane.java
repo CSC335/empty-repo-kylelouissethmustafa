@@ -151,7 +151,6 @@ public class BoardPane extends BorderPane implements OurObserver {
 		starPower = new Image("file:img/power1.png");
 		bombPower = new Image("file:img/bombPower.png");
 		laserPower = new Image("file:img/laserPower.png");
-		
 
 		int gameTheme = game.getTheme();
 
@@ -264,9 +263,9 @@ public class BoardPane extends BorderPane implements OurObserver {
 			gc.drawImage(f3, thisStartX, thisStartY, cardSize, cardSize);
 		} else if ("POWER".equals(thisCard.getType2()) && "Star".equals(thisCard.getType1())) {
 			gc.drawImage(starPower, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("POWER".equals(thisCard.getType2()) && "Bomb".equals(thisCard.getType1())) {
+		} else if ("POWER".equals(thisCard.getType2()) && "Bomb".equals(thisCard.getType1())) {
 			gc.drawImage(bombPower, thisStartX, thisStartY, cardSize, cardSize);
-		} else if("POWER".equals(thisCard.getType2()) && "Laser".equals(thisCard.getType1())) {
+		} else if ("POWER".equals(thisCard.getType2()) && "Laser".equals(thisCard.getType1())) {
 			gc.drawImage(laserPower, thisStartX, thisStartY, cardSize, cardSize);
 		} else {
 			System.out.println("Drawing generic...");
@@ -330,6 +329,11 @@ public class BoardPane extends BorderPane implements OurObserver {
 		this.setCenter(messageArea);
 	}
 
+	/**
+	 * This method updates the current user's Account with game information called
+	 * when game is finished.
+	 * 
+	 */
 	private void updateScores() {
 		if (game != null && !game.gameActive()) {
 			System.out.println("Game has ended!");
@@ -340,195 +344,255 @@ public class BoardPane extends BorderPane implements OurObserver {
 			currAcct.setNewBestScore(game.getScore(), game.getSize(), game.getGameMode());
 		}
 	}
-	
+
+	/**
+	 * This method specifies the score bonus for a 3x3 game given score and mode.
+	 * 
+	 * @param score The user's score on the game.
+	 * @param mode  The mode of the game.
+	 * @return An integer representing the bonus allocated based on score and mode.
+	 */
 	private int scoreBonus3(int score, int mode) {
-		if(mode != 3) {
-			if(score <= 50) {
+		if (mode != 3) {
+			if (score <= 50) {
 				return 100;
-			} else if(score <= 60) {
+			} else if (score <= 60) {
 				return 50;
-			} else if(score <= 80) {
+			} else if (score <= 80) {
 				return 25;
 			}
 		} else {
-			if(score <= 40) {
+			if (score <= 40) {
 				return 100;
-			} else if(score <= 50) {
+			} else if (score <= 50) {
 				return 50;
-			} else if(score <= 60) {
+			} else if (score <= 60) {
 				return 25;
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
+	/**
+	 * This method specifies the streak bonus for a 3x3 game given streak and mode.
+	 * 
+	 * @param streak The user's best streak in the game.
+	 * @param mode   The mode of the game.
+	 * @return An integer representing the bonus allocated based on score and mode.
+	 */
 	private int streakBonus3(int streak, int mode) {
-		if(mode != 3) {	
-			if(streak >= 4) {
+		if (mode != 3) {
+			if (streak >= 4) {
 				return 100;
-			} else if(streak >= 3) {
+			} else if (streak >= 3) {
 				return 50;
 			}
 		} else {
-			if(streak >= 4) {
+			if (streak >= 4) {
 				return 70;
-			} else if(streak >= 3) {
+			} else if (streak >= 3) {
 				return 30;
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
+	/**
+	 * This method specifies the score bonus for a 4x4 game given score and mode.
+	 * 
+	 * @param score The user's score on the game.
+	 * @param mode  The mode of the game.
+	 * @return An integer representing the bonus allocated based on score and mode.
+	 */
 	private int scoreBonus4(int score, int mode) {
-		if(mode != 3) {
-			if(score <= 100) {
+		if (mode != 3) {
+			if (score <= 100) {
 				return 500;
-			} else if(score <= 110) {
+			} else if (score <= 110) {
 				return 300;
-			} else if(score <= 120) {
+			} else if (score <= 120) {
 				return 150;
-			} else if(score <= 150) {
+			} else if (score <= 150) {
 				return 100;
 			}
 		} else {
-			if(score <= 90) {
+			if (score <= 90) {
 				return 500;
-			} else if(score <= 100) {
+			} else if (score <= 100) {
 				return 300;
-			} else if(score <= 110) {
+			} else if (score <= 110) {
 				return 150;
-			} else if(score <= 130) {
+			} else if (score <= 130) {
 				return 100;
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
+	/**
+	 * This method specifies the streak bonus for a 4x4 game given streak and mode.
+	 * 
+	 * @param streak The user's best streak in the game.
+	 * @param mode   The mode of the game.
+	 * @return An integer representing the bonus allocated based on score and mode.
+	 */
 	private int streakBonus4(int streak, int mode) {
-		if(mode != 3) {
-			if(streak >= 7) {
+		if (mode != 3) {
+			if (streak >= 7) {
 				return 700;
-			} else if(streak >= 5) {
+			} else if (streak >= 5) {
 				return 350;
-			} else if(streak >= 3) {
+			} else if (streak >= 3) {
 				return 100;
 			}
 		} else {
-			if(streak >= 6) {
+			if (streak >= 6) {
 				return 500;
-			} else if(streak >= 4) {
+			} else if (streak >= 4) {
 				return 250;
-			} else if(streak >= 3) {
+			} else if (streak >= 3) {
 				return 80;
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
+	/**
+	 * This method specifies the score bonus for a 5x5 game given score and mode.
+	 * 
+	 * @param score The user's score on the game.
+	 * @param mode  The mode of the game.
+	 * @return An integer representing the bonus allocated based on score and mode.
+	 */
 	private int scoreBonus5(int score, int mode) {
-		if(mode != 3) {
-			if(score <= 170) {
+		if (mode != 3) {
+			if (score <= 170) {
 				return 1000;
-			} else if(score <= 190) {
+			} else if (score <= 190) {
 				return 750;
-			} else if(score <= 210) {
+			} else if (score <= 210) {
 				return 500;
-			} else if(score <= 240) {
+			} else if (score <= 240) {
 				return 250;
 			}
 		} else {
-			if(score <= 150) {
+			if (score <= 150) {
 				return 1000;
-			} else if(score <= 170) {
+			} else if (score <= 170) {
 				return 750;
-			} else if(score <= 190) {
+			} else if (score <= 190) {
 				return 500;
-			} else if(score <= 210) {
+			} else if (score <= 210) {
 				return 250;
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
+	/**
+	 * This method specifies the streak bonus for a 5x5 game given streak and mode.
+	 * 
+	 * @param streak The user's best streak in the game.
+	 * @param mode   The mode of the game.
+	 * @return An integer representing the bonus allocated based on score and mode.
+	 */
 	private int streakBonus5(int streak, int mode) {
-		if(mode != 3) {
-			if(streak >= 8) {
+		if (mode != 3) {
+			if (streak >= 8) {
 				return 1500;
-			} else if(streak >= 5) {
+			} else if (streak >= 5) {
 				return 900;
-			} else if(streak >= 3) {
+			} else if (streak >= 3) {
 				return 250;
 			}
 		} else {
-			if(streak >= 8) {
+			if (streak >= 8) {
 				return 1000;
-			} else if(streak >= 5) {
+			} else if (streak >= 5) {
 				return 650;
-			} else if(streak >= 3) {
+			} else if (streak >= 3) {
 				return 250;
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
+	/**
+	 * This method specifies the score bonus for a 6x6 game given score and mode.
+	 * 
+	 * @param score The user's score on the game.
+	 * @param mode  The mode of the game.
+	 * @return An integer representing the bonus allocated based on score and mode.
+	 */
 	private int scoreBonus6(int score, int mode) {
-		if(mode != 3) {
-			if(score <= 260) {
+		if (mode != 3) {
+			if (score <= 260) {
 				return 2000;
-			} else if(score <= 280) {
+			} else if (score <= 280) {
 				return 1250;
-			} else if(score <= 310) {
+			} else if (score <= 310) {
 				return 700;
-			} else if(score <= 360) {
+			} else if (score <= 360) {
 				return 350;
 			}
 		} else {
-			if(score <= 230) {
+			if (score <= 230) {
 				return 2000;
-			} else if(score <= 250) {
+			} else if (score <= 250) {
 				return 1250;
-			} else if(score <= 270) {
+			} else if (score <= 270) {
 				return 700;
-			} else if(score <= 330) {
+			} else if (score <= 330) {
 				return 350;
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
+	/**
+	 * This method specifies the streak bonus for a 6x6 game given streak and mode.
+	 * 
+	 * @param streak The user's best streak in the game.
+	 * @param mode   The mode of the game.
+	 * @return An integer representing the bonus allocated based on score and mode.
+	 */
 	private int streakBonus6(int streak, int mode) {
-		if(mode != 3) {
-			if(streak >= 10) {
+		if (mode != 3) {
+			if (streak >= 10) {
 				return 5000;
-			} else if(streak >= 8) {
+			} else if (streak >= 8) {
 				return 3000;
-			} else if(streak >= 6) {
+			} else if (streak >= 6) {
 				return 1500;
-			} else if(streak >= 3) {
+			} else if (streak >= 3) {
 				return 350;
 			}
 		} else {
-			if(streak >= 10) {
+			if (streak >= 10) {
 				return 4000;
-			} else if(streak >= 8) {
+			} else if (streak >= 8) {
 				return 2500;
-			} else if(streak >= 6) {
+			} else if (streak >= 6) {
 				return 1000;
-			} else if(streak >= 3) {
+			} else if (streak >= 3) {
 				return 150;
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
+	/**
+	 * This method allocates currency winnings to the current Account based on how
+	 * they performed in a game.
+	 */
 	private void payoutWinnings() {
 		int size = game.getSize();
 		int score = game.getScore();
@@ -537,30 +601,30 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 		int streakBonus = 0;
 		int scoreBonus = 0;
-		
-		if(size == 2) {
-			if(score <= 20) {
+
+		if (size == 2) {
+			if (score <= 20) {
 				scoreBonus = 25;
 			}
-		} else if(size == 3) {
+		} else if (size == 3) {
 			scoreBonus = this.scoreBonus3(score, mode);
 			streakBonus = this.streakBonus3(streak, mode);
-		} else if(size == 4) {
+		} else if (size == 4) {
 			scoreBonus = this.scoreBonus4(score, mode);
 			streakBonus = this.streakBonus4(streak, mode);
-		} else if(size == 5) {
+		} else if (size == 5) {
 			scoreBonus = this.scoreBonus5(score, mode);
 			streakBonus = this.streakBonus5(streak, mode);
 		} else {
 			scoreBonus = this.scoreBonus6(score, mode);
 			streakBonus = this.streakBonus6(streak, mode);
 		}
-		
+
 		gui.getCurrAcct().incrementBalance(scoreBonus + streakBonus);
-		
-		String bonusString = "This game's bonuses: \n" + "Streak Bonus: " + streakBonus + "\n" + "Score Bonus: " + scoreBonus + "\n" +
-		"Total: " + (streakBonus + scoreBonus);
-		
+
+		String bonusString = "This game's bonuses: \n" + "Streak Bonus: " + streakBonus + "\n" + "Score Bonus: "
+				+ scoreBonus + "\n" + "Total: " + (streakBonus + scoreBonus);
+
 		subPrompt.setText(bonusString);
 	}
 
@@ -741,6 +805,11 @@ public class BoardPane extends BorderPane implements OurObserver {
 		gui.getCurrAcct().setNewGame(game);
 	}
 
+	/**
+	 * This method sets up a previously existing game as the current game.
+	 * 
+	 * @param game The previously existing game being set up on the BoardPane.
+	 */
 	public void setGame(MemoryGame game) {
 		this.game = game;
 		this.game.addObserver(this);

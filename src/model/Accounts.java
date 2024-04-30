@@ -36,9 +36,9 @@ public class Accounts implements java.io.Serializable {
 	private int best6Streak;
 
 	private MemoryGame currGame;
-	
+
 	private int balance;
-    private List<shopItem> unlockedItems;
+	private List<shopItem> unlockedItems;
 
 	/**
 	 * The constructor for accounts, which sets all best scores to -1 by default,
@@ -69,10 +69,10 @@ public class Accounts implements java.io.Serializable {
 		this.best6Power = -1;
 		this.best6Streak = -1;
 		this.currGame = null;
-		
+
 		this.balance = 0;
-        this.unlockedItems = new ArrayList<>();	
-    }
+		this.unlockedItems = new ArrayList<>();
+	}
 
 	/**
 	 * Given a newScore, dimension, and gameMode, this method sets a new best score
@@ -118,6 +118,13 @@ public class Accounts implements java.io.Serializable {
 		}
 	}
 
+	/**
+	 * This method sets a new best streak for the account given the value of the
+	 * streak and the dimension of the game.
+	 * 
+	 * @param newStreak The integer value of the new streak.
+	 * @param dim       The integer representing the game dimension.
+	 */
 	public void setNewStreak(int newStreak, int dim) {
 		if (dim == 2) {
 			if (newStreak > this.best2Streak) {
@@ -434,49 +441,77 @@ public class Accounts implements java.io.Serializable {
 	public void endCurrGame() {
 		this.currGame = null;
 	}
-	
-	// Getters and setters for balance
 
-    public int getBalance() {
-        return balance;
-    }
+	/**
+	 * This method returns the accounts balance.
+	 * 
+	 * @return The accounts current balance.
+	 */
+	public int getBalance() {
+		return balance;
+	}
 
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
+	/**
+	 * This method sets the accounts balance to a specified balance.
+	 * 
+	 * @param balance The integer value of the balance being set.
+	 */
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
 
-    // Methods for unlocked items
+	/**
+	 * This method returns the list of shopItems unlocked by this instance of the
+	 * Accounts class.
+	 * 
+	 * @return The List of shopItems unlocked by this user.
+	 */
+	public List<shopItem> getUnlockedItems() {
+		return unlockedItems;
+	}
 
-    public List<shopItem> getUnlockedItems() {
-        return unlockedItems;
-    }
+	/**
+	 * This method adds a shopItem to the list of unlocked items by this instance of
+	 * the Accounts class.
+	 * 
+	 * @param item The shopItem to be added to the list of unlocked items and thus
+	 *             unlocked.
+	 */
+	public void addUnlockedItem(shopItem item) {
+		unlockedItems.add(item);
+	}
 
-    public void addUnlockedItem(shopItem item) {
-        unlockedItems.add(item);
-    }
+	/**
+	 * Checks if the user has unlocked the item provided
+	 * 
+	 * @param item - Item to check if the user has unlocked
+	 * @return = Boolean, true if the user has it unlocked, false if not
+	 */
+	public boolean hasUnlockedItem(shopItem item) {
+		for (int i = 0; i < unlockedItems.size(); i++) {
+			if (item.equals(unlockedItems.get(i))) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * Checks if the user has unlocked the item provided
-     * 
-     * @param item - Item to check if the user has unlocked
-     * @return = Boolean, true if the user has it unlocked, false if not
-     */
-    public boolean hasUnlockedItem(shopItem item) {
-    	for(int i = 0; i < unlockedItems.size(); i++) {
-    		if(item.equals(unlockedItems.get(i))) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    public void incrementBalance(int amount) {
-    	balance += amount;
-    }
+	/**
+	 * Increments the Accounts balance by specified amount.
+	 * 
+	 * @param amount The amount to increment the balance by.
+	 */
+	public void incrementBalance(int amount) {
+		balance += amount;
+	}
 
-    // Method to deduct balance
-    public void deductBalance(int amount) {
-        balance -= amount;
-    }	
+	/**
+	 * Decrements the Accounts balance by specified amount.
+	 * 
+	 * @param amount The amount to decrement the balance by.
+	 */
+	public void deductBalance(int amount) {
+		balance -= amount;
+	}
 
 }
