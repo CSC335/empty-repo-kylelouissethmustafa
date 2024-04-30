@@ -243,13 +243,12 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 						this.correctGuess();
 						moves++;
 					}
-				} else {
+				} else { // Game mode is Power
 					if (clickedCard.isPower()) {
 						this.powersRevealed += 1;
-						if (revealedCards.size() == 2) {
-							// second click is power
+						if (revealedCards.size() == 2) { // Indicates second click is power
 							if (revealedCards.get(0).isPower() && revealedCards.get(1).isPower()) {
-								// flip both powers back over
+								// First and second click is Power, flip both back over
 								// NEUTRAL GUESS
 								moves++;
 								PauseTransition pause = new PauseTransition(Duration.seconds(1));
@@ -263,7 +262,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 									notifyObservers(this);
 								});
 								pause.play();
-							} else {
+							} else { // First click normal, second click power
 								Card regCard;
 								int[] matchCardCoords;
 								if (revealedCards.get(0).isPower()) {
@@ -289,9 +288,8 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							}
 
 						}
-					} else {
-						// need to increment moves at some point...
-						if (revealedCards.size() == 2 && this.powersRevealed == 0) {
+					} else { // Power game mode, card clicked isn't power
+						if (revealedCards.size() == 2 && this.powersRevealed == 0) { // 2 normal cards clicked
 							// normal case
 							moves++;
 							if (this.checkMatch(revealedCards.get(0), revealedCards.get(1))) {
@@ -315,7 +313,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 								pause.play();
 							}
 						} else if (revealedCards.size() == 2 && this.powersRevealed == 1) {
-							// first power, second regular
+							// First click power, second regular
 							System.out.println("second card reg after power");
 							Card regCard;
 							int[] matchCardCoords;
@@ -341,7 +339,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							pause.play();
 						} else if (revealedCards.size() == 3 && this.powersRevealed == 1) {
 							// CORRECT GUESS
-							// pair has been completed with a power
+							// (non-gui click) Pair has been completed by a power
 							this.correctGuess();
 							moves++;
 							revealedCards.clear();
