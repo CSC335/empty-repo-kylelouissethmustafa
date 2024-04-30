@@ -455,8 +455,19 @@ public class Accounts implements java.io.Serializable {
         unlockedItems.add(item);
     }
 
+    /**
+     * Checks if the user has unlocked the item provided
+     * 
+     * @param item - Item to check if the user has unlocked
+     * @return = Boolean, true if the user has it unlocked, false if not
+     */
     public boolean hasUnlockedItem(shopItem item) {
-        return unlockedItems.contains(item);
+    	for(int i = 0; i < unlockedItems.size(); i++) {
+    		if(item.equals(unlockedItems.get(i))) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     // Method to deduct balance

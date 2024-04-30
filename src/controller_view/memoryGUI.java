@@ -247,8 +247,8 @@ public class memoryGUI extends Application {
 	private void initShopCollection() {
 		shopCollection.add(new shopItem("6x6 Game Mode", 500));
 		shopCollection.add(new shopItem("Powers Game Mode", 1000));
-		shopCollection.add(new shopItem("Card Design 1", 500));
-		shopCollection.add(new shopItem("Card Design 2", 750));
+		shopCollection.add(new shopItem("Card Design: Animals", 500));
+		shopCollection.add(new shopItem("Card Design: Space", 750));
 		shopCollection.add(new shopItem("Unlock Power Card: Bomb", 1250));
 		shopCollection.add(new shopItem("Unlock Power Card: Laser", 1000));
 	}

@@ -15,6 +15,19 @@ public class shopItem {
 		this.itemName = itemName;
 		this.price = price;
 	}
+	
+	// Override default equals; compares itemNames
+	@Override
+	public boolean equals(Object obj) {
+		if(this == obj) {
+			return true;
+		}else if(obj == null || getClass() != obj.getClass()) {
+			return false;
+		}else {
+			shopItem other = (shopItem) obj;
+			return itemName.equals(other.getItemName());
+		}
+	}
 
 	// Getter for itemName
 	public String getItemName() {

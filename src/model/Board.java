@@ -26,6 +26,7 @@ public class Board implements java.io.Serializable {
 	 * change in the middle of the game.
 	 */
 	private int cardDesign;
+	
 
 	// Preset to general type
 	private String[] type1 = { "1", "2", "3" };
@@ -64,7 +65,7 @@ public class Board implements java.io.Serializable {
 	/**
 	 * Initialize board with random cards based on mode
 	 */
-	public void initBoard() {
+	public void initBoard(Accounts user) {
 		// Basic game mode set board
 		if (gameMode == 0) {
 			System.out.println("Initializing normal game.");
@@ -120,7 +121,31 @@ public class Board implements java.io.Serializable {
 			}
 			// Set power cards
 			for (int i = 0; i < powerCount; i++) {
-				board[size - 1][size - 1 - i] = new Card("POWER", "POWER");
+				if(user == null) {
+					board[size - 1][size - 1 - i] = new Card("POWER", "Star");
+				}else {
+					Random random = new Random();
+					shopItem bomb = new shopItem("Unlock Power Card: Bomb", 0);
+					shopItem laser = new shopItem("Unlock Power Card: Laser", 0);
+					Boolean chosen = false;
+					while(!chosen) {
+						int cardType = random.nextInt(3);
+						if(cardType == 0) {
+							board[size - 1][size - 1 - i] = new Card("POWER", "Star");
+							chosen = true;
+						}else if(cardType == 1) {
+							if(user.hasUnlockedItem(bomb)) {
+								board[size - 1][size - 1 - i] = new Card("POWER", "Bomb");
+								chosen = true;
+							}
+						}else if(cardType == 2) {
+							if(user.hasUnlockedItem(laser)) {
+								board[size - 1][size - 1 - i] = new Card("POWER", "Laser");
+								chosen = true;
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -165,7 +190,7 @@ public class Board implements java.io.Serializable {
 	 */
 	public void changeMode(int gameMode) {
 		this.gameMode = gameMode;
-		initBoard();
+		initBoard(null);
 	}
 
 	/**
