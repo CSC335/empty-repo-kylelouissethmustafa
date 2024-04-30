@@ -78,8 +78,6 @@ public class ShopPane extends BorderPane {
 
 		this.shopCollection = shopCollection;
 
-		this.shopCollection.add(new shopItem("Test", 100));
-
 		nameColumn.setCellValueFactory(new PropertyValueFactory<shopItem, String>("itemName"));
 		priceColumn.setCellValueFactory(new PropertyValueFactory<shopItem, Integer>("Price"));
 
