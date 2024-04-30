@@ -135,9 +135,7 @@ public class LoginPane extends BorderPane {
 		createAccount.setOnAction(event -> {
 			if (!accounts.containsName(accountNameField.getText())) {
 				Accounts newAcct = new Accounts(accountNameField.getText(), passwordField.getText());
-				System.out.println("Accounts size: " + accounts.getSize());
 				accounts.add(newAcct);
-				System.out.println("Accounts size after: " + accounts.getSize());
 				loginStatus.setText("Account created, now login!");
 			} else {
 				loginStatus.setText("Sorry, this username is taken!");

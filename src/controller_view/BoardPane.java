@@ -797,7 +797,6 @@ public class BoardPane extends BorderPane implements OurObserver {
 	 *                  purposes.
 	 */
 	public void startNewGame(int gameMode, int boardSize, int gameTheme) {
-		System.out.println("New Game Clicked");
 		game = new MemoryGame(gameMode, boardSize, gameTheme, gui.getCurrAcct(), subPrompt);
 		game.addObserver(this);
 		game.initGame();

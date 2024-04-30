@@ -216,7 +216,6 @@ public class Board implements java.io.Serializable {
 	 * Shuffle board (Must be initialized)
 	 */
 	public void shuffle() {
-		System.out.println("starting shuffle");
 		Card[][] tempBoard = new Card[size][size];
 		ArrayList<Card> cardList = new ArrayList<Card>();
 		// Copy cards from the 2D array to the list
@@ -240,7 +239,6 @@ public class Board implements java.io.Serializable {
 			}
 		}
 		board = tempBoard;
-		System.out.println("End Shuffle");
 	}
 
 	/**

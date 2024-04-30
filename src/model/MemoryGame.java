@@ -51,7 +51,6 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		board = new Board(size);
 		numCards = size * size;
 		this.gameMode = gameMode;
-		System.out.println("Game Mode: " + gameMode);
 		moves = 0;
 		score = 0;
 		this.gameTheme = gameTheme;
@@ -80,7 +79,6 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		board.changeMode(gameMode);
 		board.initBoard(gameUser);
 		board.shuffle();
-		System.out.println("Init game called");
 		this.isGameActive = true;
 		notifyObservers(this);
 	}
@@ -175,14 +173,12 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		if (this.currStreak > this.bestStreak) {
 			this.bestStreak = this.currStreak;
 		}
-		System.out.println("Correct! Current Streak: " + this.currStreak);
 	}
 
 	/**
 	 * Logs an incorrect guess by zero-ing out the current streak.
 	 */
 	private void incorrectGuess() {
-		System.out.println("Incorrect Guess!");
 		this.currStreak = 0;
 	}
 
@@ -226,7 +222,6 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 
 		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
 		pause.setOnFinished(event -> {
-			System.out.println("Adjacent Reveal Finished");
 
 			for (int c = 0; c < peakCards.size(); c++) {
 				peakCards.get(c).toggle();
@@ -259,7 +254,6 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 
 		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
 		pause.setOnFinished(event -> {
-			System.out.println("Column Reveal Finished");
 
 			for (int c = 0; c < peakCards.size(); c++) {
 				peakCards.get(c).toggle();
@@ -281,7 +275,6 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	private void flipCardsBackBasic(int maxCardsClicked) {
 		PauseTransition pause = new PauseTransition(Duration.seconds(1));
 		pause.setOnFinished(event -> {
-			System.out.println("Pause finished");
 			for (int i = 0; i < maxCardsClicked; i++) {
 				revealedCards.get(i).toggle();
 			}
@@ -301,7 +294,6 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	private void starPowerReveal(int matchRow, int matchCol) {
 		PauseTransition pause = new PauseTransition(Duration.seconds(1));
 		pause.setOnFinished(event -> {
-			System.out.println("Pause finished");
 
 			this.cardClicked(matchRow, matchCol, 0);
 			allowGuiClicks = true;
@@ -482,7 +474,6 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							}
 						} else if (revealedCards.size() == 2 && this.starsRevealed == 1) {
 							// First click power, second regular
-							System.out.println("second card reg after power");
 							Card regCard;
 							int[] matchCardCoords;
 							if (revealedCards.get(0).isPower()) {

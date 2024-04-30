@@ -157,19 +157,12 @@ public class SettingsPane extends BorderPane {
 				}
 				gameMode.setValue("Normal");
 			}
-
-			System.out.println("Changed dimension: " + newValue);
 		});
 
 		saveSettingsBtn.setOnAction(event -> {
 			String dim = dimensions.getValue();
 			String mode = gameMode.getValue();
 			String theme = gameTheme.getValue();
-
-			System.out.println("New Game Settings: ");
-			System.out.println("Dimensions: " + dim);
-			System.out.println("Game Mode: " + mode);
-			System.out.println("Game Theme: " + theme);
 
 			int dimNum;
 			int modeNum;
