@@ -9,6 +9,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import model.Accounts;
+import model.shopItem;
 
 /**
  * This is the SettingsPane, which will be displayed on the GUI for the user to
@@ -30,6 +32,8 @@ public class SettingsPane extends BorderPane {
 	private Label title;
 
 	private Button saveSettingsBtn;
+	
+	private Accounts currUser;
 
 	/**
 	 * The constructor for the SettingsPane.
@@ -38,6 +42,8 @@ public class SettingsPane extends BorderPane {
 	 */
 	public SettingsPane(memoryGUI gui) {
 		this.gui = gui;
+		
+		this.currUser = gui.getCurrAcct();
 
 		layoutPane();
 
@@ -65,7 +71,12 @@ public class SettingsPane extends BorderPane {
 		grid.setVgap(8);
 
 		dimensions = new ComboBox<>();
-		dimensions.getItems().addAll("2x2", "3x3", "4x4", "5x5", "6x6");
+		dimensions.getItems().addAll("2x2", "3x3", "4x4", "5x5");
+		shopItem sixBySix = new shopItem("6x6 Game Mode", 0);
+		if(this.currUser.hasUnlockedItem(sixBySix)) {
+			dimensions.getItems().add("6x6");
+		}
+		
 		dimensions.setValue("2x2");
 		dimensionLbl = new Label("Dimension");
 		dimensionLbl.setStyle("-fx-font-size: 15;");
@@ -77,7 +88,16 @@ public class SettingsPane extends BorderPane {
 		gameModeLbl.setStyle("-fx-font-size: 15;");
 
 		gameTheme = new ComboBox<>();
-		gameTheme.getItems().addAll("Shapes", "Animals", "Space");
+		gameTheme.getItems().addAll("Shapes");
+		shopItem animals = new shopItem("Card Design: Animals", 0);
+		shopItem space = new shopItem("Card Design: Space", 0);
+		if(this.currUser.hasUnlockedItem(animals)) {
+			gameTheme.getItems().add("Animals");
+		}
+		if(this.currUser.hasUnlockedItem(space)) {
+			gameTheme.getItems().add("Space");
+		}
+		
 		gameTheme.setValue("Shapes");
 		gameThemeLbl = new Label("Game Theme");
 		gameThemeLbl.setStyle("-fx-font-size: 15;");
@@ -98,21 +118,35 @@ public class SettingsPane extends BorderPane {
 			String newValue = dimensions.getValue();
 
 			gameMode.getItems().clear();
+			
+			shopItem power = new shopItem("Powers Game Mode", 0);
 
 			if (newValue.equals("2x2")) {
 				gameMode.getItems().addAll("Normal");
 				gameMode.setValue("Normal");
 			} else if (newValue.equals("3x3")) {
-				gameMode.getItems().addAll("Odd Card Out", "3 of a Kind", "Power");
+				gameMode.getItems().addAll("Odd Card Out", "3 of a Kind");
+				if(this.currUser.hasUnlockedItem(power)) {
+					gameMode.getItems().add("Power");
+				}
 				gameMode.setValue("Odd Card Out");
 			} else if (newValue.equals("4x4")) {
-				gameMode.getItems().addAll("Normal", "Power");
+				gameMode.getItems().addAll("Normal");
+				if(this.currUser.hasUnlockedItem(power)) {
+					gameMode.getItems().add("Power");
+				}
 				gameMode.setValue("Normal");
 			} else if (newValue.equals("5x5")) {
-				gameMode.getItems().addAll("Odd Card Out", "Power");
+				gameMode.getItems().addAll("Odd Card Out");
+				if(this.currUser.hasUnlockedItem(power)) {
+					gameMode.getItems().add("Power");
+				}
 				gameMode.setValue("Odd Card Out");
 			} else if (newValue.equals("6x6")) {
-				gameMode.getItems().addAll("Normal", "3 of a Kind", "Power");
+				gameMode.getItems().addAll("Normal", "3 of a Kind");
+				if(this.currUser.hasUnlockedItem(power)) {
+					gameMode.getItems().add("Power");
+				}
 				gameMode.setValue("Normal");
 			}
 

@@ -98,7 +98,19 @@ public class Card implements java.io.Serializable {
 	 * @return True if this Card is a power card, false otherwise.
 	 */
 	public Boolean isPower() {
-		return this.type1 == "POWER" && this.type2 == "POWER";
+		return this.type2 == "POWER";
+	}
+	
+	public Boolean isStar() {
+		return this.type2 == "POWER" && this.type1 == "Star";
+	}
+	
+	public Boolean isBomb() {
+		return this.type2 == "POWER" && this.type1 == "Bomb";
+	}
+	
+	public Boolean isLaser() {
+		return this.type2 == "POWER" && this.type1 == "Laser";
 	}
 
 	// GUI can have a method to turn a card into a object

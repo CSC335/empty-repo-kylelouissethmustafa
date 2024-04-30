@@ -87,7 +87,7 @@ public class memoryGUI extends Application {
 		statsPane = new StatsPane(this);
 		initShopCollection();
 		shopPane = new ShopPane(shopCollection);
-		settingsPane = new SettingsPane(this);
+		//settingsPane = new SettingsPane(this);
 
 		LayoutGUI();
 
@@ -195,10 +195,18 @@ public class memoryGUI extends Application {
 		Accounts account3 = new Accounts("Mustafa2", "Mustafa1");
 		account3.setNewBestScore(10, 2, 0);
 		account3.setNewBestScore(90, 3, 1);
+		
+		Accounts master = new Accounts("Admin", "1");
+		shopItem bomb = new shopItem("Unlock Power Card: Bomb", 0);
+		shopItem laser = new shopItem("Unlock Power Card: Laser", 0);
+		master.addUnlockedItem(bomb);
+		master.addUnlockedItem(laser);
+		master.setBalance(2000);
 
 		accountCollection.add(account1);
 		accountCollection.add(account2);
 		accountCollection.add(account3);
+		accountCollection.add(master);
 	}
 
 	private void addMenu() {
@@ -263,6 +271,7 @@ public class memoryGUI extends Application {
 	private void registerHandlers(Stage stage) {
 		itemShop.setOnAction(event -> {
 			shopPane.layoutShop();
+			shopPane.setUserAccount(currAcct);
 			all.setCenter(shopPane);
 		});
 
@@ -279,6 +288,7 @@ public class memoryGUI extends Application {
 		});
 
 		gameSettings.setOnAction(event -> {
+			settingsPane = new SettingsPane(this);
 			all.setCenter(settingsPane);
 		});
 

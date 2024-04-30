@@ -91,10 +91,10 @@ public class AccountsTest {
 	
 	@Test
 	public void testNewGame() {
-		MemoryGame newGame = new MemoryGame(0, 2, 0);
+		Accounts account = new Accounts("Mustafa", "Mustafa123");
+		MemoryGame newGame = new MemoryGame(0, 2, 0, account);
 		newGame.initGame();
 		
-		Accounts account = new Accounts("Mustafa", "Mustafa123");
 		account.setNewGame(newGame);
 		assertEquals(newGame, account.getCurrGame());
 		

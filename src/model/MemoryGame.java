@@ -7,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javafx.animation.PauseTransition;
+import javafx.scene.control.Label;
 import javafx.util.Duration;
 
 /**
@@ -27,12 +28,14 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	private boolean isGameActive;
 	private int gameTheme; // 0 - Shapes, 1 - Animals, 2 - space
 	private Timer timer;
-	private int powersRevealed;
+	private int starsRevealed;
 	private int lastClickedX = 0;
 	private int lastClickedY = 0;
 	private Boolean allowGuiClicks = true;
 	private int currStreak = 0;
 	private int bestStreak = 0;
+	private Accounts gameUser;
+	private Label gameSubLabel;
 
 	/**
 	 * The constructor for memory game, creating a new board and initializing game
@@ -42,7 +45,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	 * @param size      The board size for the MemoryGame.
 	 * @param gameTheme The theme of the game being initialized.
 	 */
-	public MemoryGame(int gameMode, int size, int gameTheme) {
+	public MemoryGame(int gameMode, int size, int gameTheme, Accounts user, Label gameSubLabel) {
 		board = new Board(size);
 		numCards = size * size;
 		this.gameMode = gameMode;
@@ -50,7 +53,12 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		moves = 0;
 		score = 0;
 		this.gameTheme = gameTheme;
-		this.powersRevealed = 0;
+		this.starsRevealed = 0;
+		this.gameUser = user;
+	}
+	
+	public MemoryGame(int gameMode, int size, int gameTheme, Accounts user) {
+		this(gameMode, size, gameTheme, user, null);
 	}
 
 	/**
@@ -59,10 +67,12 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	 */
 	public void initGame() {
 		board.changeMode(gameMode);
+		board.initBoard(gameUser);
 		board.shuffle();
 		System.out.println("Init game called");
 		this.isGameActive = true;
 		notifyObservers(this);
+		this.printBoard();
 	}
 
 	/**
@@ -158,6 +168,105 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 		System.out.println("Incorrect Guess!");
 		this.currStreak = 0;
 	}
+	
+	private void revealAdjacent(int rowBomb, int colBomb) {
+		int lowerRowLim;
+		int lowerColLim;
+		
+		ArrayList<Card> peakCards = new ArrayList<>();
+		
+		if(colBomb - 1 < 0) {
+			lowerColLim = colBomb;
+		} else {
+			lowerColLim = colBomb - 1;
+		}
+		
+		if(rowBomb - 1 < 0) {
+			lowerRowLim = rowBomb;
+		} else {
+			lowerRowLim = rowBomb - 1;
+		}
+		
+		for(int i = lowerRowLim; i < rowBomb + 2; i++) {
+			for(int j = lowerColLim; j < colBomb + 2; j++) {
+				if(i < this.getSize() && j < this.getSize()) {
+					Card thisCard = board.getCard(i, j);
+					if(!thisCard.getRevealed()) {
+						thisCard.toggle();
+						peakCards.add(thisCard);
+					}
+				}
+			}
+		}
+		
+		notifyObservers(this);
+		
+		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+		pause.setOnFinished(event -> {
+			System.out.println("Adjacent Reveal Finished");
+			
+			for(int c = 0; c < peakCards.size(); c++) {
+				peakCards.get(c).toggle();
+			}
+			
+			allowGuiClicks = true;
+			notifyObservers(this);
+		});
+		pause.play();
+		
+	}
+	
+	private void revealColumn(int laserCol) {
+		ArrayList<Card> peakCards = new ArrayList<>();
+		
+		for(int i = 0; i < this.getSize(); i++) {
+			Card thisCard = board.getCard(i, laserCol);
+			if(!thisCard.getRevealed()) {
+				thisCard.toggle();
+				peakCards.add(thisCard);
+			}
+		}
+		
+		notifyObservers(this);
+		
+		PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+		pause.setOnFinished(event -> {
+			System.out.println("Column Reveal Finished");
+			
+			for(int c = 0; c < peakCards.size(); c++) {
+				peakCards.get(c).toggle();
+			}
+			
+			allowGuiClicks = true;
+			notifyObservers(this);
+		});
+		pause.play();
+	}
+	
+	private void flipCardsBackBasic(int maxCardsClicked) {
+		PauseTransition pause = new PauseTransition(Duration.seconds(1));
+		pause.setOnFinished(event -> {
+			System.out.println("Pause finished");
+			for (int i = 0; i < maxCardsClicked; i++) {
+				revealedCards.get(i).toggle();
+			}
+			revealedCards.clear();
+			notifyObservers(this);
+		});
+		pause.play();
+	}
+	
+	private void starPowerReveal(int matchRow, int matchCol) {
+		PauseTransition pause = new PauseTransition(Duration.seconds(1));
+		pause.setOnFinished(event -> {
+			System.out.println("Pause finished");
+
+			this.cardClicked(matchRow, matchCol, 0);
+			allowGuiClicks = true;
+			notifyObservers(this);
+		});
+		pause.play();
+	}
 
 	/**
 	 * Returns the best guess streak from this MemoryGame.
@@ -166,6 +275,13 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 	 */
 	public int getBestStreak() {
 		return this.bestStreak;
+	}
+	
+	private void updateGamePrompt(String prompt) {
+		if(gameSubLabel != null) {
+			gameSubLabel.setText(prompt);
+			notifyObservers(this);
+		}
 	}
 
 	/**
@@ -197,8 +313,9 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 
 		if ((guiClick == 1 && allowGuiClicks == true) || guiClick == 0) {
 			if (this.revealedCards.size() < maxClicked && !clickedCard.getRevealed()
-					|| (this.getGameMode() == 3 && this.revealedCards.size() == 2 && this.powersRevealed == 1)) {
+					|| (this.getGameMode() == 3 && this.revealedCards.size() == 2 && this.starsRevealed == 1)) {
 				clickedCard.toggle();
+				this.updateGamePrompt("");
 				revealedCards.add(board.getCard(row, col));
 
 				if (this.getGameMode() != 3) {
@@ -215,7 +332,7 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							}
 						} else if (maxClicked == 3) {
 							if (this.checkMatch(revealedCards.get(0), revealedCards.get(1), revealedCards.get(2))) {
-								// CORRECT GUESS
+								// CORRECT GUESS ( 3 of a Kind )
 								this.correctGuess();
 								revealedCards.clear();
 								match = 1;
@@ -223,46 +340,27 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							}
 						}
 						if (match == 0) {
-							// NEED TO SLEEP HERE FOR 2 Seconds
 							// INCORRECT GUESS
 							this.incorrectGuess();
-							PauseTransition pause = new PauseTransition(Duration.seconds(1));
-							pause.setOnFinished(event -> {
-								System.out.println("Pause finished");
-								for (int i = 0; i < maxClicked; i++) {
-									revealedCards.get(i).toggle();
-								}
-								revealedCards.clear();
-								notifyObservers(this);
-							});
-							pause.play();
+							this.flipCardsBackBasic(maxClicked);
 						}
 					} else if (gameMode == 1 && (numMatches * 2) + revealedCards.size() == numCards) {
-						// denotes move for odd card out
+						// Counts a move for the last card in 3 of a Kind
 						// CORRECT GUESS
 						this.correctGuess();
 						moves++;
 					}
 				} else { // Game mode is Power
-					if (clickedCard.isPower()) {
-						this.powersRevealed += 1;
-						if (revealedCards.size() == 2) { // Indicates second click is power
-							if (revealedCards.get(0).isPower() && revealedCards.get(1).isPower()) {
-								// First and second click is Power, flip both back over
-								// NEUTRAL GUESS
+					if (clickedCard.isStar()) {
+						this.starsRevealed += 1;
+						if (revealedCards.size() == 2) { // Indicates second click is Star
+							if (revealedCards.get(0).isStar() && revealedCards.get(1).isStar()) {
+								// First and second click is Star, flip both back over
+								// NEUTRAL GUESS - don't add to streak
 								moves++;
-								PauseTransition pause = new PauseTransition(Duration.seconds(1));
-								pause.setOnFinished(event -> {
-									System.out.println("Pause finished");
-									for (int i = 0; i < maxClicked; i++) {
-										revealedCards.get(i).toggle();
-									}
-									revealedCards.clear();
-									powersRevealed = 0;
-									notifyObservers(this);
-								});
-								pause.play();
-							} else { // First click normal, second click power
+								this.flipCardsBackBasic(maxClicked);
+								starsRevealed = 0;
+							} else { // First click normal, second click star, use star power
 								Card regCard;
 								int[] matchCardCoords;
 								if (revealedCards.get(0).isPower()) {
@@ -274,23 +372,54 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 								}
 
 								allowGuiClicks = false;
-								PauseTransition pause = new PauseTransition(Duration.seconds(1));
-								pause.setOnFinished(event -> {
-									System.out.println("Pause finished");
-									int matchRow = matchCardCoords[0];
-									int matchCol = matchCardCoords[1];
-
-									this.cardClicked(matchRow, matchCol, 0);
-									allowGuiClicks = true;
-									notifyObservers(this);
-								});
-								pause.play();
+								this.starPowerReveal(matchCardCoords[0], matchCardCoords[1]);
 							}
 
 						}
+					} else if(clickedCard.isBomb()) {
+						if(revealedCards.size() == 2 && (revealedCards.get(0).isStar() | revealedCards.get(1).isStar())) { 
+							// First click star, second click bomb
+							// For now, just flip both back over?
+							this.updateGamePrompt("You found 2 Power Cards! +10 BONUS");
+							this.gameUser.incrementBalance(10);
+							moves++;
+							this.flipCardsBackBasic(maxClicked);
+							starsRevealed = 0;
+						} else {
+							// First click regular, second click bomb OR first click bomb
+							moves++;
+							allowGuiClicks = false;
+							this.revealAdjacent(row, col);
+							if(revealedCards.get(0).isBomb()) {
+								revealedCards.remove(0);
+							} else {
+								revealedCards.remove(1);
+							}
+						}
+					} else if(clickedCard.isLaser()) {
+						if(revealedCards.size() == 2 && (revealedCards.get(0).isStar() | revealedCards.get(1).isStar())) { 
+							// First click star, second click laser
+							// For now, just flip both back over?
+							this.updateGamePrompt("You found 2 Power Cards! +10 BONUS");
+							this.gameUser.incrementBalance(10);
+							moves++;
+							this.flipCardsBackBasic(maxClicked);
+							starsRevealed = 0;
+						} else {
+							// First click regular, second click laser OR first click laser
+							moves++;
+							allowGuiClicks = false;
+							this.revealColumn(col);
+							if(revealedCards.get(0).isLaser()) {
+								revealedCards.remove(0);
+							} else {
+								revealedCards.remove(1);
+							}
+						}
+						
 					} else { // Power game mode, card clicked isn't power
-						if (revealedCards.size() == 2 && this.powersRevealed == 0) { // 2 normal cards clicked
-							// normal case
+						if (revealedCards.size() == 2 && this.starsRevealed == 0) { // 2 normal cards clicked
+							// normal case - two regular cards clicked
 							moves++;
 							if (this.checkMatch(revealedCards.get(0), revealedCards.get(1))) {
 								// CORRECT GUESS
@@ -298,21 +427,11 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 								revealedCards.clear();
 								numMatches++;
 							} else {
-								// NEED TO SLEEP HERE FOR 2 Seconds
 								// INCORRECT GUESS
 								this.incorrectGuess();
-								PauseTransition pause = new PauseTransition(Duration.seconds(1));
-								pause.setOnFinished(event -> {
-									System.out.println("Pause finished");
-									for (int i = 0; i < 2; i++) {
-										revealedCards.get(i).toggle();
-									}
-									revealedCards.clear();
-									notifyObservers(this);
-								});
-								pause.play();
+								this.flipCardsBackBasic(maxClicked);
 							}
-						} else if (revealedCards.size() == 2 && this.powersRevealed == 1) {
+						} else if (revealedCards.size() == 2 && this.starsRevealed == 1) {
 							// First click power, second regular
 							System.out.println("second card reg after power");
 							Card regCard;
@@ -326,25 +445,15 @@ public class MemoryGame extends OurObservable implements java.io.Serializable {
 							}
 
 							allowGuiClicks = false;
-							PauseTransition pause = new PauseTransition(Duration.seconds(1));
-							pause.setOnFinished(event -> {
-								System.out.println("Pause finished");
-								int matchRow = matchCardCoords[0];
-								int matchCol = matchCardCoords[1];
-
-								this.cardClicked(matchRow, matchCol, 0);
-								allowGuiClicks = true;
-								notifyObservers(this);
-							});
-							pause.play();
-						} else if (revealedCards.size() == 3 && this.powersRevealed == 1) {
+							this.starPowerReveal(matchCardCoords[0], matchCardCoords[1]);
+						} else if (revealedCards.size() == 3 && this.starsRevealed == 1) {
 							// CORRECT GUESS
 							// (non-gui click) Pair has been completed by a power
 							this.correctGuess();
 							moves++;
 							revealedCards.clear();
 							numMatches++;
-							this.powersRevealed = 0;
+							this.starsRevealed = 0;
 							notifyObservers(this);
 						}
 					}

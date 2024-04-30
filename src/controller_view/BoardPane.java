@@ -39,6 +39,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 	private Label scoreLbl;
 	private Label curScore;
 	private Label gamePrompt;
+	private Label subPrompt;
 
 	private int cardSize;
 	private int startX;
@@ -261,8 +262,12 @@ public class BoardPane extends BorderPane implements OurObserver {
 			gc.drawImage(f2, thisStartX, thisStartY, cardSize, cardSize);
 		} else if ("F".equals(thisCard.getType2()) && "3".equals(thisCard.getType1())) {
 			gc.drawImage(f3, thisStartX, thisStartY, cardSize, cardSize);
-		} else if ("POWER".equals(thisCard.getType2()) && "POWER".equals(thisCard.getType1())) {
+		} else if ("POWER".equals(thisCard.getType2()) && "Star".equals(thisCard.getType1())) {
 			gc.drawImage(starPower, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("POWER".equals(thisCard.getType2()) && "Bomb".equals(thisCard.getType1())) {
+			gc.drawImage(bombPower, thisStartX, thisStartY, cardSize, cardSize);
+		} else if("POWER".equals(thisCard.getType2()) && "Laser".equals(thisCard.getType1())) {
+			gc.drawImage(laserPower, thisStartX, thisStartY, cardSize, cardSize);
 		} else {
 			System.out.println("Drawing generic...");
 			gc.drawImage(cardFront, thisStartX, thisStartY, cardSize, cardSize);
@@ -280,6 +285,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		} else {
 			gamePrompt.setText("You are doing great!");
 		}
+		subPrompt.setText("Bonuses Viewed Here!");
 		curScore.setText("0");
 	}
 
@@ -306,6 +312,9 @@ public class BoardPane extends BorderPane implements OurObserver {
 		curScore.setStyle("-fx-font-size: 15; -fx-font-weight: bold");
 		gamePrompt = new Label("Start a New Game!");
 		gamePrompt.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: blue");
+		subPrompt = new Label("View Bonuses Here!");
+		subPrompt.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
+		subPrompt.setPadding(new Insets(0, 0, 10, 10));
 		liveStatsGrid.setHgap(5);
 
 		liveStatsGrid.add(scoreLbl, 0, 0);
@@ -313,6 +322,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 
 		messageArea.setTop(gamePrompt);
 		messageArea.setCenter(liveStatsGrid);
+		messageArea.setBottom(subPrompt);
 		liveStatsGrid.setPadding(new Insets(0, 0, 0, 60));
 		messageArea.setPadding(new Insets(0, 0, 0, 310));
 
@@ -329,6 +339,229 @@ public class BoardPane extends BorderPane implements OurObserver {
 			currAcct.incrementGamesPlayed();
 			currAcct.setNewBestScore(game.getScore(), game.getSize(), game.getGameMode());
 		}
+	}
+	
+	private int scoreBonus3(int score, int mode) {
+		if(mode != 3) {
+			if(score <= 50) {
+				return 100;
+			} else if(score <= 60) {
+				return 50;
+			} else if(score <= 80) {
+				return 25;
+			}
+		} else {
+			if(score <= 40) {
+				return 100;
+			} else if(score <= 50) {
+				return 50;
+			} else if(score <= 60) {
+				return 25;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private int streakBonus3(int streak, int mode) {
+		if(mode != 3) {	
+			if(streak >= 4) {
+				return 100;
+			} else if(streak >= 3) {
+				return 50;
+			}
+		} else {
+			if(streak >= 4) {
+				return 70;
+			} else if(streak >= 3) {
+				return 30;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private int scoreBonus4(int score, int mode) {
+		if(mode != 3) {
+			if(score <= 100) {
+				return 500;
+			} else if(score <= 110) {
+				return 300;
+			} else if(score <= 120) {
+				return 150;
+			} else if(score <= 150) {
+				return 100;
+			}
+		} else {
+			if(score <= 90) {
+				return 500;
+			} else if(score <= 100) {
+				return 300;
+			} else if(score <= 110) {
+				return 150;
+			} else if(score <= 130) {
+				return 100;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private int streakBonus4(int streak, int mode) {
+		if(mode != 3) {
+			if(streak >= 7) {
+				return 700;
+			} else if(streak >= 5) {
+				return 350;
+			} else if(streak >= 3) {
+				return 100;
+			}
+		} else {
+			if(streak >= 6) {
+				return 500;
+			} else if(streak >= 4) {
+				return 250;
+			} else if(streak >= 3) {
+				return 80;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private int scoreBonus5(int score, int mode) {
+		if(mode != 3) {
+			if(score <= 170) {
+				return 1000;
+			} else if(score <= 190) {
+				return 750;
+			} else if(score <= 210) {
+				return 500;
+			} else if(score <= 240) {
+				return 250;
+			}
+		} else {
+			if(score <= 150) {
+				return 1000;
+			} else if(score <= 170) {
+				return 750;
+			} else if(score <= 190) {
+				return 500;
+			} else if(score <= 210) {
+				return 250;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private int streakBonus5(int streak, int mode) {
+		if(mode != 3) {
+			if(streak >= 8) {
+				return 1500;
+			} else if(streak >= 5) {
+				return 900;
+			} else if(streak >= 3) {
+				return 250;
+			}
+		} else {
+			if(streak >= 8) {
+				return 1000;
+			} else if(streak >= 5) {
+				return 650;
+			} else if(streak >= 3) {
+				return 250;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private int scoreBonus6(int score, int mode) {
+		if(mode != 3) {
+			if(score <= 260) {
+				return 2000;
+			} else if(score <= 280) {
+				return 1250;
+			} else if(score <= 310) {
+				return 700;
+			} else if(score <= 360) {
+				return 350;
+			}
+		} else {
+			if(score <= 230) {
+				return 2000;
+			} else if(score <= 250) {
+				return 1250;
+			} else if(score <= 270) {
+				return 700;
+			} else if(score <= 330) {
+				return 350;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private int streakBonus6(int streak, int mode) {
+		if(mode != 3) {
+			if(streak >= 10) {
+				return 5000;
+			} else if(streak >= 8) {
+				return 3000;
+			} else if(streak >= 6) {
+				return 1500;
+			} else if(streak >= 3) {
+				return 350;
+			}
+		} else {
+			if(streak >= 10) {
+				return 4000;
+			} else if(streak >= 8) {
+				return 2500;
+			} else if(streak >= 6) {
+				return 1000;
+			} else if(streak >= 3) {
+				return 150;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private void payoutWinnings() {
+		int size = game.getSize();
+		int score = game.getScore();
+		int mode = game.getGameMode();
+		int streak = game.getBestStreak();
+
+		int streakBonus = 0;
+		int scoreBonus = 0;
+		
+		if(size == 2) {
+			if(score <= 20) {
+				scoreBonus = 25;
+			}
+		} else if(size == 3) {
+			scoreBonus = this.scoreBonus3(score, mode);
+			streakBonus = this.streakBonus3(streak, mode);
+		} else if(size == 4) {
+			scoreBonus = this.scoreBonus4(score, mode);
+			streakBonus = this.streakBonus4(streak, mode);
+		} else if(size == 5) {
+			scoreBonus = this.scoreBonus5(score, mode);
+			streakBonus = this.streakBonus5(streak, mode);
+		} else {
+			scoreBonus = this.scoreBonus6(score, mode);
+			streakBonus = this.streakBonus6(streak, mode);
+		}
+		
+		gui.getCurrAcct().incrementBalance(scoreBonus + streakBonus);
+		
+		String bonusString = "This game's bonuses: \n" + "Streak Bonus: " + streakBonus + "\n" + "Score Bonus: " + scoreBonus + "\n" +
+		"Total: " + (streakBonus + scoreBonus);
+		
+		subPrompt.setText(bonusString);
 	}
 
 	/**
@@ -501,7 +734,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 	 */
 	public void startNewGame(int gameMode, int boardSize, int gameTheme) {
 		System.out.println("New Game Clicked");
-		game = new MemoryGame(gameMode, boardSize, gameTheme);
+		game = new MemoryGame(gameMode, boardSize, gameTheme, gui.getCurrAcct(), subPrompt);
 		game.addObserver(this);
 		game.initGame();
 		gamePrompt.setText("Click Cards to Begin!");
@@ -513,6 +746,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		this.game.addObserver(this);
 		drawCards();
 		gamePrompt.setText("Resume Your Game!");
+		subPrompt.setText("View Bonuses Here!");
 		curScore.setText("" + game.getScore());
 	}
 
@@ -529,6 +763,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 		if (!game.gameActive()) {
 			gamePrompt.setText("Congrats! You won!");
 			updateScores();
+			payoutWinnings();
 			gui.getCurrAcct().endCurrGame();
 		}
 	}

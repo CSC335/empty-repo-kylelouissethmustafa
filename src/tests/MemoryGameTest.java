@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import model.Accounts;
 import model.Card;
 import model.MemoryGame;
 
@@ -16,7 +17,8 @@ class MemoryGameTest {
 
 	@Test
 	void testInit() {
-		MemoryGame game = new MemoryGame(0, 2, 0);
+		Accounts account = new Accounts("Mustafa", "Mustafa123");
+		MemoryGame game = new MemoryGame(0, 2, 0, account);
 		game.initGame();
 		game.printBoard();
 		assertEquals(true, game.gameActive());
@@ -31,7 +33,8 @@ class MemoryGameTest {
 	
 	@Test
 	void testGoodGuess() {
-		MemoryGame game = new MemoryGame(0, 2, 0);
+		Accounts account = new Accounts("Mustafa", "Mustafa123");
+		MemoryGame game = new MemoryGame(0, 2, 0, account);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);
@@ -59,11 +62,12 @@ class MemoryGameTest {
 	
 	@Test
 	public void testTheme() {
-		MemoryGame newGame = new MemoryGame(0, 2, 0);
+		Accounts account = new Accounts("Mustafa", "Mustafa123");
+		MemoryGame newGame = new MemoryGame(0, 2, 0, account);
 		
 		assertEquals(0, newGame.getTheme());
 		
-		MemoryGame newGame2 = new MemoryGame(0, 2, 1);
+		MemoryGame newGame2 = new MemoryGame(0, 2, 1, account);
 		
 		assertEquals(1, newGame2.getTheme());
 	}
@@ -184,7 +188,8 @@ class MemoryGameTest {
 	
 	@Test
 	void testProperTermination() {
-		MemoryGame game = new MemoryGame(0, 2, 0);
+		Accounts account = new Accounts("Mustafa", "Mustafa123");
+		MemoryGame game = new MemoryGame(0, 2, 0, account);
 		game.initGame();
 		Card card1 = game.getBoard().getCard(0, 0);
 		Card card2 = game.getBoard().getCard(0, 1);

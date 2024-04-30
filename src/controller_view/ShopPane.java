@@ -46,6 +46,7 @@ public class ShopPane extends BorderPane {
 	private TableColumn<shopItem, Integer> priceColumn;
 
 	private Label balanceLabel;
+	private Label userBalance;
 	private Button buyButton;
 
 	private shopCollection shopCollection;
@@ -89,8 +90,16 @@ public class ShopPane extends BorderPane {
 
 		registerHandlers();
 		layoutShop();
+	}
+	
+	public void setUserAccount(Accounts currAcct) {
+		this.userAccount = currAcct;
 		
-		this.userAccount = userAccount;
+		this.adjustUserBalance();
+	}
+	
+	public void adjustUserBalance() {
+		balanceLabel.setText("User Balance: " + userAccount.getBalance());
 	}
 
 	/**
@@ -161,7 +170,7 @@ public class ShopPane extends BorderPane {
 	                // Add the item to the unlocked list
 	                userAccount.addUnlockedItem(selectedItem);
 	                // Update balance label
-	                balanceLabel.setText("User Balance: " + userAccount.getBalance());
+	                this.adjustUserBalance();
 	                // Inform the user about the purchase
 	                Alert alert = new Alert(AlertType.CONFIRMATION, "You have successfully bought " + selectedItem.getItemName() + ".", ButtonType.OK);
 	                alert.showAndWait();

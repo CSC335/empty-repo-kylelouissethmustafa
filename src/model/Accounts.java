@@ -70,7 +70,7 @@ public class Accounts implements java.io.Serializable {
 		this.best6Streak = -1;
 		this.currGame = null;
 		
-		this.balance = balance;
+		this.balance = 0;
         this.unlockedItems = new ArrayList<>();	
     }
 
@@ -468,6 +468,10 @@ public class Accounts implements java.io.Serializable {
     		}
     	}
     	return false;
+    }
+    
+    public void incrementBalance(int amount) {
+    	balance += amount;
     }
 
     // Method to deduct balance
