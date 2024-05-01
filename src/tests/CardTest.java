@@ -67,7 +67,37 @@ class CardTest {
 	@Test
 	public void testPower() {
 		Card powerCard = new Card("POWER", "POWER");
+		Card nonPowerCard = new Card("Color", "Shape");
+		
 		assertEquals(true, powerCard.isPower());
+		assertFalse(nonPowerCard.isPower());
+	}
+	
+	@Test
+	public void testIsStar() {
+		Card starCard = new Card("POWER", "Star");
+        Card nonStarCard = new Card("POWER", "Shape");
+        
+        assertTrue(starCard.isStar());
+        assertFalse(nonStarCard.isStar());
+	}
+	
+	@Test
+	public void testIsBomb() {
+		Card bombCard = new Card("POWER", "Bomb");
+        Card nonBombCard = new Card("POWER", "Shape");
+        
+        assertTrue(bombCard.isBomb());
+        assertFalse(nonBombCard.isBomb());
+	}
+	
+	@Test
+	public void testIsLaser() {
+		Card laserCard = new Card("POWER", "Laser");
+        Card nonLaserCard = new Card("POWER", "Shape");
+        
+        assertTrue(laserCard.isLaser());
+        assertFalse(nonLaserCard.isLaser());
 	}
 	
 }

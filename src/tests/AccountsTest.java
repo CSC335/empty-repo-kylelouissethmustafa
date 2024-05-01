@@ -4,8 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import model.Accounts;
 import model.MemoryGame;
+import model.shopItem;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 
 public class AccountsTest {
 
@@ -162,6 +165,71 @@ public class AccountsTest {
 		Accounts account = new Accounts("Mustafa", "Mustafa123");
 		
 		assertEquals(-2, account.getBestScore(7, 0));
+	}
+	
+	@Test 
+	public void testSetBalance() {
+		 Accounts account = new Accounts("username", "password");
+	     assertEquals(0, account.getBalance());
+	        
+	     account.setBalance(100);
+	     assertEquals(100, account.getBalance());
+	        
+	     account.setBalance(-50); // Test negative balance
+	     assertEquals(-50, account.getBalance());
+	}
+	
+	
+	@Test
+	public void testBalancemanipulation() {
+		Accounts account = new Accounts("Mustafa", "Mustafa123");
+        assertEquals(0, account.getBalance());
+        account.incrementBalance(100);
+        assertEquals(100, account.getBalance());
+        account.deductBalance(50);
+        assertEquals(50, account.getBalance());
+	}
+	
+	@Test
+	public void testUnlockedItems() {
+		 Accounts account = new Accounts("Mustafa", "Mustafa123");
+	     shopItem item = new shopItem("Item 1", 10);
+	     assertFalse(account.hasUnlockedItem(item));
+	     account.addUnlockedItem(item);
+	     assertTrue(account.hasUnlockedItem(item));
+	}
+	
+	
+	@Test
+	public void testHasUnlockedItem() {
+		Accounts account = new Accounts("Mustafa", "Mustafa123");
+		shopItem item1 = new shopItem("Item 1", 10);
+        shopItem item2 = new shopItem("Item 2", 20);
+        shopItem item3 = new shopItem("Item 3", 30);
+        
+        assertFalse(account.hasUnlockedItem(item1));
+
+        account.addUnlockedItem(item1);
+        account.addUnlockedItem(item2);
+        assertTrue(account.hasUnlockedItem(item1));
+
+        assertFalse(account.hasUnlockedItem(item3));
+	}
+	
+	@Test
+	public void testGetUnlockedItems() {
+		Accounts account = new Accounts("username", "password");
+        shopItem item1 = new shopItem("Item 1", 10);
+        shopItem item2 = new shopItem("Item 2", 20);
+
+        account.addUnlockedItem(item1);
+        account.addUnlockedItem(item2);
+
+        List<shopItem> unlockedItems = account.getUnlockedItems();
+
+        assertEquals(2, unlockedItems.size());
+        assertTrue(unlockedItems.contains(item1));
+        assertTrue(unlockedItems.contains(item2));
 	}
 	
 	@Test
