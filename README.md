@@ -2,7 +2,7 @@
 - Seth Jernigan (Team Manager)
 - Kyle Myint
 - Louis Romeo
-- Mustafa Alnidawi
+- Mustafa Alnidawi ( PLEASE NOTE - Mustafa is not showing up as a contributor, but you can view his commits in the list of commits )
 
 # Project: Memory Game
 - [Taiga](https://tree.taiga.io/project/sethj50-memorycardgame335/timeline)
