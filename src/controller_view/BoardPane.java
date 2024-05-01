@@ -424,7 +424,7 @@ public class BoardPane extends BorderPane implements OurObserver {
 				return 300;
 			} else if (score <= 110) {
 				return 150;
-			} else if (score <= 130) {
+			} else if (score <= 140) {
 				return 100;
 			}
 		}
