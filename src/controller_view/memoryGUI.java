@@ -189,25 +189,52 @@ public class memoryGUI extends Application {
 
 	/**
 	 * This method adds default accounts for testing.
+	 * 
+	 * Other accounts will exist to show leaderboard functionality.
 	 */
 	private void addTestAccounts() {
 		Accounts account1 = new Accounts("Seth", "Seth123");
 		account1.setNewBestScore(20, 2, 0);
-		account1.setNewBestScore(50, 3, 1);
+		account1.setNewBestScore(90, 3, 1);
+		account1.setNewBestScore(100, 3, 2);
+		account1.setNewBestScore(80, 3, 3);
+		account1.setNewBestScore(90, 4, 0);
+		account1.setNewBestScore(60, 4, 3);
+		account1.setNewBestScore(130, 5, 1);
+		account1.setNewBestScore(110, 5, 3);
+		account1.setNewBestScore(250, 6, 0);
+		account1.setNewBestScore(240, 6, 2);
+		account1.setNewBestScore(280, 6, 3);
 
 		Accounts account2 = new Accounts("Mustafa", "Mustafa123");
 		account2.setNewBestScore(50, 2, 0);
-		account2.setNewBestScore(20, 3, 1);
+		account2.setNewBestScore(70, 3, 1);
+		account2.setNewBestScore(60, 3, 2);
+		account2.setNewBestScore(90, 3, 3);
+		account2.setNewBestScore(100, 4, 0);
+		account2.setNewBestScore(160, 4, 3);
+		account2.setNewBestScore(180, 5, 1);
+		account2.setNewBestScore(130, 5, 3);
+		account2.setNewBestScore(210, 6, 0);
+		account2.setNewBestScore(200, 6, 2);
+		account2.setNewBestScore(220, 6, 3);
 
-		Accounts account3 = new Accounts("Mustafa2", "Mustafa1");
-		account3.setNewBestScore(10, 2, 0);
-		account3.setNewBestScore(90, 3, 1);
+		Accounts account3 = new Accounts("Kyle", "Kyle123");
+		account3.setNewBestScore(40, 2, 0);
+		account3.setNewBestScore(80, 3, 1);
+		account3.setNewBestScore(50, 3, 2);
+		account3.setNewBestScore(100, 3, 3);
+		account3.setNewBestScore(120, 4, 0);
+		account3.setNewBestScore(120, 4, 3);
+		account3.setNewBestScore(190, 5, 1);
+		account3.setNewBestScore(100, 5, 3);
+		account3.setNewBestScore(230, 6, 0);
+		account3.setNewBestScore(250, 6, 2);
+		account3.setNewBestScore(260, 6, 3);
 
 		Accounts master = new Accounts("Admin", "1");
 		shopItem bomb = new shopItem("Unlock Power Card: Bomb", 0);
 		shopItem laser = new shopItem("Unlock Power Card: Laser", 0);
-		master.addUnlockedItem(bomb);
-		master.addUnlockedItem(laser);
 		master.setBalance(10000);
 
 		accountCollection.add(account1);
@@ -309,7 +336,6 @@ public class memoryGUI extends Application {
 			leaderboardPane = new LeaderboardPane(accountCollection);
 
 			all.setCenter(leaderboardPane);
-			System.out.println("Leaderboard Clicked");
 
 		});
 

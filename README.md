@@ -6,6 +6,8 @@
 
 # Project: Memory Game
 - [Taiga](https://tree.taiga.io/project/sethj50-memorycardgame335/timeline)
+- [Video going through project](https://arizona.zoom.us/rec/share/iggPnHen28yK_grdw7FG-OYbsG3mcv2BWDaK3V98j8UWUEks5WqYnG3nDIWKZPwd.-OytuMyAVIH5ZH5n?startTime=1714519559000)
+ - There may be delays or inconsistencies in the video as there were severe lag issues while recording
 
 ## Project Description
 

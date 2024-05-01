@@ -322,8 +322,6 @@ public class LeaderboardPane extends BorderPane {
 		for (int i = 0; i < croppedCollection.getSize(); i++) {
 			accounts.add(croppedCollection.getElement(i));
 		}
-
-		System.out.println("new accounts size: " + accounts.size());
 	}
 
 	/**
@@ -476,7 +474,6 @@ public class LeaderboardPane extends BorderPane {
 
 			showCurrentSettings();
 
-			System.out.println("Changed dimension: " + dim);
 		});
 
 		viewLeaderboardBtn.setOnAction(event -> {
@@ -493,8 +490,6 @@ public class LeaderboardPane extends BorderPane {
 			} else if (mode.equals("Streak")) {
 				curMode = 4;
 			}
-
-			System.out.println("Viewing dim: " + curDim + " mode: " + curMode);
 
 			setupLeaderboard();
 			layoutLeaderboard();

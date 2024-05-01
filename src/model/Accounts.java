@@ -363,10 +363,8 @@ public class Accounts implements java.io.Serializable {
 		}
 
 		if (score == -1) {
-			System.out.println("User has not played this mode");
 			return -1;
 		} else if (score == -2) {
-			System.out.println("Invalid game mode");
 			return score;
 		} else {
 			return score;
